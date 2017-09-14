@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+    <dubbo:application name="yhb-web-api" />
+
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <!--<dubbo:registry  protocol="zookeeper" address="zookeeper://139.196.25.57:2181?backup=139.196.25.57:2182,139.196.25.57:2183"/>-->
+    <dubbo:registry  protocol="zookeeper" address="zookeeper://127.0.0.1:2181?backup=127.0.0.1:2182,127.0.0.1:2183"/>
+    <!--<dubbo:registry  protocol="zookeeper" address="zookeeper://192.168.1.252:2181?backup=192.168.1.252:2182,192.168.1.252:2183"/>-->
+
+    <!-- 用户服务接口 -->
+    <dubbo:reference id="accountsUsersService" interface="com.lrcf.yhb.user.api.AccountsUsersService" check="false"/>
+
+    <dubbo:reference id="financeproductsUsersService" interface="com.lrcf.yhb.product.api.FinanceproductsUsersService" check="false"/>
+
+    <dubbo:reference id="accountsUsersBalancesService" interface="com.lrcf.yhb.user.api.AccountsUsersBalancesService" check="false"/>
+
+    <dubbo:reference id="sendSmsInfoService" interface="com.lrcf.yhb.user.api.SendSmsInfoService" />
+
+    <dubbo:reference interface="com.lrcf.yhb.user.api.AccountsCenterMeassageService" id="accountsCenterMeassageService" check="false"/>
+</beans>

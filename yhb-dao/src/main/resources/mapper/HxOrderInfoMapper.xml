@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.HxOrderInfoDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.HxOrderInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="usr_custId" property="usrCustid" jdbcType="VARCHAR" />
+		<result column="ips_billNo" property="ipsBillno" jdbcType="VARCHAR" />
+		<result column="act_name" property="actName" jdbcType="VARCHAR" />
+		<result column="extend_field" property="extendField" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="return_time" property="returnTime" jdbcType="TIMESTAMP" />
+		<result column="notify_time" property="notifyTime" jdbcType="TIMESTAMP" />
+		<result column="req_info" property="reqInfo" jdbcType="VARCHAR" />
+		<result column="return_info" property="returnInfo" jdbcType="VARCHAR" />
+		<result column="notify_info" property="notifyInfo" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, usr_custId, ips_billNo, act_name, extend_field, create_time,
+		return_time, notify_time
+	</sql>
+	<sql id="Blob_Column_List">
+		req_info, return_info, notify_info
+	</sql>
+	
+	<!--回调时更新数据库 根据扩展域 merBillNo -->
+	<select id="selectByMerBill" resultMap="BaseResultMap">
+		select
+		*
+		from hx_order_info
+		where extend_field = #{extendField,jdbcType=VARCHAR}
+		order by id desc
+	</select>
+
+	<select id="selectByipsBill" resultMap="BaseResultMap">
+		select * from
+		hx_order_info where ips_billNo = #{ips_billNo}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from hx_order_info
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from hx_order_info
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.HxOrderInfo">
+		insert into hx_order_info (id, usr_custId, ips_billNo,
+		act_name, extend_field, create_time,
+		return_time, notify_time, req_info,
+		return_info, notify_info)
+		values (#{id,jdbcType=INTEGER}, #{usrCustid,jdbcType=VARCHAR},
+		#{ipsBillno,jdbcType=VARCHAR},
+		#{actName,jdbcType=VARCHAR}, #{extendField,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{returnTime,jdbcType=TIMESTAMP}, #{notifyTime,jdbcType=TIMESTAMP},
+		#{reqInfo,jdbcType=VARCHAR},
+		#{returnInfo,jdbcType=VARCHAR}, #{notifyInfo,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.HxOrderInfo">
+		insert into hx_order_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="usrCustid != null">
+				usr_custId,
+			</if>
+			<if test="ipsBillno != null">
+				ips_billNo,
+			</if>
+			<if test="actName != null">
+				act_name,
+			</if>
+			<if test="extendField != null">
+				extend_field,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="returnTime != null">
+				return_time,
+			</if>
+			<if test="notifyTime != null">
+				notify_time,
+			</if>
+			<if test="reqInfo != null">
+				req_info,
+			</if>
+			<if test="returnInfo != null">
+				return_info,
+			</if>
+			<if test="notifyInfo != null">
+				notify_info,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="usrCustid != null">
+				#{usrCustid,jdbcType=VARCHAR},
+			</if>
+			<if test="ipsBillno != null">
+				#{ipsBillno,jdbcType=VARCHAR},
+			</if>
+			<if test="actName != null">
+				#{actName,jdbcType=VARCHAR},
+			</if>
+			<if test="extendField != null">
+				#{extendField,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returnTime != null">
+				#{returnTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="notifyTime != null">
+				#{notifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reqInfo != null">
+				#{reqInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="returnInfo != null">
+				#{returnInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="notifyInfo != null">
+				#{notifyInfo,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.HxOrderInfo">
+		update hx_order_info
+		<set>
+			<if test="usrCustid != null">
+				usr_custId = #{usrCustid,jdbcType=VARCHAR},
+			</if>
+			<if test="ipsBillno != null">
+				ips_billNo = #{ipsBillno,jdbcType=VARCHAR},
+			</if>
+			<if test="actName != null">
+				act_name = #{actName,jdbcType=VARCHAR},
+			</if>
+			<if test="extendField != null">
+				extend_field = #{extendField,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returnTime != null">
+				return_time = #{returnTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reqInfo != null">
+				req_info = #{reqInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="returnInfo != null">
+				return_info = #{returnInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="notifyInfo != null">
+				notify_info = #{notifyInfo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.HxOrderInfo">
+		update hx_order_info
+		set usr_custId = #{usrCustid,jdbcType=VARCHAR},
+		ips_billNo = #{ipsBillno,jdbcType=VARCHAR},
+		act_name = #{actName,jdbcType=VARCHAR},
+		extend_field = #{extendField,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		return_time = #{returnTime,jdbcType=TIMESTAMP},
+		notify_time = #{notifyTime,jdbcType=TIMESTAMP},
+		req_info = #{reqInfo,jdbcType=VARCHAR},
+		return_info = #{returnInfo,jdbcType=VARCHAR},
+		notify_info = #{notifyInfo,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.HxOrderInfo">
+		update hx_order_info
+		set usr_custId = #{usrCustid,jdbcType=VARCHAR},
+		ips_billNo = #{ipsBillno,jdbcType=VARCHAR},
+		act_name = #{actName,jdbcType=VARCHAR},
+		extend_field = #{extendField,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		return_time = #{returnTime,jdbcType=TIMESTAMP},
+		notify_time = #{notifyTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

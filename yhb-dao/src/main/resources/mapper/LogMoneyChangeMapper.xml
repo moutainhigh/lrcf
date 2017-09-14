@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.LogMoneyChangeDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.LogMoneyChange" >
+    <id column="MoneyChangeId" property="moneychangeid" jdbcType="INTEGER" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="ChangeMoney" property="changemoney" jdbcType="DECIMAL" />
+    <result column="Poundage" property="poundage" jdbcType="DECIMAL" />
+    <result column="UserBalance" property="userbalance" jdbcType="DECIMAL" />
+    <result column="AddOrRemove" property="addorremove" jdbcType="VARCHAR" />
+    <result column="ExplainDes" property="explaindes" jdbcType="VARCHAR" />
+    <result column="SubmitDate" property="submitdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.LogMoneyChange" extends="BaseResultMap" >
+    <result column="TransactionUrl" property="transactionurl" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MoneyChangeId, UserId, UserName, ChangeMoney, Poundage, UserBalance, AddOrRemove, 
+    ExplainDes, SubmitDate
+  </sql>
+  <sql id="Blob_Column_List" >
+    TransactionUrl
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from log_money_change
+    where MoneyChangeId = #{moneychangeid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log_money_change
+    where MoneyChangeId = #{moneychangeid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.LogMoneyChange" >
+    insert into log_money_change (MoneyChangeId, UserId, UserName, 
+      ChangeMoney, Poundage, UserBalance, 
+      AddOrRemove, ExplainDes, SubmitDate, 
+      TransactionUrl)
+    values (#{moneychangeid,jdbcType=INTEGER}, #{userid,jdbcType=CHAR}, #{username,jdbcType=VARCHAR}, 
+      #{changemoney,jdbcType=DECIMAL}, #{poundage,jdbcType=DECIMAL}, #{userbalance,jdbcType=DECIMAL}, 
+      #{addorremove,jdbcType=VARCHAR}, #{explaindes,jdbcType=VARCHAR}, #{submitdate,jdbcType=TIMESTAMP}, 
+      #{transactionurl,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.LogMoneyChange" >
+    insert into log_money_change
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="moneychangeid != null" >
+        MoneyChangeId,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="changemoney != null" >
+        ChangeMoney,
+      </if>
+      <if test="poundage != null" >
+        Poundage,
+      </if>
+      <if test="userbalance != null" >
+        UserBalance,
+      </if>
+      <if test="addorremove != null" >
+        AddOrRemove,
+      </if>
+      <if test="explaindes != null" >
+        ExplainDes,
+      </if>
+      <if test="submitdate != null" >
+        SubmitDate,
+      </if>
+      <if test="transactionurl != null" >
+        TransactionUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="moneychangeid != null" >
+        #{moneychangeid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="changemoney != null" >
+        #{changemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="poundage != null" >
+        #{poundage,jdbcType=DECIMAL},
+      </if>
+      <if test="userbalance != null" >
+        #{userbalance,jdbcType=DECIMAL},
+      </if>
+      <if test="addorremove != null" >
+        #{addorremove,jdbcType=VARCHAR},
+      </if>
+      <if test="explaindes != null" >
+        #{explaindes,jdbcType=VARCHAR},
+      </if>
+      <if test="submitdate != null" >
+        #{submitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactionurl != null" >
+        #{transactionurl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.LogMoneyChange" >
+    update log_money_change
+    <set >
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="changemoney != null" >
+        ChangeMoney = #{changemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="poundage != null" >
+        Poundage = #{poundage,jdbcType=DECIMAL},
+      </if>
+      <if test="userbalance != null" >
+        UserBalance = #{userbalance,jdbcType=DECIMAL},
+      </if>
+      <if test="addorremove != null" >
+        AddOrRemove = #{addorremove,jdbcType=VARCHAR},
+      </if>
+      <if test="explaindes != null" >
+        ExplainDes = #{explaindes,jdbcType=VARCHAR},
+      </if>
+      <if test="submitdate != null" >
+        SubmitDate = #{submitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactionurl != null" >
+        TransactionUrl = #{transactionurl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where MoneyChangeId = #{moneychangeid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.LogMoneyChange" >
+    update log_money_change
+    set UserId = #{userid,jdbcType=CHAR},
+      UserName = #{username,jdbcType=VARCHAR},
+      ChangeMoney = #{changemoney,jdbcType=DECIMAL},
+      Poundage = #{poundage,jdbcType=DECIMAL},
+      UserBalance = #{userbalance,jdbcType=DECIMAL},
+      AddOrRemove = #{addorremove,jdbcType=VARCHAR},
+      ExplainDes = #{explaindes,jdbcType=VARCHAR},
+      SubmitDate = #{submitdate,jdbcType=TIMESTAMP},
+      TransactionUrl = #{transactionurl,jdbcType=LONGVARCHAR}
+    where MoneyChangeId = #{moneychangeid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.LogMoneyChange" >
+    update log_money_change
+    set UserId = #{userid,jdbcType=CHAR},
+      UserName = #{username,jdbcType=VARCHAR},
+      ChangeMoney = #{changemoney,jdbcType=DECIMAL},
+      Poundage = #{poundage,jdbcType=DECIMAL},
+      UserBalance = #{userbalance,jdbcType=DECIMAL},
+      AddOrRemove = #{addorremove,jdbcType=VARCHAR},
+      ExplainDes = #{explaindes,jdbcType=VARCHAR},
+      SubmitDate = #{submitdate,jdbcType=TIMESTAMP}
+    where MoneyChangeId = #{moneychangeid,jdbcType=INTEGER}
+  </update>
+</mapper>

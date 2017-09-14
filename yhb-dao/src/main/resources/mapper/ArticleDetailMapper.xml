@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.ArticleDetailDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.ArticleDetail" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="son_title" property="sonTitle" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="img_name" property="imgName" jdbcType="VARCHAR" />
+    <result column="img_address" property="imgAddress" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="video_name" property="videoName" jdbcType="VARCHAR" />
+    <result column="video_address" property="videoAddress" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="browse_count" property="browseCount" jdbcType="BIGINT" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="emp_1" property="emp1" jdbcType="INTEGER" />
+    <result column="emp_2" property="emp2" jdbcType="VARCHAR" />
+    <result column="emp_3" property="emp3" jdbcType="VARCHAR" />
+    <result column="emp_4" property="emp4" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.ArticleDetail" extends="BaseResultMap" >
+    <result column="context" property="context" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, type, title, son_title, weight, img_name, img_address, create_time, video_name, 
+    video_address, status, browse_count, author, emp_1, emp_2, emp_3, emp_4
+  </sql>
+  <sql id="Blob_Column_List" >
+    context
+  </sql>
+
+  <select id="selectNewsDetail" resultMap="ResultMapWithBLOBs" parameterType="Map" >
+    SELECT
+    Id,title,context,create_time
+    FROM
+    article_detail
+    WHERE
+    ID IN (
+    SELECT
+    CASE
+    WHEN SIGN(ID - #{Id}) &gt; 0 THEN MIN(ID)
+    when sign(ID-#{Id}) = 0 then ID
+    WHEN SIGN(ID - #{Id}) &lt; 0 THEN MAX(ID)
+    END AS ID
+    FROM article_detail
+    GROUP BY
+    SIGN(ID - #{Id})
+    ORDER BY
+    SIGN(ID - #{Id})
+    )
+    and type = #{type} and emp_1 = 1
+    ORDER BY
+    ID
+  </select>
+
+
+  <select id="selectNewsByTypeAndOrder" resultMap="ResultMapWithBLOBs" parameterType="Map">
+    SELECT
+    Id,title,create_time as time,img_address as img ,son_title as summary
+    FROM
+    article_detail
+    WHERE
+    <if test="type != null and type !=''">
+      type = #{type}
+    </if>
+    <if test="state != null and state !=''">
+      and emp_1 = #{state}
+    </if>
+    ORDER  by #{condition} DESC  Limit ${current},${size}
+  </select>
+
+
+  <select id="getNoticeOrNewsCount" resultType="int" parameterType="java.lang.Integer">
+    SELECT
+    count(1)
+    FROM
+    article_detail
+    WHERE
+    type = #{type}
+    and emp_1 = 1
+  </select>
+
+
+  <select id="getNewsOrNoticeList" resultMap="ResultMapWithBLOBs" parameterType="Map">
+    SELECT
+      Id,title,create_time as time,img_address as img ,son_title as summary
+    FROM
+      article_detail
+    WHERE
+      type = #{type} and emp_1 = 1
+    ORDER  by create_time DESC  Limit ${current},${size}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article_detail
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article_detail
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.ArticleDetail" >
+    insert into article_detail (ID, type, title, 
+      son_title, weight, img_name, 
+      img_address, create_time, video_name, 
+      video_address, status, browse_count, 
+      author, emp_1, emp_2, 
+      emp_3, emp_4, context
+      )
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, 
+      #{sonTitle,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, #{imgName,jdbcType=VARCHAR}, 
+      #{imgAddress,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{videoName,jdbcType=VARCHAR}, 
+      #{videoAddress,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{browseCount,jdbcType=BIGINT}, 
+      #{author,jdbcType=VARCHAR}, #{emp1,jdbcType=INTEGER}, #{emp2,jdbcType=VARCHAR}, 
+      #{emp3,jdbcType=VARCHAR}, #{emp4,jdbcType=VARCHAR}, #{context,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.ArticleDetail" >
+    insert into article_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="sonTitle != null" >
+        son_title,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="imgName != null" >
+        img_name,
+      </if>
+      <if test="imgAddress != null" >
+        img_address,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="videoName != null" >
+        video_name,
+      </if>
+      <if test="videoAddress != null" >
+        video_address,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="browseCount != null" >
+        browse_count,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="emp1 != null" >
+        emp_1,
+      </if>
+      <if test="emp2 != null" >
+        emp_2,
+      </if>
+      <if test="emp3 != null" >
+        emp_3,
+      </if>
+      <if test="emp4 != null" >
+        emp_4,
+      </if>
+      <if test="context != null" >
+        context,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sonTitle != null" >
+        #{sonTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="imgName != null" >
+        #{imgName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgAddress != null" >
+        #{imgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoName != null" >
+        #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoAddress != null" >
+        #{videoAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="browseCount != null" >
+        #{browseCount,jdbcType=BIGINT},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="emp1 != null" >
+        #{emp1,jdbcType=INTEGER},
+      </if>
+      <if test="emp2 != null" >
+        #{emp2,jdbcType=VARCHAR},
+      </if>
+      <if test="emp3 != null" >
+        #{emp3,jdbcType=VARCHAR},
+      </if>
+      <if test="emp4 != null" >
+        #{emp4,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null" >
+        #{context,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.ArticleDetail" >
+    update article_detail
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sonTitle != null" >
+        son_title = #{sonTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="imgName != null" >
+        img_name = #{imgName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgAddress != null" >
+        img_address = #{imgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoName != null" >
+        video_name = #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoAddress != null" >
+        video_address = #{videoAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="browseCount != null" >
+        browse_count = #{browseCount,jdbcType=BIGINT},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="emp1 != null" >
+        emp_1 = #{emp1,jdbcType=INTEGER},
+      </if>
+      <if test="emp2 != null" >
+        emp_2 = #{emp2,jdbcType=VARCHAR},
+      </if>
+      <if test="emp3 != null" >
+        emp_3 = #{emp3,jdbcType=VARCHAR},
+      </if>
+      <if test="emp4 != null" >
+        emp_4 = #{emp4,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null" >
+        context = #{context,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.ArticleDetail" >
+    update article_detail
+    set type = #{type,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
+      son_title = #{sonTitle,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      img_name = #{imgName,jdbcType=VARCHAR},
+      img_address = #{imgAddress,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      video_name = #{videoName,jdbcType=VARCHAR},
+      video_address = #{videoAddress,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      browse_count = #{browseCount,jdbcType=BIGINT},
+      author = #{author,jdbcType=VARCHAR},
+      emp_1 = #{emp1,jdbcType=INTEGER},
+      emp_2 = #{emp2,jdbcType=VARCHAR},
+      emp_3 = #{emp3,jdbcType=VARCHAR},
+      emp_4 = #{emp4,jdbcType=VARCHAR},
+      context = #{context,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.ArticleDetail" >
+    update article_detail
+    set type = #{type,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
+      son_title = #{sonTitle,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      img_name = #{imgName,jdbcType=VARCHAR},
+      img_address = #{imgAddress,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      video_name = #{videoName,jdbcType=VARCHAR},
+      video_address = #{videoAddress,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      browse_count = #{browseCount,jdbcType=BIGINT},
+      author = #{author,jdbcType=VARCHAR},
+      emp_1 = #{emp1,jdbcType=INTEGER},
+      emp_2 = #{emp2,jdbcType=VARCHAR},
+      emp_3 = #{emp3,jdbcType=VARCHAR},
+      emp_4 = #{emp4,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

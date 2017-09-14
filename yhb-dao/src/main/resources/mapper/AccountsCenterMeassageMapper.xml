@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AccountsCenterMeassageDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AccountsCenterMeassage" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="meassage" property="meassage" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="backup" property="backup" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, userId, meassage, time, state, remark, backup
+  </sql>
+
+  <select id="selectByUserId" resultType="int" parameterType="java.lang.String" >
+    select
+    count(1)
+    from accounts_center_meassage
+    where userId = #{userId}
+    and state = 0
+  </select>
+
+  <select id="getUserMessageVO" resultMap="BaseResultMap" parameterType="Map" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from accounts_center_meassage
+    where userId = #{userId}
+    order by time desc limit ${current},${size}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from accounts_center_meassage
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  delete from accounts_center_meassage
+  where Id = #{id,jdbcType=INTEGER}
+</delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.AccountsCenterMeassage" >
+    insert into accounts_center_meassage (Id, userId, meassage, 
+      time, state, remark, 
+      backup)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{meassage,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{backup,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AccountsCenterMeassage" >
+    insert into accounts_center_meassage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="meassage != null" >
+        meassage,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="backup != null" >
+        backup,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="meassage != null" >
+        #{meassage,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="backup != null" >
+        #{backup,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AccountsCenterMeassage" >
+    update accounts_center_meassage
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="meassage != null" >
+        meassage = #{meassage,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="backup != null" >
+        backup = #{backup,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AccountsCenterMeassage" >
+    update accounts_center_meassage
+    set userId = #{userid,jdbcType=VARCHAR},
+      meassage = #{meassage,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      backup = #{backup,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

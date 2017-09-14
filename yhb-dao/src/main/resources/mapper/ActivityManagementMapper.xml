@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lrcf.yhb.dao.mapper.ActivityManagementMapper">
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.ActivityManagement">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="activityName" jdbcType="VARCHAR" property="activityname" />
+    <result column="activityCreateTime" jdbcType="TIMESTAMP" property="activitycreatetime" />
+    <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime" />
+    <result column="activityDes" jdbcType="VARCHAR" property="activitydes" />
+    <result column="appActivitesPic" jdbcType="VARCHAR" property="appactivitespic" />
+    <result column="appLinkUrl" jdbcType="VARCHAR" property="applinkurl" />
+    <result column="res1" jdbcType="VARCHAR" property="res1" />
+    <result column="res2" jdbcType="VARCHAR" property="res2" />
+    <result column="res3" jdbcType="VARCHAR" property="res3" />
+    <result column="appAdvertisementPic" jdbcType="VARCHAR" property="appadvertisementpic" />
+    <result column="appBannerPic" jdbcType="VARCHAR" property="appbannerpic" />
+    <result column="appSharePic" jdbcType="VARCHAR" property="appsharepic" />
+    <result column="appShareName" jdbcType="VARCHAR" property="appsharename" />
+    <result column="appShareContent" jdbcType="VARCHAR" property="appsharecontent" />
+    <result column="pcBannerPic" jdbcType="VARCHAR" property="pcbannerpic" />
+    <result column="appPopUpPic" jdbcType="VARCHAR" property="apppopuppic" />
+    <result column="pcLinkUrl" jdbcType="VARCHAR" property="pclinkurl" />
+    <result column="activityBeginTime" jdbcType="TIMESTAMP" property="activitybegintime" />
+    <result column="fpids" jdbcType="VARCHAR" property="fpids" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity_management
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.ActivityManagement">
+    insert into activity_management (Id, activityName, activityCreateTime, 
+      activityEndTime, activityDes, appActivitesPic, 
+      appLinkUrl, res1, res2, 
+      res3, appAdvertisementPic, appBannerPic, 
+      appSharePic, appShareName, appShareContent, 
+      pcBannerPic, appPopUpPic, pcLinkUrl, 
+      activityBeginTime, fpids, state
+      )
+    values (#{id,jdbcType=INTEGER}, #{activityname,jdbcType=VARCHAR}, #{activitycreatetime,jdbcType=TIMESTAMP}, 
+      #{activityendtime,jdbcType=TIMESTAMP}, #{activitydes,jdbcType=VARCHAR}, #{appactivitespic,jdbcType=VARCHAR}, 
+      #{applinkurl,jdbcType=VARCHAR}, #{res1,jdbcType=VARCHAR}, #{res2,jdbcType=VARCHAR}, 
+      #{res3,jdbcType=VARCHAR}, #{appadvertisementpic,jdbcType=VARCHAR}, #{appbannerpic,jdbcType=VARCHAR}, 
+      #{appsharepic,jdbcType=VARCHAR}, #{appsharename,jdbcType=VARCHAR}, #{appsharecontent,jdbcType=VARCHAR}, 
+      #{pcbannerpic,jdbcType=VARCHAR}, #{apppopuppic,jdbcType=VARCHAR}, #{pclinkurl,jdbcType=VARCHAR}, 
+      #{activitybegintime,jdbcType=TIMESTAMP}, #{fpids,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.ActivityManagement">
+    update activity_management
+    set activityName = #{activityname,jdbcType=VARCHAR},
+      activityCreateTime = #{activitycreatetime,jdbcType=TIMESTAMP},
+      activityEndTime = #{activityendtime,jdbcType=TIMESTAMP},
+      activityDes = #{activitydes,jdbcType=VARCHAR},
+      appActivitesPic = #{appactivitespic,jdbcType=VARCHAR},
+      appLinkUrl = #{applinkurl,jdbcType=VARCHAR},
+      res1 = #{res1,jdbcType=VARCHAR},
+      res2 = #{res2,jdbcType=VARCHAR},
+      res3 = #{res3,jdbcType=VARCHAR},
+      appAdvertisementPic = #{appadvertisementpic,jdbcType=VARCHAR},
+      appBannerPic = #{appbannerpic,jdbcType=VARCHAR},
+      appSharePic = #{appsharepic,jdbcType=VARCHAR},
+      appShareName = #{appsharename,jdbcType=VARCHAR},
+      appShareContent = #{appsharecontent,jdbcType=VARCHAR},
+      pcBannerPic = #{pcbannerpic,jdbcType=VARCHAR},
+      appPopUpPic = #{apppopuppic,jdbcType=VARCHAR},
+      pcLinkUrl = #{pclinkurl,jdbcType=VARCHAR},
+      activityBeginTime = #{activitybegintime,jdbcType=TIMESTAMP},
+      fpids = #{fpids,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select Id, activityName, activityCreateTime, activityEndTime, activityDes, appActivitesPic, 
+    appLinkUrl, res1, res2, res3, appAdvertisementPic, appBannerPic, appSharePic, appShareName, 
+    appShareContent, pcBannerPic, appPopUpPic, pcLinkUrl, activityBeginTime, fpids, state
+    from activity_management
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Id, activityName, activityCreateTime, activityEndTime, activityDes, appActivitesPic, 
+    appLinkUrl, res1, res2, res3, appAdvertisementPic, appBannerPic, appSharePic, appShareName, 
+    appShareContent, pcBannerPic, appPopUpPic, pcLinkUrl, activityBeginTime, fpids, state
+    from activity_management
+  </select>
+</mapper>

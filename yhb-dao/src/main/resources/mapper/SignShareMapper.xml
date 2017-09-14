@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.SignShareDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.SignShare" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="shareMoney" property="sharemoney" jdbcType="DECIMAL" />
+    <result column="signtime" property="signtime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="shareName" property="sharename" jdbcType="VARCHAR" />
+    <result column="fpuid" property="fpuid" jdbcType="INTEGER" />
+    <result column="childUserId" property="childuserid" jdbcType="VARCHAR" />
+    <result column="buyMoney" property="buymoney" jdbcType="DECIMAL" />
+    <result column="registTime" property="registtime" jdbcType="TIMESTAMP" />
+    <result column="childUsername" property="childusername" jdbcType="VARCHAR" />
+    <result column="emk1" property="emk1" jdbcType="VARCHAR" />
+    <result column="emk2" property="emk2" jdbcType="VARCHAR" />
+    <result column="emk3" property="emk3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, userId, userName, shareMoney, signtime, type, shareName, fpuid, childUserId, 
+    buyMoney, registTime, childUsername, emk1, emk2, emk3
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign_share
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sign_share
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.SignShare" >
+    insert into sign_share (Id, userId, userName, 
+      shareMoney, signtime, type, 
+      shareName, fpuid, childUserId, 
+      buyMoney, registTime, childUsername, 
+      emk1, emk2, emk3)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{sharemoney,jdbcType=DECIMAL}, #{signtime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{sharename,jdbcType=VARCHAR}, #{fpuid,jdbcType=INTEGER}, #{childuserid,jdbcType=VARCHAR}, 
+      #{buymoney,jdbcType=DECIMAL}, #{registtime,jdbcType=TIMESTAMP}, #{childusername,jdbcType=VARCHAR}, 
+      #{emk1,jdbcType=VARCHAR}, #{emk2,jdbcType=VARCHAR}, #{emk3,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.SignShare" >
+    insert into sign_share
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="sharemoney != null" >
+        shareMoney,
+      </if>
+      <if test="signtime != null" >
+        signtime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="sharename != null" >
+        shareName,
+      </if>
+      <if test="fpuid != null" >
+        fpuid,
+      </if>
+      <if test="childuserid != null" >
+        childUserId,
+      </if>
+      <if test="buymoney != null" >
+        buyMoney,
+      </if>
+      <if test="registtime != null" >
+        registTime,
+      </if>
+      <if test="childusername != null" >
+        childUsername,
+      </if>
+      <if test="emk1 != null" >
+        emk1,
+      </if>
+      <if test="emk2 != null" >
+        emk2,
+      </if>
+      <if test="emk3 != null" >
+        emk3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="sharemoney != null" >
+        #{sharemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="signtime != null" >
+        #{signtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sharename != null" >
+        #{sharename,jdbcType=VARCHAR},
+      </if>
+      <if test="fpuid != null" >
+        #{fpuid,jdbcType=INTEGER},
+      </if>
+      <if test="childuserid != null" >
+        #{childuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="buymoney != null" >
+        #{buymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="registtime != null" >
+        #{registtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="childusername != null" >
+        #{childusername,jdbcType=VARCHAR},
+      </if>
+      <if test="emk1 != null" >
+        #{emk1,jdbcType=VARCHAR},
+      </if>
+      <if test="emk2 != null" >
+        #{emk2,jdbcType=VARCHAR},
+      </if>
+      <if test="emk3 != null" >
+        #{emk3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.SignShare" >
+    update sign_share
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="sharemoney != null" >
+        shareMoney = #{sharemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="signtime != null" >
+        signtime = #{signtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sharename != null" >
+        shareName = #{sharename,jdbcType=VARCHAR},
+      </if>
+      <if test="fpuid != null" >
+        fpuid = #{fpuid,jdbcType=INTEGER},
+      </if>
+      <if test="childuserid != null" >
+        childUserId = #{childuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="buymoney != null" >
+        buyMoney = #{buymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="registtime != null" >
+        registTime = #{registtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="childusername != null" >
+        childUsername = #{childusername,jdbcType=VARCHAR},
+      </if>
+      <if test="emk1 != null" >
+        emk1 = #{emk1,jdbcType=VARCHAR},
+      </if>
+      <if test="emk2 != null" >
+        emk2 = #{emk2,jdbcType=VARCHAR},
+      </if>
+      <if test="emk3 != null" >
+        emk3 = #{emk3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.SignShare" >
+    update sign_share
+    set userId = #{userid,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      shareMoney = #{sharemoney,jdbcType=DECIMAL},
+      signtime = #{signtime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      shareName = #{sharename,jdbcType=VARCHAR},
+      fpuid = #{fpuid,jdbcType=INTEGER},
+      childUserId = #{childuserid,jdbcType=VARCHAR},
+      buyMoney = #{buymoney,jdbcType=DECIMAL},
+      registTime = #{registtime,jdbcType=TIMESTAMP},
+      childUsername = #{childusername,jdbcType=VARCHAR},
+      emk1 = #{emk1,jdbcType=VARCHAR},
+      emk2 = #{emk2,jdbcType=VARCHAR},
+      emk3 = #{emk3,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AgentDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.Agent">
+		<id column="UserID" property="userid" jdbcType="VARCHAR" />
+		<id column="UserName" property="username" jdbcType="VARCHAR" />
+		<result column="ParentID" property="parentid" jdbcType="VARCHAR" />
+		<result column="CardID" property="cardid" jdbcType="VARCHAR" />
+		<result column="Activity" property="activity" jdbcType="INTEGER" />
+		<result column="Password" property="password" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="UserState" property="userstate" jdbcType="INTEGER" />
+		<result column="LostTime" property="losttime" jdbcType="TIMESTAMP" />
+		<result column="CityID" property="cityid" jdbcType="INTEGER" />
+		<result column="LvlID" property="lvlid" jdbcType="INTEGER" />
+		<result column="Commission_Balance" property="commissionBalance"
+			jdbcType="DECIMAL" />
+		<result column="NotReceivedCommission" property="notreceivedcommission"
+			jdbcType="DECIMAL" />
+		<result column="ReceivedCommission" property="receivedcommission"
+			jdbcType="DECIMAL" />
+		<result column="signShare" property="signshare" jdbcType="DECIMAL" />
+		<result column="signState" property="signstate" jdbcType="INTEGER" />
+		<result column="winxinImg" property="winxinimg" jdbcType="VARCHAR" />
+		<result column="emk1" property="emk1" jdbcType="VARCHAR" />
+		<result column="emk2" property="emk2" jdbcType="VARCHAR" />
+		<result column="emk3" property="emk3" jdbcType="VARCHAR" />
+		<result column="emk4" property="emk4" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		UserID, UserName, ParentID, CardID, Activity, Password,
+		CreateTime,
+		UserState, LostTime,
+		CityID, LvlID, Commission_Balance,
+		NotReceivedCommission, ReceivedCommission,
+		signShare,
+		signState,
+		winxinImg, emk1, emk2, emk3, emk4
+	</sql>
+
+	<select id="selectAgentByUserState" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from agent where UserState = #{userState}
+	</select>
+
+
+	<select id="selectAgentByUserName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from agent where userName = #{userName}
+	</select>
+	
+	<select id="selectAgentByUserId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from agent where UserID = #{userId}
+	</select>
+
+	<select id="selectEmk3" resultMap="BaseResultMap">
+		select UserID,
+		UserName,Activity,CreateTime,
+		UserState,CityID,
+		LvlID,emk1,emk2, emk3,
+		emk4 from agent where emk3=#{emk3}
+	</select>
+
+	<select id="selectByUserId" resultMap="BaseResultMap"
+			parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from agent
+		where UserID = #{userid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from agent
+		where UserID = #{userid,jdbcType=VARCHAR}
+		and UserName = #{username,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="map">
+		delete from agent
+		where UserID = #{userid,jdbcType=VARCHAR}
+		and UserName = #{username,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.Agent">
+		insert into agent (UserID, UserName, ParentID,
+		CardID, Activity, Password,
+		CreateTime, UserState, LostTime,
+		CityID, LvlID, Commission_Balance,
+		NotReceivedCommission, ReceivedCommission,
+		signShare, signState, winxinImg,
+		emk1, emk2, emk3, emk4
+		)
+		values (#{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+		#{parentid,jdbcType=VARCHAR},
+		#{cardid,jdbcType=VARCHAR}, #{activity,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR},
+		#{createtime,jdbcType=TIMESTAMP}, #{userstate,jdbcType=INTEGER},
+		#{losttime,jdbcType=TIMESTAMP},
+		#{cityid,jdbcType=INTEGER}, #{lvlid,jdbcType=INTEGER}, #{commissionBalance,jdbcType=DECIMAL},
+		#{notreceivedcommission,jdbcType=DECIMAL},
+		#{receivedcommission,jdbcType=DECIMAL},
+		#{signshare,jdbcType=DECIMAL}, #{signstate,jdbcType=INTEGER},
+		#{winxinimg,jdbcType=VARCHAR},
+		#{emk1,jdbcType=VARCHAR}, #{emk2,jdbcType=VARCHAR},
+		#{emk3,jdbcType=VARCHAR}, #{emk4,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.Agent">
+		insert into agent
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="username != null">
+				UserName,
+			</if>
+			<if test="parentid != null">
+				ParentID,
+			</if>
+			<if test="cardid != null">
+				CardID,
+			</if>
+			<if test="activity != null">
+				Activity,
+			</if>
+			<if test="password != null">
+				Password,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="userstate != null">
+				UserState,
+			</if>
+			<if test="losttime != null">
+				LostTime,
+			</if>
+			<if test="cityid != null">
+				CityID,
+			</if>
+			<if test="lvlid != null">
+				LvlID,
+			</if>
+			<if test="commissionBalance != null">
+				Commission_Balance,
+			</if>
+			<if test="notreceivedcommission != null">
+				NotReceivedCommission,
+			</if>
+			<if test="receivedcommission != null">
+				ReceivedCommission,
+			</if>
+			<if test="signshare != null">
+				signShare,
+			</if>
+			<if test="signstate != null">
+				signState,
+			</if>
+			<if test="winxinimg != null">
+				winxinImg,
+			</if>
+			<if test="emk1 != null">
+				emk1,
+			</if>
+			<if test="emk2 != null">
+				emk2,
+			</if>
+			<if test="emk3 != null">
+				emk3,
+			</if>
+			<if test="emk4 != null">
+				emk4,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="parentid != null">
+				#{parentid,jdbcType=VARCHAR},
+			</if>
+			<if test="cardid != null">
+				#{cardid,jdbcType=VARCHAR},
+			</if>
+			<if test="activity != null">
+				#{activity,jdbcType=INTEGER},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userstate != null">
+				#{userstate,jdbcType=INTEGER},
+			</if>
+			<if test="losttime != null">
+				#{losttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cityid != null">
+				#{cityid,jdbcType=INTEGER},
+			</if>
+			<if test="lvlid != null">
+				#{lvlid,jdbcType=INTEGER},
+			</if>
+			<if test="commissionBalance != null">
+				#{commissionBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="notreceivedcommission != null">
+				#{notreceivedcommission,jdbcType=DECIMAL},
+			</if>
+			<if test="receivedcommission != null">
+				#{receivedcommission,jdbcType=DECIMAL},
+			</if>
+			<if test="signshare != null">
+				#{signshare,jdbcType=DECIMAL},
+			</if>
+			<if test="signstate != null">
+				#{signstate,jdbcType=INTEGER},
+			</if>
+			<if test="winxinimg != null">
+				#{winxinimg,jdbcType=VARCHAR},
+			</if>
+			<if test="emk1 != null">
+				#{emk1,jdbcType=VARCHAR},
+			</if>
+			<if test="emk2 != null">
+				#{emk2,jdbcType=VARCHAR},
+			</if>
+			<if test="emk3 != null">
+				#{emk3,jdbcType=VARCHAR},
+			</if>
+			<if test="emk4 != null">
+				#{emk4,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.Agent">
+		update agent
+		<set>
+			<if test="parentid != null">
+				ParentID = #{parentid,jdbcType=VARCHAR},
+			</if>
+			<if test="cardid != null">
+				CardID = #{cardid,jdbcType=VARCHAR},
+			</if>
+			<if test="activity != null">
+				Activity = #{activity,jdbcType=INTEGER},
+			</if>
+			<if test="password != null">
+				Password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userstate != null">
+				UserState = #{userstate,jdbcType=INTEGER},
+			</if>
+			<if test="losttime != null">
+				LostTime = #{losttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cityid != null">
+				CityID = #{cityid,jdbcType=INTEGER},
+			</if>
+			<if test="lvlid != null">
+				LvlID = #{lvlid,jdbcType=INTEGER},
+			</if>
+			<if test="commissionBalance != null">
+				Commission_Balance = #{commissionBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="notreceivedcommission != null">
+				NotReceivedCommission = #{notreceivedcommission,jdbcType=DECIMAL},
+			</if>
+			<if test="receivedcommission != null">
+				ReceivedCommission = #{receivedcommission,jdbcType=DECIMAL},
+			</if>
+			<if test="signshare != null">
+				signShare = #{signshare,jdbcType=DECIMAL},
+			</if>
+			<if test="signstate != null">
+				signState = #{signstate,jdbcType=INTEGER},
+			</if>
+			<if test="winxinimg != null">
+				winxinImg = #{winxinimg,jdbcType=VARCHAR},
+			</if>
+			<if test="emk1 != null">
+				emk1 = #{emk1,jdbcType=VARCHAR},
+			</if>
+			<if test="emk2 != null">
+				emk2 = #{emk2,jdbcType=VARCHAR},
+			</if>
+			<if test="emk3 != null">
+				emk3 = #{emk3,jdbcType=VARCHAR},
+			</if>
+			<if test="emk4 != null">
+				emk4 = #{emk4,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where UserID = #{userid,jdbcType=VARCHAR}
+		and UserName = #{username,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.Agent">
+		update agent
+		set ParentID = #{parentid,jdbcType=VARCHAR},
+		CardID = #{cardid,jdbcType=VARCHAR},
+		Activity = #{activity,jdbcType=INTEGER},
+		Password = #{password,jdbcType=VARCHAR},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		UserState = #{userstate,jdbcType=INTEGER},
+		LostTime = #{losttime,jdbcType=TIMESTAMP},
+		CityID = #{cityid,jdbcType=INTEGER},
+		LvlID = #{lvlid,jdbcType=INTEGER},
+		Commission_Balance = #{commissionBalance,jdbcType=DECIMAL},
+		NotReceivedCommission = #{notreceivedcommission,jdbcType=DECIMAL},
+		ReceivedCommission = #{receivedcommission,jdbcType=DECIMAL},
+		signShare = #{signshare,jdbcType=DECIMAL},
+		signState = #{signstate,jdbcType=INTEGER},
+		winxinImg = #{winxinimg,jdbcType=VARCHAR},
+		emk1 = #{emk1,jdbcType=VARCHAR},
+		emk2 = #{emk2,jdbcType=VARCHAR},
+		emk3 = #{emk3,jdbcType=VARCHAR},
+		emk4 = #{emk4,jdbcType=VARCHAR}
+		where UserID = #{userid,jdbcType=VARCHAR}
+		and UserName = #{username,jdbcType=VARCHAR}
+	</update>
+</mapper>

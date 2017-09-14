@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.BannerManageDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.BannerManage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="order" property="order" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="emk1" property="emk1" jdbcType="VARCHAR" />
+    <result column="emk2" property="emk2" jdbcType="VARCHAR" />
+    <result column="emk3" property="emk3" jdbcType="VARCHAR" />
+    <result column="emk4" property="emk4" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, logo, img, url, order, state, create_time, emk1, emk2, emk3, emk4
+  </sql>
+
+
+  <select id="selectBannerByType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from banner_manage
+    where type = #{type,jdbcType=INTEGER}
+    order by order desc
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from banner_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from banner_manage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.BannerManage" >
+    insert into banner_manage (id, type, logo, 
+      img, url, orders, state, 
+      create_time, emk1, emk2, 
+      emk3, emk4)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{logo,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{orders,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{emk1,jdbcType=VARCHAR}, #{emk2,jdbcType=VARCHAR}, 
+      #{emk3,jdbcType=VARCHAR}, #{emk4,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.BannerManage" >
+    insert into banner_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="orders != null" >
+        orders,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="emk1 != null" >
+        emk1,
+      </if>
+      <if test="emk2 != null" >
+        emk2,
+      </if>
+      <if test="emk3 != null" >
+        emk3,
+      </if>
+      <if test="emk4 != null" >
+        emk4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orders != null" >
+        #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="emk1 != null" >
+        #{emk1,jdbcType=VARCHAR},
+      </if>
+      <if test="emk2 != null" >
+        #{emk2,jdbcType=VARCHAR},
+      </if>
+      <if test="emk3 != null" >
+        #{emk3,jdbcType=VARCHAR},
+      </if>
+      <if test="emk4 != null" >
+        #{emk4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.BannerManage" >
+    update banner_manage
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orders != null" >
+        orders = #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="emk1 != null" >
+        emk1 = #{emk1,jdbcType=VARCHAR},
+      </if>
+      <if test="emk2 != null" >
+        emk2 = #{emk2,jdbcType=VARCHAR},
+      </if>
+      <if test="emk3 != null" >
+        emk3 = #{emk3,jdbcType=VARCHAR},
+      </if>
+      <if test="emk4 != null" >
+        emk4 = #{emk4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.BannerManage" >
+    update banner_manage
+    set type = #{type,jdbcType=TINYINT},
+      logo = #{logo,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      orders = #{orders,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      emk1 = #{emk1,jdbcType=VARCHAR},
+      emk2 = #{emk2,jdbcType=VARCHAR},
+      emk3 = #{emk3,jdbcType=VARCHAR},
+      emk4 = #{emk4,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

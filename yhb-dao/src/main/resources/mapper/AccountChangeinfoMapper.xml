@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AccountChangeinfoDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AccountChangeinfo" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="AccountChange" property="accountchange" jdbcType="DECIMAL" />
+    <result column="ChangeValue" property="changevalue" jdbcType="DECIMAL" />
+    <result column="ChangeDate" property="changedate" jdbcType="TIMESTAMP" />
+    <result column="LastBalance" property="lastbalance" jdbcType="DECIMAL" />
+    <result column="AccountType" property="accounttype" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="PlatID" property="platid" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, UserId, AccountChange, ChangeValue, ChangeDate, LastBalance, AccountType, Remark, 
+    PlatID
+  </sql>
+
+  <select id="userCurrentRecord" resultMap="BaseResultMap" parameterType="Map">
+      SELECT  ChangeValue as money,ChangeDate as time from accountchangeinfo
+      where
+      <if test="userId !=null and userId !=''">
+        and userId = #{userId}
+      </if>
+      <if test="type !=null and type !=''">
+        and  AccountType = #{type}
+      </if>
+      <if test="startTime !=null and startTime !=''">
+        and DATE_FORMAT(ChangeDate,'%Y-%m-%d')<![CDATA[>=]]>#{startTime}
+      </if>
+      <if test="endTime !=null and endTime !=''">
+        and DATE_FORMAT(ChangeDate,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+      </if>
+      order by ChangeDate desc limit ${current},${total}
+  </select>
+
+  <select id="userCurrentRecordCount" resultType="int" parameterType="Map">
+    SELECT count(id) from accountchangeinfo
+    where
+    <if test="userId !=null and userId !=''">
+      and userId = #{userId}
+    </if>
+    <if test="type !=null and type !=''">
+      and  AccountType = #{type}
+    </if>
+    <if test="startTime !=null and startTime !=''">
+      and DATE_FORMAT(ChangeDate,'%Y-%m-%d')<![CDATA[>=]]>#{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and DATE_FORMAT(ChangeDate,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+    </if>
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from accountchangeinfo
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from accountchangeinfo
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.AccountChangeinfo" >
+    insert into accountchangeinfo (Id, UserId, AccountChange, 
+      ChangeValue, ChangeDate, LastBalance, 
+      AccountType, Remark, PlatID
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=CHAR}, #{accountchange,jdbcType=DECIMAL}, 
+      #{changevalue,jdbcType=DECIMAL}, #{changedate,jdbcType=TIMESTAMP}, #{lastbalance,jdbcType=DECIMAL}, 
+      #{accounttype,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{platid,jdbcType=CHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AccountChangeinfo" >
+    insert into accountchangeinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="accountchange != null" >
+        AccountChange,
+      </if>
+      <if test="changevalue != null" >
+        ChangeValue,
+      </if>
+      <if test="changedate != null" >
+        ChangeDate,
+      </if>
+      <if test="lastbalance != null" >
+        LastBalance,
+      </if>
+      <if test="accounttype != null" >
+        AccountType,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="platid != null" >
+        PlatID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="accountchange != null" >
+        #{accountchange,jdbcType=DECIMAL},
+      </if>
+      <if test="changevalue != null" >
+        #{changevalue,jdbcType=DECIMAL},
+      </if>
+      <if test="changedate != null" >
+        #{changedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastbalance != null" >
+        #{lastbalance,jdbcType=DECIMAL},
+      </if>
+      <if test="accounttype != null" >
+        #{accounttype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="platid != null" >
+        #{platid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AccountChangeinfo" >
+    update accountchangeinfo
+    <set >
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="accountchange != null" >
+        AccountChange = #{accountchange,jdbcType=DECIMAL},
+      </if>
+      <if test="changevalue != null" >
+        ChangeValue = #{changevalue,jdbcType=DECIMAL},
+      </if>
+      <if test="changedate != null" >
+        ChangeDate = #{changedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastbalance != null" >
+        LastBalance = #{lastbalance,jdbcType=DECIMAL},
+      </if>
+      <if test="accounttype != null" >
+        AccountType = #{accounttype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="platid != null" >
+        PlatID = #{platid,jdbcType=CHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AccountChangeinfo" >
+    update accountchangeinfo
+    set UserId = #{userid,jdbcType=CHAR},
+      AccountChange = #{accountchange,jdbcType=DECIMAL},
+      ChangeValue = #{changevalue,jdbcType=DECIMAL},
+      ChangeDate = #{changedate,jdbcType=TIMESTAMP},
+      LastBalance = #{lastbalance,jdbcType=DECIMAL},
+      AccountType = #{accounttype,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      PlatID = #{platid,jdbcType=CHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

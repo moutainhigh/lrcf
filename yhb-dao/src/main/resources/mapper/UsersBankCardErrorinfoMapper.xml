@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.UsersBankCardErrorinfoDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.UsersBankCardErrorinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="true_name" property="trueName" jdbcType="VARCHAR" />
+    <result column="ID_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
+    <result column="telphone" property="telphone" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="bank_address" property="bankAddress" jdbcType="VARCHAR" />
+    <result column="bank_address2" property="bankAddress2" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="describ" property="describ" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="res1" property="res1" jdbcType="VARCHAR" />
+    <result column="res2" property="res2" jdbcType="VARCHAR" />
+    <result column="res3" property="res3" jdbcType="VARCHAR" />
+    <result column="res4" property="res4" jdbcType="VARCHAR" />
+    <result column="res5" property="res5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, true_name, ID_card, bank_card, telphone, bank_name, province, city, 
+    bank_address, bank_address2, create_time, describ, operator, res1, res2, res3, res4, 
+    res5
+  </sql>
+
+  <!-- selectByUserIdAndToday -->
+  <select id="selectByUserIdAndToday" resultMap="BaseResultMap" >
+    select id
+		from users_bankcard_errorinfo
+		where user_id = #{userId}
+		and DATE_FORMAT(create_time,'%Y-%m-%d') = #{today}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from users_bankcard_errorinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from users_bankcard_errorinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.UsersBankCardErrorinfo" >
+    insert into users_bankcard_errorinfo (id, user_id, true_name, 
+      ID_card, bank_card, telphone, 
+      bank_name, province, city, 
+      bank_address, bank_address2, create_time, 
+      describ, operator, res1, 
+      res2, res3, res4, res5
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{trueName,jdbcType=VARCHAR}, 
+      #{idCard,jdbcType=VARCHAR}, #{bankCard,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{bankAddress,jdbcType=VARCHAR}, #{bankAddress2,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{describ,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{res1,jdbcType=VARCHAR}, 
+      #{res2,jdbcType=VARCHAR}, #{res3,jdbcType=VARCHAR}, #{res4,jdbcType=VARCHAR}, #{res5,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.UsersBankCardErrorinfo" >
+    insert into users_bankcard_errorinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="trueName != null" >
+        true_name,
+      </if>
+      <if test="idCard != null" >
+        ID_card,
+      </if>
+      <if test="bankCard != null" >
+        bank_card,
+      </if>
+      <if test="telphone != null" >
+        telphone,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="bankAddress != null" >
+        bank_address,
+      </if>
+      <if test="bankAddress2 != null" >
+        bank_address2,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="describ != null" >
+        describ,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="res1 != null" >
+        res1,
+      </if>
+      <if test="res2 != null" >
+        res2,
+      </if>
+      <if test="res3 != null" >
+        res3,
+      </if>
+      <if test="res4 != null" >
+        res4,
+      </if>
+      <if test="res5 != null" >
+        res5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null" >
+        #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAddress != null" >
+        #{bankAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAddress2 != null" >
+        #{bankAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describ != null" >
+        #{describ,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="res1 != null" >
+        #{res1,jdbcType=VARCHAR},
+      </if>
+      <if test="res2 != null" >
+        #{res2,jdbcType=VARCHAR},
+      </if>
+      <if test="res3 != null" >
+        #{res3,jdbcType=VARCHAR},
+      </if>
+      <if test="res4 != null" >
+        #{res4,jdbcType=VARCHAR},
+      </if>
+      <if test="res5 != null" >
+        #{res5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.UsersBankCardErrorinfo" >
+    update users_bankcard_errorinfo
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null" >
+        true_name = #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        ID_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null" >
+        bank_card = #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAddress != null" >
+        bank_address = #{bankAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAddress2 != null" >
+        bank_address2 = #{bankAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describ != null" >
+        describ = #{describ,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="res1 != null" >
+        res1 = #{res1,jdbcType=VARCHAR},
+      </if>
+      <if test="res2 != null" >
+        res2 = #{res2,jdbcType=VARCHAR},
+      </if>
+      <if test="res3 != null" >
+        res3 = #{res3,jdbcType=VARCHAR},
+      </if>
+      <if test="res4 != null" >
+        res4 = #{res4,jdbcType=VARCHAR},
+      </if>
+      <if test="res5 != null" >
+        res5 = #{res5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.UsersBankCardErrorinfo" >
+    update users_bankcard_errorinfo
+    set user_id = #{userId,jdbcType=VARCHAR},
+      true_name = #{trueName,jdbcType=VARCHAR},
+      ID_card = #{idCard,jdbcType=VARCHAR},
+      bank_card = #{bankCard,jdbcType=VARCHAR},
+      telphone = #{telphone,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      bank_address = #{bankAddress,jdbcType=VARCHAR},
+      bank_address2 = #{bankAddress2,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      describ = #{describ,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      res1 = #{res1,jdbcType=VARCHAR},
+      res2 = #{res2,jdbcType=VARCHAR},
+      res3 = #{res3,jdbcType=VARCHAR},
+      res4 = #{res4,jdbcType=VARCHAR},
+      res5 = #{res5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

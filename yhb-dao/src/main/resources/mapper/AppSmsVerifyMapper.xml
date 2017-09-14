@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AppSmsVerifyDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AppSmsVerify">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="verify" property="verify" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, mobile, verify, create_date
+	</sql>
+
+
+	<select id="selectByAccount" resultMap="BaseResultMap"
+			parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from app_sms_verify
+		where mobile = #{mobile,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from app_sms_verify
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getTimeLimit" resultMap="BaseResultMap" parameterType="map">
+		select
+		*
+		from app_sms_verify where 1=1
+		<if test="mobile != null and mobile != ''">
+			and mobile = #{mobile}
+		</if>
+		<if test="verify != null and verify != ''">
+			and verify = #{verify}
+		</if>
+		<!--
+		and now() &lt; DATE_ADD(create_date, INTERVAL (60*5) SECOND)
+		-->
+		order by create_date desc
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from app_sms_verify
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.AppSmsVerify">
+		insert into app_sms_verify (id, mobile, verify,
+		create_date)
+		values (#{id,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR},
+		#{verify,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AppSmsVerify">
+		insert into app_sms_verify
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="verify != null">
+				verify,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="verify != null">
+				#{verify,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AppSmsVerify">
+		update app_sms_verify
+		<set>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="verify != null">
+				verify = #{verify,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AppSmsVerify">
+		update app_sms_verify
+		set mobile = #{mobile,jdbcType=VARCHAR},
+		verify = #{verify,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.BaseConfigDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.BaseConfig">
+		<id column="Id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="valuese" property="valuese" jdbcType="VARCHAR" />
+		<result column="data" property="data" jdbcType="VARCHAR" />
+		<result column="from_" property="from" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="orders" property="orders" jdbcType="INTEGER" />
+		<result column="res1" property="res1" jdbcType="VARCHAR" />
+		<result column="res2" property="res2" jdbcType="VARCHAR" />
+		<result column="res3" property="res3" jdbcType="VARCHAR" />
+		<result column="res4" property="res4" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		Id, title, name, value, valuese, data, from_, description,
+		orders, res1,
+		res2, res3,
+		res4
+	</sql>
+
+	<select id="getAllbase" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> from  base_config  where res4 = 1
+	</select>
+
+	<select id="selectByParam" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_config
+		where  name =#{name}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from base_config
+		where Id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		base_config
+		where Id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.BaseConfig">
+		insert into base_config (Id,
+		title, name,
+		value, valuese, data,
+		from_, description, orders,
+		res1,
+		res2, res3, res4
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{value,jdbcType=VARCHAR}, #{valuese,jdbcType=VARCHAR},
+		#{data,jdbcType=VARCHAR},
+		#{from,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{orders,jdbcType=INTEGER},
+		#{res1,jdbcType=VARCHAR}, #{res2,jdbcType=VARCHAR},
+		#{res3,jdbcType=VARCHAR},
+		#{res4,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.BaseConfig">
+		insert into base_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				Id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="value != null">
+				value,
+			</if>
+			<if test="valuese != null">
+				valuese,
+			</if>
+			<if test="data != null">
+				data,
+			</if>
+			<if test="from != null">
+				from_,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="orders != null">
+				orders,
+			</if>
+			<if test="res1 != null">
+				res1,
+			</if>
+			<if test="res2 != null">
+				res2,
+			</if>
+			<if test="res3 != null">
+				res3,
+			</if>
+			<if test="res4 != null">
+				res4,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=VARCHAR},
+			</if>
+			<if test="valuese != null">
+				#{valuese,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+				#{data,jdbcType=VARCHAR},
+			</if>
+			<if test="from != null">
+				#{from,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="orders != null">
+				#{orders,jdbcType=INTEGER},
+			</if>
+			<if test="res1 != null">
+				#{res1,jdbcType=VARCHAR},
+			</if>
+			<if test="res2 != null">
+				#{res2,jdbcType=VARCHAR},
+			</if>
+			<if test="res3 != null">
+				#{res3,jdbcType=VARCHAR},
+			</if>
+			<if test="res4 != null">
+				#{res4,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.BaseConfig">
+		update base_config
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="value != null">
+				value = #{value,jdbcType=VARCHAR},
+			</if>
+			<if test="valuese != null">
+				valuese = #{valuese,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+				data = #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="from != null">
+				from_ = #{from,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="orders != null">
+				orders = #{orders,jdbcType=INTEGER},
+			</if>
+			<if test="res1 != null">
+				res1 = #{res1,jdbcType=VARCHAR},
+			</if>
+			<if test="res2 != null">
+				res2 = #{res2,jdbcType=VARCHAR},
+			</if>
+			<if test="res3 != null">
+				res3 = #{res3,jdbcType=VARCHAR},
+			</if>
+			<if test="res4 != null">
+				res4 = #{res4,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where Id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.BaseConfig">
+		update base_config
+		set title = #{title,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		value = #{value,jdbcType=VARCHAR},
+		valuese =
+		#{valuese,jdbcType=VARCHAR},
+		data = #{data,jdbcType=VARCHAR},
+		from_ =
+		#{from,jdbcType=VARCHAR},
+		description =
+		#{description,jdbcType=VARCHAR},
+		orders = #{orders,jdbcType=INTEGER},
+		res1 = #{res1,jdbcType=VARCHAR},
+		res2 = #{res2,jdbcType=VARCHAR},
+		res3 =
+		#{res3,jdbcType=VARCHAR},
+		res4 = #{res4,jdbcType=VARCHAR}
+		where Id =
+		#{id,jdbcType=INTEGER}
+	</update>
+</mapper>

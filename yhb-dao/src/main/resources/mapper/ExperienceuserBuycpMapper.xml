@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.ExperienceuserBuycpDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.ExperienceuserBuycp" >
+    <id column="ExperienceUserCPId" property="experienceusercpid" jdbcType="INTEGER" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="ExperienceSendId" property="experiencesendid" jdbcType="INTEGER" />
+    <result column="FProductsCPId" property="fproductscpid" jdbcType="VARCHAR" />
+    <result column="ExperienceId" property="experienceid" jdbcType="INTEGER" />
+    <result column="ExperienceRate" property="experiencerate" jdbcType="REAL" />
+    <result column="ExperienceMoney" property="experiencemoney" jdbcType="DECIMAL" />
+    <result column="ExperienceCountNum" property="experiencecountnum" jdbcType="INTEGER" />
+    <result column="ExperienceInNum" property="experienceinnum" jdbcType="INTEGER" />
+    <result column="ExperienceRateMoney" property="experienceratemoney" jdbcType="DECIMAL" />
+    <result column="ExperienceRateTime" property="experienceratetime" jdbcType="TIMESTAMP" />
+    <result column="ExperienceEm_k5" property="experienceemK5" jdbcType="TIMESTAMP" />
+    <result column="Experience_pastday" property="experiencePastday" jdbcType="INTEGER" />
+    <result column="ExperienceCountMoney" property="experiencecountmoney" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.ExperienceuserBuycp" extends="BaseResultMap" >
+    <result column="ExperienceUserCPName" property="experienceusercpname" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceEm_k1" property="experienceemK1" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceEm_k3" property="experienceemK3" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceEm_k4" property="experienceemK4" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceEm_k2" property="experienceemK2" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ExperienceUserCPId, UserId, ExperienceSendId, FProductsCPId, ExperienceId, ExperienceRate, 
+    ExperienceMoney, ExperienceCountNum, ExperienceInNum, ExperienceRateMoney, ExperienceRateTime, 
+    ExperienceEm_k5, Experience_pastday, ExperienceCountMoney
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    ExperienceUserCPName, ExperienceEm_k1, ExperienceEm_k3, ExperienceEm_k4, ExperienceEm_k2
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from experienceuserbuycp
+    where ExperienceUserCPId = #{experienceusercpid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from experienceuserbuycp
+    where ExperienceUserCPId = #{experienceusercpid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.ExperienceuserBuycp" >
+    insert into experienceuserbuycp (ExperienceUserCPId, UserId, ExperienceSendId, 
+      FProductsCPId, ExperienceId, ExperienceRate, 
+      ExperienceMoney, ExperienceCountNum, ExperienceInNum, 
+      ExperienceRateMoney, ExperienceRateTime, 
+      ExperienceEm_k5, Experience_pastday, ExperienceCountMoney, 
+      ExperienceUserCPName, ExperienceEm_k1, 
+      ExperienceEm_k3, ExperienceEm_k4, 
+      ExperienceEm_k2)
+    values (#{experienceusercpid,jdbcType=INTEGER}, #{userid,jdbcType=CHAR}, #{experiencesendid,jdbcType=INTEGER}, 
+      #{fproductscpid,jdbcType=VARCHAR}, #{experienceid,jdbcType=INTEGER}, #{experiencerate,jdbcType=REAL}, 
+      #{experiencemoney,jdbcType=DECIMAL}, #{experiencecountnum,jdbcType=INTEGER}, #{experienceinnum,jdbcType=INTEGER}, 
+      #{experienceratemoney,jdbcType=DECIMAL}, #{experienceratetime,jdbcType=TIMESTAMP}, 
+      #{experienceemK5,jdbcType=TIMESTAMP}, #{experiencePastday,jdbcType=INTEGER}, #{experiencecountmoney,jdbcType=DECIMAL}, 
+      #{experienceusercpname,jdbcType=LONGVARCHAR}, #{experienceemK1,jdbcType=LONGVARCHAR}, 
+      #{experienceemK3,jdbcType=LONGVARCHAR}, #{experienceemK4,jdbcType=LONGVARCHAR}, 
+      #{experienceemK2,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.ExperienceuserBuycp" >
+    insert into experienceuserbuycp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="experienceusercpid != null" >
+        ExperienceUserCPId,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="experiencesendid != null" >
+        ExperienceSendId,
+      </if>
+      <if test="fproductscpid != null" >
+        FProductsCPId,
+      </if>
+      <if test="experienceid != null" >
+        ExperienceId,
+      </if>
+      <if test="experiencerate != null" >
+        ExperienceRate,
+      </if>
+      <if test="experiencemoney != null" >
+        ExperienceMoney,
+      </if>
+      <if test="experiencecountnum != null" >
+        ExperienceCountNum,
+      </if>
+      <if test="experienceinnum != null" >
+        ExperienceInNum,
+      </if>
+      <if test="experienceratemoney != null" >
+        ExperienceRateMoney,
+      </if>
+      <if test="experienceratetime != null" >
+        ExperienceRateTime,
+      </if>
+      <if test="experienceemK5 != null" >
+        ExperienceEm_k5,
+      </if>
+      <if test="experiencePastday != null" >
+        Experience_pastday,
+      </if>
+      <if test="experiencecountmoney != null" >
+        ExperienceCountMoney,
+      </if>
+      <if test="experienceusercpname != null" >
+        ExperienceUserCPName,
+      </if>
+      <if test="experienceemK1 != null" >
+        ExperienceEm_k1,
+      </if>
+      <if test="experienceemK3 != null" >
+        ExperienceEm_k3,
+      </if>
+      <if test="experienceemK4 != null" >
+        ExperienceEm_k4,
+      </if>
+      <if test="experienceemK2 != null" >
+        ExperienceEm_k2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="experienceusercpid != null" >
+        #{experienceusercpid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="experiencesendid != null" >
+        #{experiencesendid,jdbcType=INTEGER},
+      </if>
+      <if test="fproductscpid != null" >
+        #{fproductscpid,jdbcType=VARCHAR},
+      </if>
+      <if test="experienceid != null" >
+        #{experienceid,jdbcType=INTEGER},
+      </if>
+      <if test="experiencerate != null" >
+        #{experiencerate,jdbcType=REAL},
+      </if>
+      <if test="experiencemoney != null" >
+        #{experiencemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecountnum != null" >
+        #{experiencecountnum,jdbcType=INTEGER},
+      </if>
+      <if test="experienceinnum != null" >
+        #{experienceinnum,jdbcType=INTEGER},
+      </if>
+      <if test="experienceratemoney != null" >
+        #{experienceratemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="experienceratetime != null" >
+        #{experienceratetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experienceemK5 != null" >
+        #{experienceemK5,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencePastday != null" >
+        #{experiencePastday,jdbcType=INTEGER},
+      </if>
+      <if test="experiencecountmoney != null" >
+        #{experiencecountmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="experienceusercpname != null" >
+        #{experienceusercpname,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK1 != null" >
+        #{experienceemK1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK3 != null" >
+        #{experienceemK3,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK4 != null" >
+        #{experienceemK4,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK2 != null" >
+        #{experienceemK2,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.ExperienceuserBuycp" >
+    update experienceuserbuycp
+    <set >
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="experiencesendid != null" >
+        ExperienceSendId = #{experiencesendid,jdbcType=INTEGER},
+      </if>
+      <if test="fproductscpid != null" >
+        FProductsCPId = #{fproductscpid,jdbcType=VARCHAR},
+      </if>
+      <if test="experienceid != null" >
+        ExperienceId = #{experienceid,jdbcType=INTEGER},
+      </if>
+      <if test="experiencerate != null" >
+        ExperienceRate = #{experiencerate,jdbcType=REAL},
+      </if>
+      <if test="experiencemoney != null" >
+        ExperienceMoney = #{experiencemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecountnum != null" >
+        ExperienceCountNum = #{experiencecountnum,jdbcType=INTEGER},
+      </if>
+      <if test="experienceinnum != null" >
+        ExperienceInNum = #{experienceinnum,jdbcType=INTEGER},
+      </if>
+      <if test="experienceratemoney != null" >
+        ExperienceRateMoney = #{experienceratemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="experienceratetime != null" >
+        ExperienceRateTime = #{experienceratetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experienceemK5 != null" >
+        ExperienceEm_k5 = #{experienceemK5,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencePastday != null" >
+        Experience_pastday = #{experiencePastday,jdbcType=INTEGER},
+      </if>
+      <if test="experiencecountmoney != null" >
+        ExperienceCountMoney = #{experiencecountmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="experienceusercpname != null" >
+        ExperienceUserCPName = #{experienceusercpname,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK1 != null" >
+        ExperienceEm_k1 = #{experienceemK1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK3 != null" >
+        ExperienceEm_k3 = #{experienceemK3,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK4 != null" >
+        ExperienceEm_k4 = #{experienceemK4,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experienceemK2 != null" >
+        ExperienceEm_k2 = #{experienceemK2,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ExperienceUserCPId = #{experienceusercpid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.ExperienceuserBuycp" >
+    update experienceuserbuycp
+    set UserId = #{userid,jdbcType=CHAR},
+      ExperienceSendId = #{experiencesendid,jdbcType=INTEGER},
+      FProductsCPId = #{fproductscpid,jdbcType=VARCHAR},
+      ExperienceId = #{experienceid,jdbcType=INTEGER},
+      ExperienceRate = #{experiencerate,jdbcType=REAL},
+      ExperienceMoney = #{experiencemoney,jdbcType=DECIMAL},
+      ExperienceCountNum = #{experiencecountnum,jdbcType=INTEGER},
+      ExperienceInNum = #{experienceinnum,jdbcType=INTEGER},
+      ExperienceRateMoney = #{experienceratemoney,jdbcType=DECIMAL},
+      ExperienceRateTime = #{experienceratetime,jdbcType=TIMESTAMP},
+      ExperienceEm_k5 = #{experienceemK5,jdbcType=TIMESTAMP},
+      Experience_pastday = #{experiencePastday,jdbcType=INTEGER},
+      ExperienceCountMoney = #{experiencecountmoney,jdbcType=DECIMAL},
+      ExperienceUserCPName = #{experienceusercpname,jdbcType=LONGVARCHAR},
+      ExperienceEm_k1 = #{experienceemK1,jdbcType=LONGVARCHAR},
+      ExperienceEm_k3 = #{experienceemK3,jdbcType=LONGVARCHAR},
+      ExperienceEm_k4 = #{experienceemK4,jdbcType=LONGVARCHAR},
+      ExperienceEm_k2 = #{experienceemK2,jdbcType=LONGVARCHAR}
+    where ExperienceUserCPId = #{experienceusercpid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.ExperienceuserBuycp" >
+    update experienceuserbuycp
+    set UserId = #{userid,jdbcType=CHAR},
+      ExperienceSendId = #{experiencesendid,jdbcType=INTEGER},
+      FProductsCPId = #{fproductscpid,jdbcType=VARCHAR},
+      ExperienceId = #{experienceid,jdbcType=INTEGER},
+      ExperienceRate = #{experiencerate,jdbcType=REAL},
+      ExperienceMoney = #{experiencemoney,jdbcType=DECIMAL},
+      ExperienceCountNum = #{experiencecountnum,jdbcType=INTEGER},
+      ExperienceInNum = #{experienceinnum,jdbcType=INTEGER},
+      ExperienceRateMoney = #{experienceratemoney,jdbcType=DECIMAL},
+      ExperienceRateTime = #{experienceratetime,jdbcType=TIMESTAMP},
+      ExperienceEm_k5 = #{experienceemK5,jdbcType=TIMESTAMP},
+      Experience_pastday = #{experiencePastday,jdbcType=INTEGER},
+      ExperienceCountMoney = #{experiencecountmoney,jdbcType=DECIMAL}
+    where ExperienceUserCPId = #{experienceusercpid,jdbcType=INTEGER}
+  </update>
+</mapper>

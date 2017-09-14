@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/lrcf.iml" filepath="$PROJECT_DIR$/lrcf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-admin/yhb-admin.iml" filepath="$PROJECT_DIR$/yhb-admin/yhb-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-common/yhb-common.iml" filepath="$PROJECT_DIR$/yhb-common/yhb-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-company-api/yhb-company-api.iml" filepath="$PROJECT_DIR$/yhb-company-api/yhb-company-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-company-service/yhb-company-service.iml" filepath="$PROJECT_DIR$/yhb-company-service/yhb-company-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-dao/yhb-dao.iml" filepath="$PROJECT_DIR$/yhb-dao/yhb-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-gift-api/yhb-gift-api.iml" filepath="$PROJECT_DIR$/yhb-gift-api/yhb-gift-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-gift-service/yhb-gift-service.iml" filepath="$PROJECT_DIR$/yhb-gift-service/yhb-gift-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-media-api/yhb-media-api.iml" filepath="$PROJECT_DIR$/yhb-media-api/yhb-media-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-media-service/yhb-media-service.iml" filepath="$PROJECT_DIR$/yhb-media-service/yhb-media-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-message-api/yhb-message-api.iml" filepath="$PROJECT_DIR$/yhb-message-api/yhb-message-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-message-service/yhb-message-service.iml" filepath="$PROJECT_DIR$/yhb-message-service/yhb-message-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-product-api/yhb-product-api.iml" filepath="$PROJECT_DIR$/yhb-product-api/yhb-product-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-product-service/yhb-product-service.iml" filepath="$PROJECT_DIR$/yhb-product-service/yhb-product-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-statistics/yhb-statistics.iml" filepath="$PROJECT_DIR$/yhb-statistics/yhb-statistics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-task/yhb-task.iml" filepath="$PROJECT_DIR$/yhb-task/yhb-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-user-api/yhb-user-api.iml" filepath="$PROJECT_DIR$/yhb-user-api/yhb-user-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-user-service/yhb-user-service.iml" filepath="$PROJECT_DIR$/yhb-user-service/yhb-user-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yhb-web-api/yhb-web-api.iml" filepath="$PROJECT_DIR$/yhb-web-api/yhb-web-api.iml" />
+    </modules>
+  </component>
+</project>

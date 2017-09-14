@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.RaiseBuyProDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.RaiseBuyPro" >
+    <id column="raiseBuyId" property="raisebuyid" jdbcType="INTEGER" />
+    <result column="raiseName" property="raisename" jdbcType="VARCHAR" />
+    <result column="raiseSendId" property="raisesendid" jdbcType="INTEGER" />
+    <result column="raiseBuyFpuId" property="raisebuyfpuid" jdbcType="INTEGER" />
+    <result column="raiseUseTime" property="raiseusetime" jdbcType="TIMESTAMP" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="raiseSize" property="raisesize" jdbcType="DECIMAL" />
+    <result column="raiseCountNum" property="raisecountnum" jdbcType="INTEGER" />
+    <result column="raiseRateInNum" property="raiserateinnum" jdbcType="INTEGER" />
+    <result column="raiseOverTime" property="raiseovertime" jdbcType="TIMESTAMP" />
+    <result column="raiseIsOver" property="raiseisover" jdbcType="INTEGER" />
+    <result column="raiseCountMoney" property="raisecountmoney" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    raiseBuyId, raiseName, raiseSendId, raiseBuyFpuId, raiseUseTime, userId, raiseSize, 
+    raiseCountNum, raiseRateInNum, raiseOverTime, raiseIsOver, raiseCountMoney
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from raisebuypro
+    where raiseBuyId = #{raisebuyid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from raisebuypro
+    where raiseBuyId = #{raisebuyid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.RaiseBuyPro" >
+    insert into raisebuypro (raiseBuyId, raiseName, raiseSendId, 
+      raiseBuyFpuId, raiseUseTime, userId, 
+      raiseSize, raiseCountNum, raiseRateInNum, 
+      raiseOverTime, raiseIsOver, raiseCountMoney
+      )
+    values (#{raisebuyid,jdbcType=INTEGER}, #{raisename,jdbcType=VARCHAR}, #{raisesendid,jdbcType=INTEGER}, 
+      #{raisebuyfpuid,jdbcType=INTEGER}, #{raiseusetime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, 
+      #{raisesize,jdbcType=DECIMAL}, #{raisecountnum,jdbcType=INTEGER}, #{raiserateinnum,jdbcType=INTEGER}, 
+      #{raiseovertime,jdbcType=TIMESTAMP}, #{raiseisover,jdbcType=INTEGER}, #{raisecountmoney,jdbcType=DECIMAL}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.RaiseBuyPro" >
+    insert into raisebuypro
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="raisebuyid != null" >
+        raiseBuyId,
+      </if>
+      <if test="raisename != null" >
+        raiseName,
+      </if>
+      <if test="raisesendid != null" >
+        raiseSendId,
+      </if>
+      <if test="raisebuyfpuid != null" >
+        raiseBuyFpuId,
+      </if>
+      <if test="raiseusetime != null" >
+        raiseUseTime,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="raisesize != null" >
+        raiseSize,
+      </if>
+      <if test="raisecountnum != null" >
+        raiseCountNum,
+      </if>
+      <if test="raiserateinnum != null" >
+        raiseRateInNum,
+      </if>
+      <if test="raiseovertime != null" >
+        raiseOverTime,
+      </if>
+      <if test="raiseisover != null" >
+        raiseIsOver,
+      </if>
+      <if test="raisecountmoney != null" >
+        raiseCountMoney,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="raisebuyid != null" >
+        #{raisebuyid,jdbcType=INTEGER},
+      </if>
+      <if test="raisename != null" >
+        #{raisename,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesendid != null" >
+        #{raisesendid,jdbcType=INTEGER},
+      </if>
+      <if test="raisebuyfpuid != null" >
+        #{raisebuyfpuid,jdbcType=INTEGER},
+      </if>
+      <if test="raiseusetime != null" >
+        #{raiseusetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesize != null" >
+        #{raisesize,jdbcType=DECIMAL},
+      </if>
+      <if test="raisecountnum != null" >
+        #{raisecountnum,jdbcType=INTEGER},
+      </if>
+      <if test="raiserateinnum != null" >
+        #{raiserateinnum,jdbcType=INTEGER},
+      </if>
+      <if test="raiseovertime != null" >
+        #{raiseovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseisover != null" >
+        #{raiseisover,jdbcType=INTEGER},
+      </if>
+      <if test="raisecountmoney != null" >
+        #{raisecountmoney,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.RaiseBuyPro" >
+    update raisebuypro
+    <set >
+      <if test="raisename != null" >
+        raiseName = #{raisename,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesendid != null" >
+        raiseSendId = #{raisesendid,jdbcType=INTEGER},
+      </if>
+      <if test="raisebuyfpuid != null" >
+        raiseBuyFpuId = #{raisebuyfpuid,jdbcType=INTEGER},
+      </if>
+      <if test="raiseusetime != null" >
+        raiseUseTime = #{raiseusetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesize != null" >
+        raiseSize = #{raisesize,jdbcType=DECIMAL},
+      </if>
+      <if test="raisecountnum != null" >
+        raiseCountNum = #{raisecountnum,jdbcType=INTEGER},
+      </if>
+      <if test="raiserateinnum != null" >
+        raiseRateInNum = #{raiserateinnum,jdbcType=INTEGER},
+      </if>
+      <if test="raiseovertime != null" >
+        raiseOverTime = #{raiseovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseisover != null" >
+        raiseIsOver = #{raiseisover,jdbcType=INTEGER},
+      </if>
+      <if test="raisecountmoney != null" >
+        raiseCountMoney = #{raisecountmoney,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where raiseBuyId = #{raisebuyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.RaiseBuyPro" >
+    update raisebuypro
+    set raiseName = #{raisename,jdbcType=VARCHAR},
+      raiseSendId = #{raisesendid,jdbcType=INTEGER},
+      raiseBuyFpuId = #{raisebuyfpuid,jdbcType=INTEGER},
+      raiseUseTime = #{raiseusetime,jdbcType=TIMESTAMP},
+      userId = #{userid,jdbcType=VARCHAR},
+      raiseSize = #{raisesize,jdbcType=DECIMAL},
+      raiseCountNum = #{raisecountnum,jdbcType=INTEGER},
+      raiseRateInNum = #{raiserateinnum,jdbcType=INTEGER},
+      raiseOverTime = #{raiseovertime,jdbcType=TIMESTAMP},
+      raiseIsOver = #{raiseisover,jdbcType=INTEGER},
+      raiseCountMoney = #{raisecountmoney,jdbcType=DECIMAL}
+    where raiseBuyId = #{raisebuyid,jdbcType=INTEGER}
+  </update>
+</mapper>

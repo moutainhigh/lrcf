@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.HxCallbackDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.HxCallback" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="hx_trx_id" property="hxTrxId" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.HxCallback" extends="BaseResultMap" >
+    <result column="return_params" property="returnParams" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, hx_trx_id, add_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    return_params
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hx_callback
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hx_callback
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.HxCallback" >
+    insert into hx_callback (id, hx_trx_id, add_time, 
+      return_params)
+    values (#{id,jdbcType=INTEGER}, #{hxTrxId,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{returnParams,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.HxCallback" >
+    insert into hx_callback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="hxTrxId != null" >
+        hx_trx_id,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="returnParams != null" >
+        return_params,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hxTrxId != null" >
+        #{hxTrxId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnParams != null" >
+        #{returnParams,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.HxCallback" >
+    update hx_callback
+    <set >
+      <if test="hxTrxId != null" >
+        hx_trx_id = #{hxTrxId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnParams != null" >
+        return_params = #{returnParams,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.HxCallback" >
+    update hx_callback
+    set hx_trx_id = #{hxTrxId,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      return_params = #{returnParams,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.HxCallback" >
+    update hx_callback
+    set hx_trx_id = #{hxTrxId,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

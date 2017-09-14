@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="yhb-user-service"/>
+
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry  protocol="zookeeper" address="zookeeper://139.196.25.57:2181?backup=139.196.25.57:2182,139.196.25.57:2183"/>
+	<!--<dubbo:registry  protocol="zookeeper" address="zookeeper://192.168.1.252:2181?backup=192.168.1.252:2182,192.168.1.252:2183"/>-->
+
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20880" />
+
+	<!-- 当ProtocolConfig和ServiceConfig某属性没有配置时,采用此缺省值 -->
+	<dubbo:provider timeout="100000" threadpool="fixed" threads="100" accepts="1000" />
+
+	<!--user-->
+	<!--用户系统消息-->
+	<dubbo:service ref="accountsCenterMeassageService"  interface="com.lrcf.yhb.user.api.AccountsCenterMeassageService"  retries="0"/>
+	<!--用户余额-->
+	<dubbo:service ref="accountsUsersBalancesService"  interface="com.lrcf.yhb.user.api.AccountsUsersBalancesService"  retries="0"/>
+	<!--用户基本信息-->
+	<dubbo:service ref="accountsUsersService"  interface="com.lrcf.yhb.user.api.AccountsUsersService" retries="0"/>
+	<!--代理商信息-->
+	<dubbo:service ref="agentService"  interface="com.lrcf.yhb.user.api.AgentService" retries="0"/>
+	<!--黑名单-->
+	<dubbo:service ref="blackListService"  interface="com.lrcf.yhb.user.api.BlackListService" retries="0"/>
+	<!--提现订单记录-->
+	<dubbo:service ref="dealCheckService"  interface="com.lrcf.yhb.user.api.DealCheckService" retries="0"/>
+	<!--充值订单记录-->
+	<dubbo:service ref="dealOrderService"  interface="com.lrcf.yhb.user.api.DealOrderService" retries="0" />
+	<!--用户银行卡信息-->
+	<dubbo:service ref="baseBankcardService"  interface="com.lrcf.yhb.user.api.BaseBankcardService" retries="0"/>
+	<!--富友支持银行通道信息-->
+	<dubbo:service ref="baseInterfaceBankService"  interface="com.lrcf.yhb.user.api.BaseInterfaceBankService" retries="0"/>
+	<!--用户绑卡错误信息记录-->
+	<dubbo:service ref="usersBankCardErrorinfoService"  interface="com.lrcf.yhb.user.api.UsersBankCardErrorinfoService" retries="0"/>
+	<!--用户验证码记录-->
+	<dubbo:service ref="appSmsVerifyService"  interface="com.lrcf.yhb.user.api.AppSmsVerifyService" retries="0" />
+	<!--系统配置-->
+	<dubbo:service ref="baseConfigService"  interface="com.lrcf.yhb.user.api.BaseConfigService" retries="0"/>
+	<!--用户静态收益字段-->
+	<dubbo:service ref="profitTableService"  interface="com.lrcf.yhb.user.api.ProfitTableService" retries="0"/>
+	<!--用户发送短信业务逻辑处理-->
+	<dubbo:service ref="sendSmsInfoService"  interface="com.lrcf.yhb.user.api.SendSmsInfoService" retries="0"/>
+	<!--富友/环迅充值记录CRUD-->
+	<dubbo:service ref="huanXunOrderInfoService"  interface="com.lrcf.yhb.user.api.HuanXunOrderInfoService" retries="0"/>
+	<!--富友充值后端回调-->
+	<dubbo:service ref="fyResvService"  interface="com.lrcf.yhb.user.api.FyResvService" retries="0" />
+	<!--富友前端拼接-->
+	<!--	<dubbo:service ref="fySend"  interface="com.lrcf.yhb.user.api.FySendService" protocol="dubbo" timeout="100000" retries="0" />-->
+	<!--金额日志-->
+	<dubbo:service ref="logMoneyChangeService"  interface="com.lrcf.yhb.user.api.LogMoneyChangeService" retries="0" />
+	<!--城市信息-->
+	<dubbo:service ref="regionInfoService"  interface="com.lrcf.yhb.user.api.RegionInfoService" retries="0" />
+
+
+	<!--调用mq消息-->
+	<dubbo:reference interface="com.lrcf.yhb.jms.api.NotifyMessageService" id="notifyMessageService" check="false"/>
+</beans>

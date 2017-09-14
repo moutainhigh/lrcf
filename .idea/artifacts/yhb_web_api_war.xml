@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="yhb-web-api:war">
+    <output-path>$PROJECT_DIR$/yhb-web-api/target</output-path>
+    <root id="archive" name="yhb-web-api.war">
+      <element id="artifact" artifact-name="yhb-web-api:war exploded" />
+    </root>
+  </artifact>
+</component>

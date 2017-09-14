@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.DealOrderDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.DealOrder">
+		<id column="OrderNumber" property="ordernumber" jdbcType="VARCHAR" />
+		<result column="OrderID" property="orderid" jdbcType="CHAR" />
+		<result column="OrderMoney" property="ordermoney" jdbcType="DECIMAL" />
+		<result column="OrderState" property="orderstate" jdbcType="INTEGER" />
+		<result column="ChannelID" property="channelid" jdbcType="INTEGER" />
+		<result column="InterfacePercentage" property="interfacepercentage"
+			jdbcType="DECIMAL" />
+		<result column="InterfaceName" property="interfacename"
+			jdbcType="VARCHAR" />
+		<result column="ChannelPercentage" property="channelpercentage"
+			jdbcType="DECIMAL" />
+		<result column="ChannelName" property="channelname" jdbcType="VARCHAR" />
+		<result column="PayItem" property="payitem" jdbcType="VARCHAR" />
+		<result column="EmployeeID" property="employeeid" jdbcType="CHAR" />
+		<result column="EmployeePercentage" property="employeepercentage"
+			jdbcType="DECIMAL" />
+		<result column="OtherMoney" property="othermoney" jdbcType="DECIMAL" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="UserID" property="userid" jdbcType="CHAR" />
+		<result column="CheckTime" property="checktime" jdbcType="TIMESTAMP" />
+		<result column="CheckID" property="checkid" jdbcType="CHAR" />
+		<result column="CheckOrderID" property="checkorderid" jdbcType="CHAR" />
+		<result column="Remark" property="remark" jdbcType="VARCHAR" />
+		<result column="ReturnTime" property="returntime" jdbcType="TIMESTAMP" />
+		<result column="ReturnInterfaceOrderNumber" property="returninterfaceordernumber"
+			jdbcType="VARCHAR" />
+		<result column="ReturnBankOrderNumber" property="returnbankordernumber"
+			jdbcType="VARCHAR" />
+		<result column="ReturnMessage" property="returnmessage"
+			jdbcType="VARCHAR" />
+		<result column="platID" property="platid" jdbcType="CHAR" />
+		<result column="LiftCycle" property="liftcycle" jdbcType="VARCHAR" />
+		<result column="LiftTime" property="lifttime" jdbcType="VARCHAR" />
+		
+		<result column="UserName" property="userName" jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		OrderNumber, OrderID, OrderMoney, OrderState, ChannelID,
+		InterfacePercentage,
+		InterfaceName,
+		ChannelPercentage, ChannelName,
+		PayItem, EmployeeID, EmployeePercentage, OtherMoney,
+		CreateTime,
+		UserID, CheckTime, CheckID, CheckOrderID, Remark,
+		ReturnTime,
+		ReturnInterfaceOrderNumber,
+		ReturnBankOrderNumber, ReturnMessage,
+		platID, LiftCycle, LiftTime
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from deal_order
+		where OrderNumber = #{ordernumber,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectInvestmentRecord" resultMap="BaseResultMap">
+		SELECT
+		a.orderMoney,
+		INSERT (b.UserName, 4, 4, '****') userName
+		FROM
+		deal_order a
+		LEFT JOIN accounts_users b ON a.userid = b.userid
+		WHERE
+		a.OrderState = 2
+		AND b.trueName IS NOT NULL
+		AND a.orderMoney &lt;= 10000
+		ORDER BY
+		a.createTime DESC
+		LIMIT 20;
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		deal_order
+		where OrderNumber = #{ordernumber,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.DealOrder">
+		insert into deal_order
+		(OrderNumber, OrderID, OrderMoney,
+		OrderState, ChannelID,
+		InterfacePercentage,
+		InterfaceName, ChannelPercentage, ChannelName,
+		PayItem, EmployeeID, EmployeePercentage,
+		OtherMoney, CreateTime,
+		UserID,
+		CheckTime, CheckID, CheckOrderID,
+		Remark, ReturnTime,
+		ReturnInterfaceOrderNumber,
+		ReturnBankOrderNumber, ReturnMessage,
+		platID,
+		LiftCycle, LiftTime)
+		values (#{ordernumber,jdbcType=VARCHAR},
+		#{orderid,jdbcType=CHAR},
+		#{ordermoney,jdbcType=DECIMAL},
+		#{orderstate,jdbcType=INTEGER}, #{channelid,jdbcType=INTEGER},
+		#{interfacepercentage,jdbcType=DECIMAL},
+		#{interfacename,jdbcType=VARCHAR},
+		#{channelpercentage,jdbcType=DECIMAL},
+		#{channelname,jdbcType=VARCHAR},
+		#{payitem,jdbcType=VARCHAR},
+		#{employeeid,jdbcType=CHAR}, #{employeepercentage,jdbcType=DECIMAL},
+		#{othermoney,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP},
+		#{userid,jdbcType=CHAR},
+		#{checktime,jdbcType=TIMESTAMP},
+		#{checkid,jdbcType=CHAR}, #{checkorderid,jdbcType=CHAR},
+		#{remark,jdbcType=VARCHAR}, #{returntime,jdbcType=TIMESTAMP},
+		#{returninterfaceordernumber,jdbcType=VARCHAR},
+		#{returnbankordernumber,jdbcType=VARCHAR},
+		#{returnmessage,jdbcType=VARCHAR}, #{platid,jdbcType=CHAR},
+		#{liftcycle,jdbcType=VARCHAR}, #{lifttime,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.DealOrder">
+		insert into deal_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ordernumber != null">
+				OrderNumber,
+			</if>
+			<if test="orderid != null">
+				OrderID,
+			</if>
+			<if test="ordermoney != null">
+				OrderMoney,
+			</if>
+			<if test="orderstate != null">
+				OrderState,
+			</if>
+			<if test="channelid != null">
+				ChannelID,
+			</if>
+			<if test="interfacepercentage != null">
+				InterfacePercentage,
+			</if>
+			<if test="interfacename != null">
+				InterfaceName,
+			</if>
+			<if test="channelpercentage != null">
+				ChannelPercentage,
+			</if>
+			<if test="channelname != null">
+				ChannelName,
+			</if>
+			<if test="payitem != null">
+				PayItem,
+			</if>
+			<if test="employeeid != null">
+				EmployeeID,
+			</if>
+			<if test="employeepercentage != null">
+				EmployeePercentage,
+			</if>
+			<if test="othermoney != null">
+				OtherMoney,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="checktime != null">
+				CheckTime,
+			</if>
+			<if test="checkid != null">
+				CheckID,
+			</if>
+			<if test="checkorderid != null">
+				CheckOrderID,
+			</if>
+			<if test="remark != null">
+				Remark,
+			</if>
+			<if test="returntime != null">
+				ReturnTime,
+			</if>
+			<if test="returninterfaceordernumber != null">
+				ReturnInterfaceOrderNumber,
+			</if>
+			<if test="returnbankordernumber != null">
+				ReturnBankOrderNumber,
+			</if>
+			<if test="returnmessage != null">
+				ReturnMessage,
+			</if>
+			<if test="platid != null">
+				platID,
+			</if>
+			<if test="liftcycle != null">
+				LiftCycle,
+			</if>
+			<if test="lifttime != null">
+				LiftTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ordernumber != null">
+				#{ordernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="orderid != null">
+				#{orderid,jdbcType=CHAR},
+			</if>
+			<if test="ordermoney != null">
+				#{ordermoney,jdbcType=DECIMAL},
+			</if>
+			<if test="orderstate != null">
+				#{orderstate,jdbcType=INTEGER},
+			</if>
+			<if test="channelid != null">
+				#{channelid,jdbcType=INTEGER},
+			</if>
+			<if test="interfacepercentage != null">
+				#{interfacepercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="interfacename != null">
+				#{interfacename,jdbcType=VARCHAR},
+			</if>
+			<if test="channelpercentage != null">
+				#{channelpercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="channelname != null">
+				#{channelname,jdbcType=VARCHAR},
+			</if>
+			<if test="payitem != null">
+				#{payitem,jdbcType=VARCHAR},
+			</if>
+			<if test="employeeid != null">
+				#{employeeid,jdbcType=CHAR},
+			</if>
+			<if test="employeepercentage != null">
+				#{employeepercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="othermoney != null">
+				#{othermoney,jdbcType=DECIMAL},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=CHAR},
+			</if>
+			<if test="checktime != null">
+				#{checktime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checkid != null">
+				#{checkid,jdbcType=CHAR},
+			</if>
+			<if test="checkorderid != null">
+				#{checkorderid,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="returntime != null">
+				#{returntime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returninterfaceordernumber != null">
+				#{returninterfaceordernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="returnbankordernumber != null">
+				#{returnbankordernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="returnmessage != null">
+				#{returnmessage,jdbcType=VARCHAR},
+			</if>
+			<if test="platid != null">
+				#{platid,jdbcType=CHAR},
+			</if>
+			<if test="liftcycle != null">
+				#{liftcycle,jdbcType=VARCHAR},
+			</if>
+			<if test="lifttime != null">
+				#{lifttime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.DealOrder">
+		update deal_order
+		<set>
+			<if test="orderid != null">
+				OrderID = #{orderid,jdbcType=CHAR},
+			</if>
+			<if test="ordermoney != null">
+				OrderMoney = #{ordermoney,jdbcType=DECIMAL},
+			</if>
+			<if test="orderstate != null">
+				OrderState = #{orderstate,jdbcType=INTEGER},
+			</if>
+			<if test="channelid != null">
+				ChannelID = #{channelid,jdbcType=INTEGER},
+			</if>
+			<if test="interfacepercentage != null">
+				InterfacePercentage =
+				#{interfacepercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="interfacename != null">
+				InterfaceName = #{interfacename,jdbcType=VARCHAR},
+			</if>
+			<if test="channelpercentage != null">
+				ChannelPercentage =
+				#{channelpercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="channelname != null">
+				ChannelName = #{channelname,jdbcType=VARCHAR},
+			</if>
+			<if test="payitem != null">
+				PayItem = #{payitem,jdbcType=VARCHAR},
+			</if>
+			<if test="employeeid != null">
+				EmployeeID = #{employeeid,jdbcType=CHAR},
+			</if>
+			<if test="employeepercentage != null">
+				EmployeePercentage =
+				#{employeepercentage,jdbcType=DECIMAL},
+			</if>
+			<if test="othermoney != null">
+				OtherMoney = #{othermoney,jdbcType=DECIMAL},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=CHAR},
+			</if>
+			<if test="checktime != null">
+				CheckTime = #{checktime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checkid != null">
+				CheckID = #{checkid,jdbcType=CHAR},
+			</if>
+			<if test="checkorderid != null">
+				CheckOrderID = #{checkorderid,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				Remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="returntime != null">
+				ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returninterfaceordernumber != null">
+				ReturnInterfaceOrderNumber =
+				#{returninterfaceordernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="returnbankordernumber != null">
+				ReturnBankOrderNumber =
+				#{returnbankordernumber,jdbcType=VARCHAR},
+			</if>
+			<if test="returnmessage != null">
+				ReturnMessage = #{returnmessage,jdbcType=VARCHAR},
+			</if>
+			<if test="platid != null">
+				platID = #{platid,jdbcType=CHAR},
+			</if>
+			<if test="liftcycle != null">
+				LiftCycle = #{liftcycle,jdbcType=VARCHAR},
+			</if>
+			<if test="lifttime != null">
+				LiftTime = #{lifttime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where OrderNumber = #{ordernumber,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.DealOrder">
+		update deal_order
+		set OrderID = #{orderid,jdbcType=CHAR},
+		OrderMoney =
+		#{ordermoney,jdbcType=DECIMAL},
+		OrderState =
+		#{orderstate,jdbcType=INTEGER},
+		ChannelID =
+		#{channelid,jdbcType=INTEGER},
+		InterfacePercentage =
+		#{interfacepercentage,jdbcType=DECIMAL},
+		InterfaceName =
+		#{interfacename,jdbcType=VARCHAR},
+		ChannelPercentage =
+		#{channelpercentage,jdbcType=DECIMAL},
+		ChannelName =
+		#{channelname,jdbcType=VARCHAR},
+		PayItem = #{payitem,jdbcType=VARCHAR},
+		EmployeeID = #{employeeid,jdbcType=CHAR},
+		EmployeePercentage =
+		#{employeepercentage,jdbcType=DECIMAL},
+		OtherMoney =
+		#{othermoney,jdbcType=DECIMAL},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		UserID = #{userid,jdbcType=CHAR},
+		CheckTime = #{checktime,jdbcType=TIMESTAMP},
+		CheckID =
+		#{checkid,jdbcType=CHAR},
+		CheckOrderID = #{checkorderid,jdbcType=CHAR},
+		Remark = #{remark,jdbcType=VARCHAR},
+		ReturnTime =
+		#{returntime,jdbcType=TIMESTAMP},
+		ReturnInterfaceOrderNumber =
+		#{returninterfaceordernumber,jdbcType=VARCHAR},
+		ReturnBankOrderNumber =
+		#{returnbankordernumber,jdbcType=VARCHAR},
+		ReturnMessage =
+		#{returnmessage,jdbcType=VARCHAR},
+		platID = #{platid,jdbcType=CHAR},
+		LiftCycle = #{liftcycle,jdbcType=VARCHAR},
+		LiftTime =
+		#{lifttime,jdbcType=VARCHAR}
+		where OrderNumber =
+		#{ordernumber,jdbcType=VARCHAR}
+	</update>
+</mapper>

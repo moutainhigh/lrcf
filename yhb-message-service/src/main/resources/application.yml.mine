@@ -1,0 +1,23 @@
+#activeMq 配置
+spring:
+  activemq:
+    broker-url: tcp://127.0.0.1:60872
+    #broker-url: tcp://127.0.0.1:61616
+    in-memory: true
+    pool:
+      enabled: false
+    user: admin
+    password: admin
+
+server:
+  port: 8161
+#日志
+#logging:
+ # config: logback-message.xml
+
+#mybatis mybatis:
+#   type-aliases-package: com.lrcf.yhb.pojo
+#   mapper-locations: classpath:mapper/*.xml
+
+
+

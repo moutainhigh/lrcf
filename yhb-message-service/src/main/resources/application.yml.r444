@@ -1,0 +1,51 @@
+redisKey:
+  expire_time: 1800
+  prefix:
+    user_session: 'USER_SESSION:'
+    verifycode: 'VERIFYCODE:'
+    mobile_login_code: 'MOBILE_LOGIN_CODE:'
+
+spring:
+  activemq:
+    broker-url: tcp://192.168.1.94:61616
+    in-memory: true
+    pool:
+      enabled: false
+    user: admin
+    password: admin
+  datasource:
+    url: jdbc:mysql://139.196.25.57:36297/yhb_29?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: user
+    password: qweasd
+    driver-class-name: com.mysql.jdbc.Driver
+    dbcp2:
+      initialSize : 5
+      min-idle: 5
+      max-idle: 5
+      max-wait-millis: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-total: 20
+    tomcat:
+      connection-properties: druid:stat:mergeSql=true;druid:stat:slowSqlMillis=5000
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Chongqing
+
+mybatis:
+  type-aliases-package: com.lrcf.yhb.pojo
+  mapper-locations: classpath:mapper/*.xml
+
+
+
+
+
+
+
+

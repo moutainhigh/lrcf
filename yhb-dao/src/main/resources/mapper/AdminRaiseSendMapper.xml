@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AdminRaiseSendDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AdminRaiseSend" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="productId" property="productid" jdbcType="VARCHAR" />
+    <result column="raiseName" property="raisename" jdbcType="VARCHAR" />
+    <result column="raiseCreateTime" property="raisecreatetime" jdbcType="TIMESTAMP" />
+    <result column="raiseOverTime" property="raiseovertime" jdbcType="TIMESTAMP" />
+    <result column="raiseMark" property="raisemark" jdbcType="VARCHAR" />
+    <result column="raiseSize" property="raisesize" jdbcType="DOUBLE" />
+    <result column="raiseCountRate" property="raisecountrate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, productId, raiseName, raiseCreateTime, raiseOverTime, raiseMark, raiseSize, raiseCountRate
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin_raise_send
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin_raise_send
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.AdminRaiseSend" >
+    insert into admin_raise_send (Id, productId, raiseName, 
+      raiseCreateTime, raiseOverTime, raiseMark, 
+      raiseSize, raiseCountRate)
+    values (#{id,jdbcType=INTEGER}, #{productid,jdbcType=VARCHAR}, #{raisename,jdbcType=VARCHAR}, 
+      #{raisecreatetime,jdbcType=TIMESTAMP}, #{raiseovertime,jdbcType=TIMESTAMP}, #{raisemark,jdbcType=VARCHAR}, 
+      #{raisesize,jdbcType=DOUBLE}, #{raisecountrate,jdbcType=DECIMAL})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AdminRaiseSend" >
+    insert into admin_raise_send
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="raisename != null" >
+        raiseName,
+      </if>
+      <if test="raisecreatetime != null" >
+        raiseCreateTime,
+      </if>
+      <if test="raiseovertime != null" >
+        raiseOverTime,
+      </if>
+      <if test="raisemark != null" >
+        raiseMark,
+      </if>
+      <if test="raisesize != null" >
+        raiseSize,
+      </if>
+      <if test="raisecountrate != null" >
+        raiseCountRate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="raisename != null" >
+        #{raisename,jdbcType=VARCHAR},
+      </if>
+      <if test="raisecreatetime != null" >
+        #{raisecreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseovertime != null" >
+        #{raiseovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raisemark != null" >
+        #{raisemark,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesize != null" >
+        #{raisesize,jdbcType=DOUBLE},
+      </if>
+      <if test="raisecountrate != null" >
+        #{raisecountrate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AdminRaiseSend" >
+    update admin_raise_send
+    <set >
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="raisename != null" >
+        raiseName = #{raisename,jdbcType=VARCHAR},
+      </if>
+      <if test="raisecreatetime != null" >
+        raiseCreateTime = #{raisecreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseovertime != null" >
+        raiseOverTime = #{raiseovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raisemark != null" >
+        raiseMark = #{raisemark,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesize != null" >
+        raiseSize = #{raisesize,jdbcType=DOUBLE},
+      </if>
+      <if test="raisecountrate != null" >
+        raiseCountRate = #{raisecountrate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AdminRaiseSend" >
+    update admin_raise_send
+    set productId = #{productid,jdbcType=VARCHAR},
+      raiseName = #{raisename,jdbcType=VARCHAR},
+      raiseCreateTime = #{raisecreatetime,jdbcType=TIMESTAMP},
+      raiseOverTime = #{raiseovertime,jdbcType=TIMESTAMP},
+      raiseMark = #{raisemark,jdbcType=VARCHAR},
+      raiseSize = #{raisesize,jdbcType=DOUBLE},
+      raiseCountRate = #{raisecountrate,jdbcType=DECIMAL}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

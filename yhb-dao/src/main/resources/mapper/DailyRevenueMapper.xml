@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.DailyRevenueDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.DailyRevenue" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Revenue" property="revenue" jdbcType="DECIMAL" />
+    <result column="ReceDate" property="recedate" jdbcType="TIMESTAMP" />
+    <result column="MangeType" property="mangetype" jdbcType="VARCHAR" />
+    <result column="ManageId" property="manageid" jdbcType="CHAR" />
+    <result column="MngLevel" property="mnglevel" jdbcType="INTEGER" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="LastRevenue" property="lastrevenue" jdbcType="VARCHAR" />
+    <result column="LastReceDate" property="lastrecedate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Revenue, ReceDate, MangeType, ManageId, MngLevel, Remark, LastRevenue, LastReceDate
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from dailyrevenue
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dailyrevenue
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.DailyRevenue" >
+    insert into dailyrevenue (Id, Revenue, ReceDate, 
+      MangeType, ManageId, MngLevel, 
+      Remark, LastRevenue, LastReceDate
+      )
+    values (#{id,jdbcType=INTEGER}, #{revenue,jdbcType=DECIMAL}, #{recedate,jdbcType=TIMESTAMP},
+      #{mangetype,jdbcType=VARCHAR}, #{manageid,jdbcType=CHAR}, #{mnglevel,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{lastrevenue,jdbcType=VARCHAR}, #{lastrecedate,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.DailyRevenue" >
+    insert into dailyrevenue
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="revenue != null" >
+        Revenue,
+      </if>
+      <if test="recedate != null" >
+        ReceDate,
+      </if>
+      <if test="mangetype != null" >
+        MangeType,
+      </if>
+      <if test="manageid != null" >
+        ManageId,
+      </if>
+      <if test="mnglevel != null" >
+        MngLevel,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="lastrevenue != null" >
+        LastRevenue,
+      </if>
+      <if test="lastrecedate != null" >
+        LastReceDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="revenue != null" >
+        #{revenue,jdbcType=DECIMAL},
+      </if>
+      <if test="recedate != null" >
+        #{recedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mangetype != null" >
+        #{mangetype,jdbcType=VARCHAR},
+      </if>
+      <if test="manageid != null" >
+        #{manageid,jdbcType=CHAR},
+      </if>
+      <if test="mnglevel != null" >
+        #{mnglevel,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastrevenue != null" >
+        #{lastrevenue,jdbcType=VARCHAR},
+      </if>
+      <if test="lastrecedate != null" >
+        #{lastrecedate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.DailyRevenue" >
+    update dailyrevenue
+    <set >
+      <if test="revenue != null" >
+        Revenue = #{revenue,jdbcType=DECIMAL},
+      </if>
+      <if test="recedate != null" >
+        ReceDate = #{recedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mangetype != null" >
+        MangeType = #{mangetype,jdbcType=VARCHAR},
+      </if>
+      <if test="manageid != null" >
+        ManageId = #{manageid,jdbcType=CHAR},
+      </if>
+      <if test="mnglevel != null" >
+        MngLevel = #{mnglevel,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastrevenue != null" >
+        LastRevenue = #{lastrevenue,jdbcType=VARCHAR},
+      </if>
+      <if test="lastrecedate != null" >
+        LastReceDate = #{lastrecedate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.DailyRevenue" >
+    update dailyrevenue
+    set Revenue = #{revenue,jdbcType=DECIMAL},
+      ReceDate = #{recedate,jdbcType=TIMESTAMP},
+      MangeType = #{mangetype,jdbcType=VARCHAR},
+      ManageId = #{manageid,jdbcType=CHAR},
+      MngLevel = #{mnglevel,jdbcType=INTEGER},
+      Remark = #{remark,jdbcType=VARCHAR},
+      LastRevenue = #{lastrevenue,jdbcType=VARCHAR},
+      LastReceDate = #{lastrecedate,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

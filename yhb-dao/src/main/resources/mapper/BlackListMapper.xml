@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.BlackListDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.BlackList" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="UserId" property="userid" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="IdCard" property="idcard" jdbcType="VARCHAR" />
+    <result column="CardNum" property="cardnum" jdbcType="VARCHAR" />
+    <result column="Phone" property="phone" jdbcType="VARCHAR" />
+    <result column="AddTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="AddManager" property="addmanager" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, UserId, Name, IdCard, CardNum, Phone, AddTime, AddManager, Remark
+  </sql>
+
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from blacklist
+    where Phone = #{phone,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectBlackByUserId" resultMap="BaseResultMap" parameterType="String">
+    select  <include refid="Base_Column_List" />
+    from blacklist
+    where UserId =#{userId}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from blacklist
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blacklist
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.BlackList" >
+    insert into blacklist (Id, UserId, Name, 
+      IdCard, CardNum, Phone, 
+      AddTime, AddManager, Remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{cardnum,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{addmanager,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.BlackList" >
+    insert into blacklist
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="idcard != null" >
+        IdCard,
+      </if>
+      <if test="cardnum != null" >
+        CardNum,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="addtime != null" >
+        AddTime,
+      </if>
+      <if test="addmanager != null" >
+        AddManager,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="cardnum != null" >
+        #{cardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addmanager != null" >
+        #{addmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.BlackList" >
+    update blacklist
+    <set >
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        IdCard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="cardnum != null" >
+        CardNum = #{cardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        AddTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addmanager != null" >
+        AddManager = #{addmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.BlackList" >
+    update blacklist
+    set UserId = #{userid,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      IdCard = #{idcard,jdbcType=VARCHAR},
+      CardNum = #{cardnum,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=VARCHAR},
+      AddTime = #{addtime,jdbcType=TIMESTAMP},
+      AddManager = #{addmanager,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

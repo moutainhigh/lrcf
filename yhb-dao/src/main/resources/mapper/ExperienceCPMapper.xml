@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.ExperienceCPDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.ExperienceCP" >
+    <id column="ExperienceCPId" property="experiencecpid" jdbcType="INTEGER" />
+    <result column="productId" property="productid" jdbcType="VARCHAR" />
+    <result column="ExperienceCPRate" property="experiencecprate" jdbcType="DECIMAL" />
+    <result column="ExperienceCPAddTime" property="experiencecpaddtime" jdbcType="TIMESTAMP" />
+    <result column="ExperienceCPTimes" property="experiencecptimes" jdbcType="INTEGER" />
+    <result column="ExperienceCPCountMoeny" property="experiencecpcountmoeny" jdbcType="DECIMAL" />
+    <result column="ExperienceCPCountRate" property="experiencecpcountrate" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.ExperienceCP" extends="BaseResultMap" >
+    <result column="ExperienceCPName" property="experiencecpname" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceCPImg" property="experiencecpimg" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceCPDes" property="experiencecpdes" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceCPEm_k1" property="experiencecpemK1" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceCPEm_k2" property="experiencecpemK2" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceCPEm_k3" property="experiencecpemK3" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ExperienceCPId, productId, ExperienceCPRate, ExperienceCPAddTime, ExperienceCPTimes, 
+    ExperienceCPCountMoeny, ExperienceCPCountRate
+  </sql>
+  <sql id="Blob_Column_List" >
+    ExperienceCPName, ExperienceCPImg, ExperienceCPDes, ExperienceCPEm_k1, ExperienceCPEm_k2, 
+    ExperienceCPEm_k3
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from experiencecp
+    where ExperienceCPId = #{experiencecpid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from experiencecp
+    where ExperienceCPId = #{experiencecpid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.ExperienceCP" >
+    insert into experiencecp (ExperienceCPId, productId, ExperienceCPRate, 
+      ExperienceCPAddTime, ExperienceCPTimes, 
+      ExperienceCPCountMoeny, ExperienceCPCountRate, 
+      ExperienceCPName, ExperienceCPImg, 
+      ExperienceCPDes, ExperienceCPEm_k1, 
+      ExperienceCPEm_k2, ExperienceCPEm_k3
+      )
+    values (#{experiencecpid,jdbcType=INTEGER}, #{productid,jdbcType=VARCHAR}, #{experiencecprate,jdbcType=DECIMAL}, 
+      #{experiencecpaddtime,jdbcType=TIMESTAMP}, #{experiencecptimes,jdbcType=INTEGER}, 
+      #{experiencecpcountmoeny,jdbcType=DECIMAL}, #{experiencecpcountrate,jdbcType=DECIMAL}, 
+      #{experiencecpname,jdbcType=LONGVARCHAR}, #{experiencecpimg,jdbcType=LONGVARCHAR}, 
+      #{experiencecpdes,jdbcType=LONGVARCHAR}, #{experiencecpemK1,jdbcType=LONGVARCHAR}, 
+      #{experiencecpemK2,jdbcType=LONGVARCHAR}, #{experiencecpemK3,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.ExperienceCP" >
+    insert into experiencecp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="experiencecpid != null" >
+        ExperienceCPId,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="experiencecprate != null" >
+        ExperienceCPRate,
+      </if>
+      <if test="experiencecpaddtime != null" >
+        ExperienceCPAddTime,
+      </if>
+      <if test="experiencecptimes != null" >
+        ExperienceCPTimes,
+      </if>
+      <if test="experiencecpcountmoeny != null" >
+        ExperienceCPCountMoeny,
+      </if>
+      <if test="experiencecpcountrate != null" >
+        ExperienceCPCountRate,
+      </if>
+      <if test="experiencecpname != null" >
+        ExperienceCPName,
+      </if>
+      <if test="experiencecpimg != null" >
+        ExperienceCPImg,
+      </if>
+      <if test="experiencecpdes != null" >
+        ExperienceCPDes,
+      </if>
+      <if test="experiencecpemK1 != null" >
+        ExperienceCPEm_k1,
+      </if>
+      <if test="experiencecpemK2 != null" >
+        ExperienceCPEm_k2,
+      </if>
+      <if test="experiencecpemK3 != null" >
+        ExperienceCPEm_k3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="experiencecpid != null" >
+        #{experiencecpid,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="experiencecprate != null" >
+        #{experiencecprate,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecpaddtime != null" >
+        #{experiencecpaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencecptimes != null" >
+        #{experiencecptimes,jdbcType=INTEGER},
+      </if>
+      <if test="experiencecpcountmoeny != null" >
+        #{experiencecpcountmoeny,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecpcountrate != null" >
+        #{experiencecpcountrate,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecpname != null" >
+        #{experiencecpname,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpimg != null" >
+        #{experiencecpimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpdes != null" >
+        #{experiencecpdes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpemK1 != null" >
+        #{experiencecpemK1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpemK2 != null" >
+        #{experiencecpemK2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpemK3 != null" >
+        #{experiencecpemK3,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.ExperienceCP" >
+    update experiencecp
+    <set >
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="experiencecprate != null" >
+        ExperienceCPRate = #{experiencecprate,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecpaddtime != null" >
+        ExperienceCPAddTime = #{experiencecpaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencecptimes != null" >
+        ExperienceCPTimes = #{experiencecptimes,jdbcType=INTEGER},
+      </if>
+      <if test="experiencecpcountmoeny != null" >
+        ExperienceCPCountMoeny = #{experiencecpcountmoeny,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecpcountrate != null" >
+        ExperienceCPCountRate = #{experiencecpcountrate,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencecpname != null" >
+        ExperienceCPName = #{experiencecpname,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpimg != null" >
+        ExperienceCPImg = #{experiencecpimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpdes != null" >
+        ExperienceCPDes = #{experiencecpdes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpemK1 != null" >
+        ExperienceCPEm_k1 = #{experiencecpemK1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpemK2 != null" >
+        ExperienceCPEm_k2 = #{experiencecpemK2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencecpemK3 != null" >
+        ExperienceCPEm_k3 = #{experiencecpemK3,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ExperienceCPId = #{experiencecpid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.ExperienceCP" >
+    update experiencecp
+    set productId = #{productid,jdbcType=VARCHAR},
+      ExperienceCPRate = #{experiencecprate,jdbcType=DECIMAL},
+      ExperienceCPAddTime = #{experiencecpaddtime,jdbcType=TIMESTAMP},
+      ExperienceCPTimes = #{experiencecptimes,jdbcType=INTEGER},
+      ExperienceCPCountMoeny = #{experiencecpcountmoeny,jdbcType=DECIMAL},
+      ExperienceCPCountRate = #{experiencecpcountrate,jdbcType=DECIMAL},
+      ExperienceCPName = #{experiencecpname,jdbcType=LONGVARCHAR},
+      ExperienceCPImg = #{experiencecpimg,jdbcType=LONGVARCHAR},
+      ExperienceCPDes = #{experiencecpdes,jdbcType=LONGVARCHAR},
+      ExperienceCPEm_k1 = #{experiencecpemK1,jdbcType=LONGVARCHAR},
+      ExperienceCPEm_k2 = #{experiencecpemK2,jdbcType=LONGVARCHAR},
+      ExperienceCPEm_k3 = #{experiencecpemK3,jdbcType=LONGVARCHAR}
+    where ExperienceCPId = #{experiencecpid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.ExperienceCP" >
+    update experiencecp
+    set productId = #{productid,jdbcType=VARCHAR},
+      ExperienceCPRate = #{experiencecprate,jdbcType=DECIMAL},
+      ExperienceCPAddTime = #{experiencecpaddtime,jdbcType=TIMESTAMP},
+      ExperienceCPTimes = #{experiencecptimes,jdbcType=INTEGER},
+      ExperienceCPCountMoeny = #{experiencecpcountmoeny,jdbcType=DECIMAL},
+      ExperienceCPCountRate = #{experiencecpcountrate,jdbcType=DECIMAL}
+    where ExperienceCPId = #{experiencecpid,jdbcType=INTEGER}
+  </update>
+</mapper>

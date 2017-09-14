@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.BaseInterfaceBankDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.BaseInterfaceBank">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="InterfaceID" property="interfaceid" jdbcType="VARCHAR" />
+		<result column="banknum" property="banknum" jdbcType="VARCHAR" />
+		<result column="isopen" property="isopen" jdbcType="BIT" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="ChannelID" property="channelid" jdbcType="INTEGER" />
+		<result column="CardType" property="cardtype" jdbcType="VARCHAR" />
+		<result column="cardBankColorImg" property="cardbankcolorimg"
+			jdbcType="VARCHAR" />
+		<result column="cradBankLogImg" property="cradbanklogimg"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, InterfaceID, banknum, isopen, sort, remark, ChannelID, CardType,
+		cardBankColorImg,
+		cradBankLogImg
+	</sql>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> from base_interface_bank
+	</select>
+	
+	<select id="selectBankNumByBankCode" resultMap="BaseResultMap">
+	 select <include refid="Base_Column_List" /> from base_interface_bank where banknum = #{banknum}
+	</select>
+
+	<select id="selectBankInfoForUserId" resultMap="BaseResultMap">
+		SELECT
+		t.remark,
+		t.banknum
+		FROM
+		base_interface_bank t,
+		(
+		SELECT a.BankName as bank_name FROM base_bankcard a WHERE a.UserID = #{userId}
+		)b
+		WHERE
+		t.remark = b.bank_name
+	</select>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.BaseInterfaceBank">
+		insert into base_interface_bank (id, InterfaceID, banknum,
+		isopen, sort, remark, ChannelID,
+		CardType, cardBankColorImg, cradBankLogImg
+		)
+		values (#{id,jdbcType=INTEGER}, #{interfaceid,jdbcType=VARCHAR},
+		#{banknum,jdbcType=VARCHAR},
+		#{isopen,jdbcType=BIT}, #{sort,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+		#{channelid,jdbcType=INTEGER},
+		#{cardtype,jdbcType=VARCHAR}, #{cardbankcolorimg,jdbcType=VARCHAR},
+		#{cradbanklogimg,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.BaseInterfaceBank">
+		insert into base_interface_bank
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="interfaceid != null">
+				InterfaceID,
+			</if>
+			<if test="banknum != null">
+				banknum,
+			</if>
+			<if test="isopen != null">
+				isopen,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="channelid != null">
+				ChannelID,
+			</if>
+			<if test="cardtype != null">
+				CardType,
+			</if>
+			<if test="cardbankcolorimg != null">
+				cardBankColorImg,
+			</if>
+			<if test="cradbanklogimg != null">
+				cradBankLogImg,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="interfaceid != null">
+				#{interfaceid,jdbcType=VARCHAR},
+			</if>
+			<if test="banknum != null">
+				#{banknum,jdbcType=VARCHAR},
+			</if>
+			<if test="isopen != null">
+				#{isopen,jdbcType=BIT},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="channelid != null">
+				#{channelid,jdbcType=INTEGER},
+			</if>
+			<if test="cardtype != null">
+				#{cardtype,jdbcType=VARCHAR},
+			</if>
+			<if test="cardbankcolorimg != null">
+				#{cardbankcolorimg,jdbcType=VARCHAR},
+			</if>
+			<if test="cradbanklogimg != null">
+				#{cradbanklogimg,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+</mapper>

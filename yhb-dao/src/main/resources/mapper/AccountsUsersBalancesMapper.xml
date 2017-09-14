@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AccountsUsersBalancesDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AccountsUsersBalances">
+		<id column="BalanceID" property="balanceid" jdbcType="INTEGER" />
+		<id column="UserID" property="userid" jdbcType="CHAR" />
+		<result column="UserPayment" property="userpayment" jdbcType="DECIMAL" />
+		<result column="UserJiFen" property="userjifen" jdbcType="INTEGER" />
+		<result column="UserSignShareMoney" property="usersignsharemoney"
+			jdbcType="DECIMAL" />
+		<result column="UserBalance" property="userbalance" jdbcType="DECIMAL" />
+		<result column="UserFreeze" property="userfreeze" jdbcType="DECIMAL" />
+		<result column="UserCurrent" property="usercurrent" jdbcType="DECIMAL" />
+		<result column="UserOther" property="userother" jdbcType="DECIMAL" />
+		<result column="AgnetPayment" property="agnetpayment" jdbcType="DECIMAL" />
+		<result column="AgnetBalance" property="agnetbalance" jdbcType="DECIMAL" />
+		<result column="AgnetFreeze" property="agnetfreeze" jdbcType="DECIMAL" />
+		<result column="AgnetOther" property="agnetother" jdbcType="DECIMAL" />
+		<result column="SettlementType" property="settlementtype"
+			jdbcType="INTEGER" />
+		<result column="SettlementLife" property="settlementlife"
+			jdbcType="INTEGER" />
+		<result column="SettlementFeeType" property="settlementfeetype"
+			jdbcType="INTEGER" />
+		<result column="SettlementFee" property="settlementfee"
+			jdbcType="DECIMAL" />
+		<result column="SettlementTimes" property="settlementtimes"
+			jdbcType="INTEGER" />
+		<result column="SettlementMaxPrice" property="settlementmaxprice"
+			jdbcType="DECIMAL" />
+		<result column="ModifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		BalanceID, UserID, UserPayment, UserJiFen, UserSignShareMoney, UserBalance,
+		UserFreeze,
+		UserCurrent, UserOther, AgnetPayment, AgnetBalance, AgnetFreeze, AgnetOther,
+		SettlementType,
+		SettlementLife, SettlementFeeType, SettlementFee, SettlementTimes,
+		SettlementMaxPrice,
+		ModifyTime
+	</sql>
+	
+	<!-- 根据UserId查询用户余额信息 -->
+	<select id="selectByUserId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts_users_balances
+		where UserID = #{userid}
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from accounts_users_balances
+		where BalanceID = #{balanceid,jdbcType=INTEGER}
+		and UserID = #{userid,jdbcType=CHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="map">
+		delete from accounts_users_balances
+		where BalanceID = #{balanceid,jdbcType=INTEGER}
+		and UserID = #{userid,jdbcType=CHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.AccountsUsersBalances">
+		insert into accounts_users_balances (BalanceID, UserID, UserPayment,
+		UserJiFen, UserSignShareMoney, UserBalance,
+		UserFreeze, UserCurrent, UserOther,
+		AgnetPayment, AgnetBalance, AgnetFreeze,
+		AgnetOther, SettlementType, SettlementLife,
+		SettlementFeeType, SettlementFee, SettlementTimes,
+		SettlementMaxPrice, ModifyTime)
+		values (#{balanceid,jdbcType=INTEGER}, #{userid,jdbcType=CHAR},
+		#{userpayment,jdbcType=DECIMAL},
+		#{userjifen,jdbcType=INTEGER}, #{usersignsharemoney,jdbcType=DECIMAL},
+		#{userbalance,jdbcType=DECIMAL},
+		#{userfreeze,jdbcType=DECIMAL}, #{usercurrent,jdbcType=DECIMAL}, #{userother,jdbcType=DECIMAL},
+		#{agnetpayment,jdbcType=DECIMAL}, #{agnetbalance,jdbcType=DECIMAL},
+		#{agnetfreeze,jdbcType=DECIMAL},
+		#{agnetother,jdbcType=DECIMAL}, #{settlementtype,jdbcType=INTEGER},
+		#{settlementlife,jdbcType=INTEGER},
+		#{settlementfeetype,jdbcType=INTEGER},
+		#{settlementfee,jdbcType=DECIMAL},
+		#{settlementtimes,jdbcType=INTEGER},
+		#{settlementmaxprice,jdbcType=DECIMAL},
+		#{modifytime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AccountsUsersBalances">
+		insert into accounts_users_balances
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="balanceid != null">
+				BalanceID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="userpayment != null">
+				UserPayment,
+			</if>
+			<if test="userjifen != null">
+				UserJiFen,
+			</if>
+			<if test="usersignsharemoney != null">
+				UserSignShareMoney,
+			</if>
+			<if test="userbalance != null">
+				UserBalance,
+			</if>
+			<if test="userfreeze != null">
+				UserFreeze,
+			</if>
+			<if test="usercurrent != null">
+				UserCurrent,
+			</if>
+			<if test="userother != null">
+				UserOther,
+			</if>
+			<if test="agnetpayment != null">
+				AgnetPayment,
+			</if>
+			<if test="agnetbalance != null">
+				AgnetBalance,
+			</if>
+			<if test="agnetfreeze != null">
+				AgnetFreeze,
+			</if>
+			<if test="agnetother != null">
+				AgnetOther,
+			</if>
+			<if test="settlementtype != null">
+				SettlementType,
+			</if>
+			<if test="settlementlife != null">
+				SettlementLife,
+			</if>
+			<if test="settlementfeetype != null">
+				SettlementFeeType,
+			</if>
+			<if test="settlementfee != null">
+				SettlementFee,
+			</if>
+			<if test="settlementtimes != null">
+				SettlementTimes,
+			</if>
+			<if test="settlementmaxprice != null">
+				SettlementMaxPrice,
+			</if>
+			<if test="modifytime != null">
+				ModifyTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="balanceid != null">
+				#{balanceid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=CHAR},
+			</if>
+			<if test="userpayment != null">
+				#{userpayment,jdbcType=DECIMAL},
+			</if>
+			<if test="userjifen != null">
+				#{userjifen,jdbcType=INTEGER},
+			</if>
+			<if test="usersignsharemoney != null">
+				#{usersignsharemoney,jdbcType=DECIMAL},
+			</if>
+			<if test="userbalance != null">
+				#{userbalance,jdbcType=DECIMAL},
+			</if>
+			<if test="userfreeze != null">
+				#{userfreeze,jdbcType=DECIMAL},
+			</if>
+			<if test="usercurrent != null">
+				#{usercurrent,jdbcType=DECIMAL},
+			</if>
+			<if test="userother != null">
+				#{userother,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetpayment != null">
+				#{agnetpayment,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetbalance != null">
+				#{agnetbalance,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetfreeze != null">
+				#{agnetfreeze,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetother != null">
+				#{agnetother,jdbcType=DECIMAL},
+			</if>
+			<if test="settlementtype != null">
+				#{settlementtype,jdbcType=INTEGER},
+			</if>
+			<if test="settlementlife != null">
+				#{settlementlife,jdbcType=INTEGER},
+			</if>
+			<if test="settlementfeetype != null">
+				#{settlementfeetype,jdbcType=INTEGER},
+			</if>
+			<if test="settlementfee != null">
+				#{settlementfee,jdbcType=DECIMAL},
+			</if>
+			<if test="settlementtimes != null">
+				#{settlementtimes,jdbcType=INTEGER},
+			</if>
+			<if test="settlementmaxprice != null">
+				#{settlementmaxprice,jdbcType=DECIMAL},
+			</if>
+			<if test="modifytime != null">
+				#{modifytime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AccountsUsersBalances">
+		update accounts_users_balances
+		<set>
+			<if test="userpayment != null">
+				UserPayment = #{userpayment,jdbcType=DECIMAL},
+			</if>
+			<if test="userjifen != null">
+				UserJiFen = #{userjifen,jdbcType=INTEGER},
+			</if>
+			<if test="usersignsharemoney != null">
+				UserSignShareMoney = #{usersignsharemoney,jdbcType=DECIMAL},
+			</if>
+			<if test="userbalance != null">
+				UserBalance = #{userbalance,jdbcType=DECIMAL},
+			</if>
+			<if test="userfreeze != null">
+				UserFreeze = #{userfreeze,jdbcType=DECIMAL},
+			</if>
+			<if test="usercurrent != null">
+				UserCurrent = #{usercurrent,jdbcType=DECIMAL},
+			</if>
+			<if test="userother != null">
+				UserOther = #{userother,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetpayment != null">
+				AgnetPayment = #{agnetpayment,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetbalance != null">
+				AgnetBalance = #{agnetbalance,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetfreeze != null">
+				AgnetFreeze = #{agnetfreeze,jdbcType=DECIMAL},
+			</if>
+			<if test="agnetother != null">
+				AgnetOther = #{agnetother,jdbcType=DECIMAL},
+			</if>
+			<if test="settlementtype != null">
+				SettlementType = #{settlementtype,jdbcType=INTEGER},
+			</if>
+			<if test="settlementlife != null">
+				SettlementLife = #{settlementlife,jdbcType=INTEGER},
+			</if>
+			<if test="settlementfeetype != null">
+				SettlementFeeType = #{settlementfeetype,jdbcType=INTEGER},
+			</if>
+			<if test="settlementfee != null">
+				SettlementFee = #{settlementfee,jdbcType=DECIMAL},
+			</if>
+			<if test="settlementtimes != null">
+				SettlementTimes = #{settlementtimes,jdbcType=INTEGER},
+			</if>
+			<if test="settlementmaxprice != null">
+				SettlementMaxPrice = #{settlementmaxprice,jdbcType=DECIMAL},
+			</if>
+			<if test="modifytime != null">
+				ModifyTime = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where BalanceID = #{balanceid,jdbcType=INTEGER}
+		and UserID = #{userid,jdbcType=CHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AccountsUsersBalances">
+		update accounts_users_balances
+		set UserPayment = #{userpayment,jdbcType=DECIMAL},
+		UserJiFen = #{userjifen,jdbcType=INTEGER},
+		UserSignShareMoney = #{usersignsharemoney,jdbcType=DECIMAL},
+		UserBalance = #{userbalance,jdbcType=DECIMAL},
+		UserFreeze = #{userfreeze,jdbcType=DECIMAL},
+		UserCurrent = #{usercurrent,jdbcType=DECIMAL},
+		UserOther = #{userother,jdbcType=DECIMAL},
+		AgnetPayment = #{agnetpayment,jdbcType=DECIMAL},
+		AgnetBalance = #{agnetbalance,jdbcType=DECIMAL},
+		AgnetFreeze = #{agnetfreeze,jdbcType=DECIMAL},
+		AgnetOther = #{agnetother,jdbcType=DECIMAL},
+		SettlementType = #{settlementtype,jdbcType=INTEGER},
+		SettlementLife = #{settlementlife,jdbcType=INTEGER},
+		SettlementFeeType = #{settlementfeetype,jdbcType=INTEGER},
+		SettlementFee = #{settlementfee,jdbcType=DECIMAL},
+		SettlementTimes = #{settlementtimes,jdbcType=INTEGER},
+		SettlementMaxPrice = #{settlementmaxprice,jdbcType=DECIMAL},
+		ModifyTime = #{modifytime,jdbcType=TIMESTAMP}
+		where BalanceID = #{balanceid,jdbcType=INTEGER}
+		and UserID = #{userid,jdbcType=CHAR}
+	</update>
+</mapper>

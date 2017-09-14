@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="yhb-admin" />
+        <module name="yhb-common" />
+        <module name="yhb-company-api" />
+        <module name="yhb-company-service" />
+        <module name="yhb-dao" />
+        <module name="yhb-gift-api" />
+        <module name="yhb-gift-service" />
+        <module name="yhb-media-api" />
+        <module name="yhb-media-service" />
+        <module name="yhb-message-api" />
+        <module name="yhb-message-service" />
+        <module name="yhb-product-api" />
+        <module name="yhb-product-service" />
+        <module name="yhb-statistics" />
+        <module name="yhb-task" />
+        <module name="yhb-user-api" />
+        <module name="yhb-user-service" />
+        <module name="yhb-web-api" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lrcf" target="1.8" />
+      <module name="yhb-admin" target="1.8" />
+      <module name="yhb-common" target="1.8" />
+      <module name="yhb-company-api" target="1.8" />
+      <module name="yhb-company-service" target="1.8" />
+      <module name="yhb-dao" target="1.8" />
+      <module name="yhb-gift-api" target="1.8" />
+      <module name="yhb-gift-service" target="1.8" />
+      <module name="yhb-media-api" target="1.8" />
+      <module name="yhb-media-service" target="1.8" />
+      <module name="yhb-message-api" target="1.8" />
+      <module name="yhb-message-service" target="1.8" />
+      <module name="yhb-product-api" target="1.8" />
+      <module name="yhb-product-service" target="1.8" />
+      <module name="yhb-statistics" target="1.8" />
+      <module name="yhb-task" target="1.8" />
+      <module name="yhb-user-api" target="1.8" />
+      <module name="yhb-user-service" target="1.8" />
+      <module name="yhb-web-api" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

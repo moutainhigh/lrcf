@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.RegionInfoDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.RegionInfoEntity" >
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="country_id" property="country_id" jdbcType="DOUBLE" />
+    <result column="country_level" property="country_level" jdbcType="INTEGER" />
+    <result column="country_state" property="country_state" jdbcType="INTEGER" />
+    
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="province_id" property="province_id" jdbcType="DOUBLE" />
+    <result column="province_level" property="province_level" jdbcType="INTEGER" />
+    <result column="province_state" property="province_state" jdbcType="INTEGER" />
+    
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="city_id" property="city_id" jdbcType="DOUBLE" />
+    <result column="city_level" property="city_level" jdbcType="INTEGER" />
+    <result column="city_state" property="city_state" jdbcType="INTEGER" />
+    
+    <result column="county" property="county" jdbcType="VARCHAR" />
+    <result column="county_id" property="county_id" jdbcType="DOUBLE" />
+    <result column="county_level" property="county_level" jdbcType="INTEGER" />
+    <result column="county_state" property="county_state" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    country,country_id,country_level,country_state,
+    province,province_id,province_level,province_state,
+    city,city_id,city_level,city_state,
+    county,county_id,county_level,county_state
+  </sql>
+  
+  <select id="selectRegionInfo" resultMap="BaseResultMap">
+	  SELECT
+		t.REGION_NAME as country,
+		t.REGION_ID as country_id,
+		t.`Level` as country_level,
+		t.state as country_state,
+		bbbb.province as province,
+		bbbb.province_id as province_id,
+		bbbb.province_level as province_level,
+		bbbb.province_state as province_state,
+		bbbb.city as city,
+		bbbb.city_id as city_id,
+		bbbb.city_level as city_level,
+		bbbb.city_state as city_state,
+		bbbb.county as county,
+		bbbb.county_id as county_id,
+		bbbb.county_level as county_level,
+		bbbb.county_state as county_state
+	
+	FROM region t,
+		(
+			SELECT
+				b1.PARENT_ID as parent3,
+				b1.REGION_NAME as province,
+				bbb.reg_name2 as city,
+				bbb.reg_name3 as county,
+				bbb.city_id as city_id,
+				bbb.county_id as county_id,
+				b1.REGION_ID as province_id,
+				bbb.county_level as county_level,
+				bbb.city_level as city_level,
+				b1.`Level` as province_level,
+				bbb.county_state as county_state,
+				bbb.city_state as city_state,
+				b1.state as province_state
+			FROM
+				region b1,
+				(
+					SELECT
+						a.PARENT_ID as parent2,
+						a.`Level` as lev,
+						a.REGION_NAME as reg_name2,
+						bb.reg_name as reg_name3,
+						a.region_id as city_id,
+						bb.county_id as county_id,
+						bb.county_level as county_level,
+						a.`Level` as city_level,
+						bb.county_state as county_state,
+						a.state as city_state
+					FROM
+						region a,
+						(
+							SELECT
+								b.PARENT_ID AS parent1,
+								b. LEVEL AS lev,
+								b.REGION_NAME AS reg_name,
+								b.region_id as county_id,
+								b.`Level` as county_level,
+								b.state as county_state
+							FROM
+								region b
+							WHERE
+								b. LEVEL = 3
+						) bb
+					WHERE	
+						a.REGION_ID = bb.parent1
+				)bbb
+			WHERE
+				b1.REGION_ID = bbb.parent2
+		)bbbb
+	WHERE
+		t.REGION_ID = bbbb.parent3
+  </select>
+  
+  <select id="selectProAndCityForUserId" resultMap="BaseResultMap">
+  	SELECT
+		t.REGION_NAME as province,
+		t.REGION_ID as province_id,
+		bb.city_name as city,
+		bb.city_id as city_id
+	FROM
+		region t,
+		(
+			SELECT 
+				b.province_name as province_name,
+				t.REGION_NAME as city_name,
+				t.REGION_ID as city_id,
+				t.PARENT_ID as parent_id
+			FROM 
+				region t,
+				(SELECT a.Province as province_name,a.City as city_name FROM base_bankcard a WHERE a.UserID = #{userId}) b
+			WHERE 
+				t.REGION_NAME = b.city_name
+		)bb
+	WHERE
+		t.REGION_ID = bb.parent_id;
+  </select>
+  
+</mapper>

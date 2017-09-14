@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.ProfitTableDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.ProfitTable">
+		<id column="Id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userid" jdbcType="VARCHAR" />
+		<result column="productTotal" property="producttotal" jdbcType="DECIMAL" />
+		<result column="experienceTotal" property="experiencetotal"
+			jdbcType="DECIMAL" />
+		<result column="raiseTotal" property="raisetotal" jdbcType="DECIMAL" />
+		<result column="hbTotal" property="hbtotal" jdbcType="DECIMAL" />
+		<result column="sharingTotal" property="sharingtotal" jdbcType="DECIMAL" />
+		<result column="profitTotal" property="profittotal" jdbcType="DECIMAL" />
+		<result column="today_productTotal" property="todayProducttotal"
+			jdbcType="DECIMAL" />
+		<result column="today_experienceTotal" property="todayExperiencetotal"
+			jdbcType="DECIMAL" />
+		<result column="today_raiseTotal" property="todayRaisetotal"
+			jdbcType="DECIMAL" />
+		<result column="today_hbTotal" property="todayHbtotal"
+			jdbcType="DECIMAL" />
+		<result column="today_sharingTotal" property="todaySharingtotal"
+			jdbcType="DECIMAL" />
+		<result column="totay_profitTotal" property="totayProfittotal"
+			jdbcType="DECIMAL" />
+		<result column="lastupdateTime" property="lastupdatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="share_awardsTotal" property="shareAwardstotal"
+			jdbcType="DECIMAL" />
+		<result column="today_share_awardsTotal" property="todayShareAwardstotal"
+			jdbcType="DECIMAL" />
+		<result column="redTotal" property="redtotal" jdbcType="DECIMAL" />
+		<result column="today_redTotal" property="todayRedtotal"
+			jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		Id, userId, productTotal, experienceTotal, raiseTotal,
+		hbTotal,
+		sharingTotal, profitTotal,
+		today_productTotal,
+		today_experienceTotal, today_raiseTotal, today_hbTotal,
+		today_sharingTotal,
+		totay_profitTotal, lastupdateTime,
+		share_awardsTotal, today_share_awardsTotal, redTotal,
+		today_redTotal
+	</sql>
+
+
+	<select id="selectByuserId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from profit_table
+		where userId = #{userId}
+	</select>
+
+	<select id="selectUserIncome" resultType="map">
+		SELECT
+		(today_productTotal + today_experienceTotal + today_raiseTotal + today_hbTotal + today_sharingTotal + totay_profitTotal) as yesterday,
+		(productTotal + experienceTotal + raiseTotal + hbTotal + sharingTotal + profitTotal) as accumulate
+		from profit_table  WHERE  userId = #{userId}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from profit_table
+		where Id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		profit_table
+		where Id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.ProfitTable">
+		insert into profit_table (Id,
+		userId, productTotal,
+		experienceTotal, raiseTotal, hbTotal,
+		sharingTotal, profitTotal, today_productTotal,
+		today_experienceTotal,
+		today_raiseTotal,
+		today_hbTotal, today_sharingTotal, totay_profitTotal,
+		lastupdateTime, share_awardsTotal, today_share_awardsTotal,
+		redTotal,
+		today_redTotal)
+		values (#{id,jdbcType=INTEGER},
+		#{userid,jdbcType=VARCHAR},
+		#{producttotal,jdbcType=DECIMAL},
+		#{experiencetotal,jdbcType=DECIMAL}, #{raisetotal,jdbcType=DECIMAL},
+		#{hbtotal,jdbcType=DECIMAL},
+		#{sharingtotal,jdbcType=DECIMAL},
+		#{profittotal,jdbcType=DECIMAL},
+		#{todayProducttotal,jdbcType=DECIMAL},
+		#{todayExperiencetotal,jdbcType=DECIMAL},
+		#{todayRaisetotal,jdbcType=DECIMAL},
+		#{todayHbtotal,jdbcType=DECIMAL},
+		#{todaySharingtotal,jdbcType=DECIMAL},
+		#{totayProfittotal,jdbcType=DECIMAL},
+		#{lastupdatetime,jdbcType=TIMESTAMP},
+		#{shareAwardstotal,jdbcType=DECIMAL},
+		#{todayShareAwardstotal,jdbcType=DECIMAL},
+		#{redtotal,jdbcType=DECIMAL}, #{todayRedtotal,jdbcType=DECIMAL})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.ProfitTable">
+		insert into profit_table
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				Id,
+			</if>
+			<if test="userid != null">
+				userId,
+			</if>
+			<if test="producttotal != null">
+				productTotal,
+			</if>
+			<if test="experiencetotal != null">
+				experienceTotal,
+			</if>
+			<if test="raisetotal != null">
+				raiseTotal,
+			</if>
+			<if test="hbtotal != null">
+				hbTotal,
+			</if>
+			<if test="sharingtotal != null">
+				sharingTotal,
+			</if>
+			<if test="profittotal != null">
+				profitTotal,
+			</if>
+			<if test="todayProducttotal != null">
+				today_productTotal,
+			</if>
+			<if test="todayExperiencetotal != null">
+				today_experienceTotal,
+			</if>
+			<if test="todayRaisetotal != null">
+				today_raiseTotal,
+			</if>
+			<if test="todayHbtotal != null">
+				today_hbTotal,
+			</if>
+			<if test="todaySharingtotal != null">
+				today_sharingTotal,
+			</if>
+			<if test="totayProfittotal != null">
+				totay_profitTotal,
+			</if>
+			<if test="lastupdatetime != null">
+				lastupdateTime,
+			</if>
+			<if test="shareAwardstotal != null">
+				share_awardsTotal,
+			</if>
+			<if test="todayShareAwardstotal != null">
+				today_share_awardsTotal,
+			</if>
+			<if test="redtotal != null">
+				redTotal,
+			</if>
+			<if test="todayRedtotal != null">
+				today_redTotal,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="producttotal != null">
+				#{producttotal,jdbcType=DECIMAL},
+			</if>
+			<if test="experiencetotal != null">
+				#{experiencetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="raisetotal != null">
+				#{raisetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="hbtotal != null">
+				#{hbtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="sharingtotal != null">
+				#{sharingtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="profittotal != null">
+				#{profittotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayProducttotal != null">
+				#{todayProducttotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayExperiencetotal != null">
+				#{todayExperiencetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayRaisetotal != null">
+				#{todayRaisetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayHbtotal != null">
+				#{todayHbtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todaySharingtotal != null">
+				#{todaySharingtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="totayProfittotal != null">
+				#{totayProfittotal,jdbcType=DECIMAL},
+			</if>
+			<if test="lastupdatetime != null">
+				#{lastupdatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shareAwardstotal != null">
+				#{shareAwardstotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayShareAwardstotal != null">
+				#{todayShareAwardstotal,jdbcType=DECIMAL},
+			</if>
+			<if test="redtotal != null">
+				#{redtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayRedtotal != null">
+				#{todayRedtotal,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.ProfitTable">
+		update profit_table
+		<set>
+			<if test="userid != null">
+				userId = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="producttotal != null">
+				productTotal = #{producttotal,jdbcType=DECIMAL},
+			</if>
+			<if test="experiencetotal != null">
+				experienceTotal = #{experiencetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="raisetotal != null">
+				raiseTotal = #{raisetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="hbtotal != null">
+				hbTotal = #{hbtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="sharingtotal != null">
+				sharingTotal = #{sharingtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="profittotal != null">
+				profitTotal = #{profittotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayProducttotal != null">
+				today_productTotal =
+				#{todayProducttotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayExperiencetotal != null">
+				today_experienceTotal =
+				#{todayExperiencetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayRaisetotal != null">
+				today_raiseTotal = #{todayRaisetotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayHbtotal != null">
+				today_hbTotal = #{todayHbtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todaySharingtotal != null">
+				today_sharingTotal =
+				#{todaySharingtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="totayProfittotal != null">
+				totay_profitTotal = #{totayProfittotal,jdbcType=DECIMAL},
+			</if>
+			<if test="lastupdatetime != null">
+				lastupdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shareAwardstotal != null">
+				share_awardsTotal = #{shareAwardstotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayShareAwardstotal != null">
+				today_share_awardsTotal =
+				#{todayShareAwardstotal,jdbcType=DECIMAL},
+			</if>
+			<if test="redtotal != null">
+				redTotal = #{redtotal,jdbcType=DECIMAL},
+			</if>
+			<if test="todayRedtotal != null">
+				today_redTotal = #{todayRedtotal,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where Id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.ProfitTable">
+		update
+		profit_table
+		set userId = #{userid,jdbcType=VARCHAR},
+		productTotal =
+		#{producttotal,jdbcType=DECIMAL},
+		experienceTotal =
+		#{experiencetotal,jdbcType=DECIMAL},
+		raiseTotal =
+		#{raisetotal,jdbcType=DECIMAL},
+		hbTotal = #{hbtotal,jdbcType=DECIMAL},
+		sharingTotal = #{sharingtotal,jdbcType=DECIMAL},
+		profitTotal =
+		#{profittotal,jdbcType=DECIMAL},
+		today_productTotal =
+		#{todayProducttotal,jdbcType=DECIMAL},
+		today_experienceTotal =
+		#{todayExperiencetotal,jdbcType=DECIMAL},
+		today_raiseTotal =
+		#{todayRaisetotal,jdbcType=DECIMAL},
+		today_hbTotal =
+		#{todayHbtotal,jdbcType=DECIMAL},
+		today_sharingTotal =
+		#{todaySharingtotal,jdbcType=DECIMAL},
+		totay_profitTotal =
+		#{totayProfittotal,jdbcType=DECIMAL},
+		lastupdateTime =
+		#{lastupdatetime,jdbcType=TIMESTAMP},
+		share_awardsTotal =
+		#{shareAwardstotal,jdbcType=DECIMAL},
+		today_share_awardsTotal =
+		#{todayShareAwardstotal,jdbcType=DECIMAL},
+		redTotal =
+		#{redtotal,jdbcType=DECIMAL},
+		today_redTotal =
+		#{todayRedtotal,jdbcType=DECIMAL}
+		where Id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

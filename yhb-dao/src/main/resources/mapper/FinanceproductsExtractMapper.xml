@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.FinanceproductsExtractDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.FinanceproductsExtract" >
+    <id column="FPEID" property="fpeid" jdbcType="INTEGER" />
+    <result column="ExtractMoney" property="extractmoney" jdbcType="DECIMAL" />
+    <result column="ExtractXMoney" property="extractxmoney" jdbcType="DECIMAL" />
+    <result column="FProductsBuyMoney" property="fproductsbuymoney" jdbcType="DECIMAL" />
+    <result column="ExtractState" property="extractstate" jdbcType="INTEGER" />
+    <result column="ExtractTimes" property="extracttimes" jdbcType="TIMESTAMP" />
+    <result column="FPUID" property="fpuid" jdbcType="INTEGER" />
+    <result column="FProductsName" property="fproductsname" jdbcType="VARCHAR" />
+    <result column="UserID" property="userid" jdbcType="CHAR" />
+    <result column="FProductsExtractNum" property="fproductsextractnum" jdbcType="INTEGER" />
+    <result column="ExtractEm_k1" property="extractemK1" jdbcType="VARCHAR" />
+    <result column="ExtractEm_k2" property="extractemK2" jdbcType="VARCHAR" />
+    <result column="ExtractDownNum" property="extractdownnum" jdbcType="INTEGER" />
+    <result column="FPid" property="fpid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FPEID, ExtractMoney, ExtractXMoney, FProductsBuyMoney, ExtractState, ExtractTimes,
+    FPUID, FProductsName, UserID, FProductsExtractNum, ExtractEm_k1, ExtractEm_k2, ExtractDownNum, 
+    FPid
+  </sql>
+
+  <!--<resultMap id="outList" type="com.lrcf.yhb.common.vo.UserOutProductList">-->
+    <!--<result column="state" property="state" />-->
+    <!--<result column="name" property="name" />-->
+    <!--<result column="time" property="time"/>-->
+    <!--<result column="outMoney" property="outMoney" />-->
+    <!--<result column="getMoney" property="getMoney" />-->
+    <!--<result column="breachMoney" property="breachMoney"/>-->
+    <!--<result column="profit" property="profit"/>-->
+  <!--</resultMap>-->
+
+  <!--获取转出的记录数据数-->
+  <select id="getOutProductCount" resultType="int" parameterType="Map">
+     select count(fpeId) from financeproducts_extract
+     where
+      userId = #{userId}
+    <if test="startTime!=null and startTime!=''">
+      and DATE_FORMAT(ExtractTimes,'%Y-%m-%d') <![CDATA[>=]]>
+      #{startTime}
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and DATE_FORMAT(ExtractTimes,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+    </if>
+  </select>
+  <!--获取转出的记录的列表-->
+  <select id="getOutProductList" resultMap="BaseResultMap" parameterType="Map">
+      SELECT
+      a.FProductsName as name,
+      a.ExtractTimes as time,
+      a.ExtractMoney as outMoney,
+      a.ExtractMoney-ifnull(b.poundage_money,0) as getMoney,
+      b.poundage_money as breachMoney,
+      b.breakrate as profit,
+      case
+         when a.ExtractState="1" then "0"
+         when a.ExtractState="2" then "2"
+         when a.ExtractState="3" then "1"
+      end "state"
+      FROM
+          financeproducts_extract a
+        left JOIN poundage b
+        on a.FPUID = b.fpuid
+      WHERE
+        userId = #{userId}
+        <if test="startTime!=null and startTime!=''">
+          and DATE_FORMAT(ExtractTimes,'%Y-%m-%d') <![CDATA[>=]]>
+          #{startTime}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+          and DATE_FORMAT(ExtractTimes,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+        </if>
+        order by ExtractTimes desc limit #{current} ,#{size}
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from financeproducts_extract
+    where FPEID = #{fpeid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from financeproducts_extract
+    where FPEID = #{fpeid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.FinanceproductsExtract" >
+    insert into financeproducts_extract (FPEID, ExtractMoney, ExtractXMoney, 
+      FProductsBuyMoney, ExtractState, ExtractTimes, 
+      FPUID, FProductsName, UserID, 
+      FProductsExtractNum, ExtractEm_k1, ExtractEm_k2, 
+      ExtractDownNum, FPid)
+    values (#{fpeid,jdbcType=INTEGER}, #{extractmoney,jdbcType=DECIMAL}, #{extractxmoney,jdbcType=DECIMAL}, 
+      #{fproductsbuymoney,jdbcType=DECIMAL}, #{extractstate,jdbcType=INTEGER}, #{extracttimes,jdbcType=TIMESTAMP}, 
+      #{fpuid,jdbcType=INTEGER}, #{fproductsname,jdbcType=VARCHAR}, #{userid,jdbcType=CHAR}, 
+      #{fproductsextractnum,jdbcType=INTEGER}, #{extractemK1,jdbcType=VARCHAR}, #{extractemK2,jdbcType=VARCHAR}, 
+      #{extractdownnum,jdbcType=INTEGER}, #{fpid,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.FinanceproductsExtract" >
+    insert into financeproducts_extract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fpeid != null" >
+        FPEID,
+      </if>
+      <if test="extractmoney != null" >
+        ExtractMoney,
+      </if>
+      <if test="extractxmoney != null" >
+        ExtractXMoney,
+      </if>
+      <if test="fproductsbuymoney != null" >
+        FProductsBuyMoney,
+      </if>
+      <if test="extractstate != null" >
+        ExtractState,
+      </if>
+      <if test="extracttimes != null" >
+        ExtractTimes,
+      </if>
+      <if test="fpuid != null" >
+        FPUID,
+      </if>
+      <if test="fproductsname != null" >
+        FProductsName,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="fproductsextractnum != null" >
+        FProductsExtractNum,
+      </if>
+      <if test="extractemK1 != null" >
+        ExtractEm_k1,
+      </if>
+      <if test="extractemK2 != null" >
+        ExtractEm_k2,
+      </if>
+      <if test="extractdownnum != null" >
+        ExtractDownNum,
+      </if>
+      <if test="fpid != null" >
+        FPid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fpeid != null" >
+        #{fpeid,jdbcType=INTEGER},
+      </if>
+      <if test="extractmoney != null" >
+        #{extractmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="extractxmoney != null" >
+        #{extractxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="fproductsbuymoney != null" >
+        #{fproductsbuymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="extractstate != null" >
+        #{extractstate,jdbcType=INTEGER},
+      </if>
+      <if test="extracttimes != null" >
+        #{extracttimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fpuid != null" >
+        #{fpuid,jdbcType=INTEGER},
+      </if>
+      <if test="fproductsname != null" >
+        #{fproductsname,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="fproductsextractnum != null" >
+        #{fproductsextractnum,jdbcType=INTEGER},
+      </if>
+      <if test="extractemK1 != null" >
+        #{extractemK1,jdbcType=VARCHAR},
+      </if>
+      <if test="extractemK2 != null" >
+        #{extractemK2,jdbcType=VARCHAR},
+      </if>
+      <if test="extractdownnum != null" >
+        #{extractdownnum,jdbcType=INTEGER},
+      </if>
+      <if test="fpid != null" >
+        #{fpid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.FinanceproductsExtract" >
+    update financeproducts_extract
+    <set >
+      <if test="extractmoney != null" >
+        ExtractMoney = #{extractmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="extractxmoney != null" >
+        ExtractXMoney = #{extractxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="fproductsbuymoney != null" >
+        FProductsBuyMoney = #{fproductsbuymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="extractstate != null" >
+        ExtractState = #{extractstate,jdbcType=INTEGER},
+      </if>
+      <if test="extracttimes != null" >
+        ExtractTimes = #{extracttimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fpuid != null" >
+        FPUID = #{fpuid,jdbcType=INTEGER},
+      </if>
+      <if test="fproductsname != null" >
+        FProductsName = #{fproductsname,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="fproductsextractnum != null" >
+        FProductsExtractNum = #{fproductsextractnum,jdbcType=INTEGER},
+      </if>
+      <if test="extractemK1 != null" >
+        ExtractEm_k1 = #{extractemK1,jdbcType=VARCHAR},
+      </if>
+      <if test="extractemK2 != null" >
+        ExtractEm_k2 = #{extractemK2,jdbcType=VARCHAR},
+      </if>
+      <if test="extractdownnum != null" >
+        ExtractDownNum = #{extractdownnum,jdbcType=INTEGER},
+      </if>
+      <if test="fpid != null" >
+        FPid = #{fpid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where FPEID = #{fpeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.FinanceproductsExtract" >
+    update financeproducts_extract
+    set ExtractMoney = #{extractmoney,jdbcType=DECIMAL},
+      ExtractXMoney = #{extractxmoney,jdbcType=DECIMAL},
+      FProductsBuyMoney = #{fproductsbuymoney,jdbcType=DECIMAL},
+      ExtractState = #{extractstate,jdbcType=INTEGER},
+      ExtractTimes = #{extracttimes,jdbcType=TIMESTAMP},
+      FPUID = #{fpuid,jdbcType=INTEGER},
+      FProductsName = #{fproductsname,jdbcType=VARCHAR},
+      UserID = #{userid,jdbcType=CHAR},
+      FProductsExtractNum = #{fproductsextractnum,jdbcType=INTEGER},
+      ExtractEm_k1 = #{extractemK1,jdbcType=VARCHAR},
+      ExtractEm_k2 = #{extractemK2,jdbcType=VARCHAR},
+      ExtractDownNum = #{extractdownnum,jdbcType=INTEGER},
+      FPid = #{fpid,jdbcType=INTEGER}
+    where FPEID = #{fpeid,jdbcType=INTEGER}
+  </update>
+</mapper>

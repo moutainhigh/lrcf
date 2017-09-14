@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.RedBuyProDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.RedBuyPro" >
+    <id column="redBuyId" property="redbuyid" jdbcType="INTEGER" />
+    <result column="redName" property="redname" jdbcType="VARCHAR" />
+    <result column="proFpuid" property="profpuid" jdbcType="INTEGER" />
+    <result column="redUseTime" property="redusetime" jdbcType="TIMESTAMP" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="redSendId" property="redsendid" jdbcType="INTEGER" />
+    <result column="redMoney" property="redmoney" jdbcType="DECIMAL" />
+    <result column="Res1" property="res1" jdbcType="VARCHAR" />
+    <result column="Res2" property="res2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    redBuyId, redName, proFpuid, redUseTime, userId, redSendId, redMoney, Res1, Res2
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from redbuypro
+    where redBuyId = #{redbuyid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from redbuypro
+    where redBuyId = #{redbuyid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.RedBuyPro" >
+    insert into redbuypro (redBuyId, redName, proFpuid, 
+      redUseTime, userId, redSendId, 
+      redMoney, Res1, Res2
+      )
+    values (#{redbuyid,jdbcType=INTEGER}, #{redname,jdbcType=VARCHAR}, #{profpuid,jdbcType=INTEGER}, 
+      #{redusetime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, #{redsendid,jdbcType=INTEGER}, 
+      #{redmoney,jdbcType=DECIMAL}, #{res1,jdbcType=VARCHAR}, #{res2,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.RedBuyPro" >
+    insert into redbuypro
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="redbuyid != null" >
+        redBuyId,
+      </if>
+      <if test="redname != null" >
+        redName,
+      </if>
+      <if test="profpuid != null" >
+        proFpuid,
+      </if>
+      <if test="redusetime != null" >
+        redUseTime,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="redsendid != null" >
+        redSendId,
+      </if>
+      <if test="redmoney != null" >
+        redMoney,
+      </if>
+      <if test="res1 != null" >
+        Res1,
+      </if>
+      <if test="res2 != null" >
+        Res2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="redbuyid != null" >
+        #{redbuyid,jdbcType=INTEGER},
+      </if>
+      <if test="redname != null" >
+        #{redname,jdbcType=VARCHAR},
+      </if>
+      <if test="profpuid != null" >
+        #{profpuid,jdbcType=INTEGER},
+      </if>
+      <if test="redusetime != null" >
+        #{redusetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="redsendid != null" >
+        #{redsendid,jdbcType=INTEGER},
+      </if>
+      <if test="redmoney != null" >
+        #{redmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="res1 != null" >
+        #{res1,jdbcType=VARCHAR},
+      </if>
+      <if test="res2 != null" >
+        #{res2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.RedBuyPro" >
+    update redbuypro
+    <set >
+      <if test="redname != null" >
+        redName = #{redname,jdbcType=VARCHAR},
+      </if>
+      <if test="profpuid != null" >
+        proFpuid = #{profpuid,jdbcType=INTEGER},
+      </if>
+      <if test="redusetime != null" >
+        redUseTime = #{redusetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="redsendid != null" >
+        redSendId = #{redsendid,jdbcType=INTEGER},
+      </if>
+      <if test="redmoney != null" >
+        redMoney = #{redmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="res1 != null" >
+        Res1 = #{res1,jdbcType=VARCHAR},
+      </if>
+      <if test="res2 != null" >
+        Res2 = #{res2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where redBuyId = #{redbuyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.RedBuyPro" >
+    update redbuypro
+    set redName = #{redname,jdbcType=VARCHAR},
+      proFpuid = #{profpuid,jdbcType=INTEGER},
+      redUseTime = #{redusetime,jdbcType=TIMESTAMP},
+      userId = #{userid,jdbcType=VARCHAR},
+      redSendId = #{redsendid,jdbcType=INTEGER},
+      redMoney = #{redmoney,jdbcType=DECIMAL},
+      Res1 = #{res1,jdbcType=VARCHAR},
+      Res2 = #{res2,jdbcType=VARCHAR}
+    where redBuyId = #{redbuyid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,56 @@
+package com.lrcf.yhb.web;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+/**
+ * Spring boot启动类
+ * Created by Krx on 2017/6/13.
+ */
+@SpringBootApplication
+@ComponentScan(basePackages = {"com.lrcf.yhb.user.api","com.lrcf.yhb.tps.api","com.lrcf.yhb.product.api",
+                  "com.lrcf.yhb.web.controller"})
+@ImportResource({"classpath:dubbo-web.xml"})
+public class YHBWebApiApplication{
+    public static void main(String[] args) {
+
+        SpringApplication.run(YHBWebApiApplication.class, args);
+    }
+
+
+  /*  private CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+<<<<<<< .mine
+//        corsConfiguration.addAllowedOrigin("http://192.168.1.149:10003");
+        corsConfiguration.addAllowedOrigin("http://localhost:8081");
+||||||| .r433
+        corsConfiguration.addAllowedOrigin("http://localhost:8081");
+=======
+        corsConfiguration.addAllowedOrigin("*");
+>>>>>>> .r444
+        corsConfiguration.addAllowedHeader("content-type");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setMaxAge(Long.parseLong("3600"));
+        corsConfiguration.setAllowCredentials(true);
+        return corsConfiguration;
+    }
+
+    *//**
+     * 跨域过滤器
+     * @return
+     *//*
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("*//**", buildConfig()); // 4
+        return new CorsFilter(source);
+    }*/
+}

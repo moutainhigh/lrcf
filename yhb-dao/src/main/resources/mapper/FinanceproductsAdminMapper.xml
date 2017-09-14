@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.FinanceproductsAdminDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.FinanceproductsAdmin">
+		<id column="FPid" property="fpid" jdbcType="INTEGER" />
+		<result column="FProductsName" property="fproductsname"
+			jdbcType="VARCHAR" />
+		<result column="FProductsRates" property="fproductsrates"
+			jdbcType="DECIMAL" />
+		<result column="FProductsMaxMoney" property="fproductsmaxmoney"
+			jdbcType="DECIMAL" />
+		<result column="FProductsMaxWithdraw" property="fproductsmaxwithdraw"
+			jdbcType="DECIMAL" />
+		<result column="FProductsMaxDate" property="fproductsmaxdate"
+			jdbcType="INTEGER" />
+		<result column="FProductsTimes" property="fproductstimes"
+			jdbcType="TIMESTAMP" />
+		<result column="FProductsState" property="fproductsstate"
+			jdbcType="INTEGER" />
+		<result column="FProductsAdminMoney" property="fproductsadminmoney"
+			jdbcType="DECIMAL" />
+		<result column="FProductsSort" property="fproductssort"
+			jdbcType="INTEGER" />
+		<result column="FProductsIsDelete" property="fproductsisdelete"
+			jdbcType="INTEGER" />
+		<result column="FProductsDownTime" property="fproductsdowntime"
+			jdbcType="TIMESTAMP" />
+		<result column="FProductsGrantTime" property="fproductsgranttime"
+			jdbcType="TIMESTAMP" />
+		<result column="FProductsUsersMoney" property="fproductsusersmoney"
+			jdbcType="DECIMAL" />
+		<result column="MemberRates" property="memberrates" jdbcType="DECIMAL" />
+		<result column="rollOutWarings" property="rolloutwarings"
+			jdbcType="VARCHAR" />
+		<result column="protocal" property="protocal" jdbcType="VARCHAR" />
+		<result column="debtor" property="debtor" jdbcType="VARCHAR" />
+		<result column="usageFor" property="usagefor" jdbcType="VARCHAR" />
+		<result column="changeState" property="changestate" jdbcType="INTEGER" />
+		<result column="AllseeState" property="allseestate" jdbcType="INTEGER" />
+		<result column="companySeal" property="companyseal" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.FinanceproductsAdmin"
+		extends="BaseResultMap">
+		<result column="FProductsImgs" property="fproductsimgs"
+			jdbcType="LONGVARCHAR" />
+		<result column="FProductsBzDes" property="fproductsbzdes"
+			jdbcType="LONGVARCHAR" />
+		<result column="FProductsHkDes" property="fproductshkdes"
+			jdbcType="LONGVARCHAR" />
+		<result column="FProductsDes" property="fproductsdes" jdbcType="LONGVARCHAR" />
+		<result column="FProducts_Ek1" property="fproductsEk1"
+			jdbcType="LONGVARCHAR" />
+		<result column="FProducts_Ek2" property="fproductsEk2"
+			jdbcType="LONGVARCHAR" />
+		<result column="FProducts_Ek3" property="fproductsEk3"
+			jdbcType="LONGVARCHAR" />
+		<result column="FProducts_Ek4" property="fproductsEk4"
+			jdbcType="LONGVARCHAR" />
+		<result column="FProducts_Ek5" property="fproductsEk5"
+			jdbcType="LONGVARCHAR" />
+		<result column="investedMoney" property="investedMoney"
+				jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		FPid, FProductsName, FProductsRates, FProductsMaxMoney,
+		FProductsMaxWithdraw, FProductsMaxDate,
+		FProductsTimes, FProductsState,
+		FProductsAdminMoney, FProductsSort,
+		FProductsIsDelete,
+		FProductsDownTime, FProductsGrantTime, FProductsUsersMoney,
+		MemberRates, rollOutWarings,
+		protocal, debtor, usageFor, changeState,
+		AllseeState, companySeal
+	</sql>
+	<sql id="Blob_Column_List">
+		FProductsImgs, FProductsBzDes, FProductsHkDes,
+		FProductsDes, FProducts_Ek1,
+		FProducts_Ek2,
+		FProducts_Ek3,
+		FProducts_Ek4, FProducts_Ek5,investedMoney
+	</sql>
+	
+	<select id="getIndexPro" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from financeproducts_admin
+		where FProducts_Ek5 = 0
+		order by FProductsSort desc limit 6
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from financeproducts_admin
+		where FPid = #{fpid,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		financeproducts_admin
+		where FPid = #{fpid,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.FinanceproductsAdmin">
+		insert into
+		financeproducts_admin (FPid, FProductsName,
+		FProductsRates,
+		FProductsMaxMoney, FProductsMaxWithdraw, FProductsMaxDate,
+		FProductsTimes, FProductsState, FProductsAdminMoney,
+		FProductsSort,
+		FProductsIsDelete, FProductsDownTime,
+		FProductsGrantTime,
+		FProductsUsersMoney,
+		MemberRates, rollOutWarings, protocal,
+		debtor,
+		usageFor, changeState,
+		AllseeState, companySeal, FProductsImgs,
+		FProductsBzDes, FProductsHkDes,
+		FProductsDes, FProducts_Ek1,
+		FProducts_Ek2,
+		FProducts_Ek3, FProducts_Ek4, FProducts_Ek5
+		)
+		values
+		(#{fpid,jdbcType=INTEGER}, #{fproductsname,jdbcType=VARCHAR},
+		#{fproductsrates,jdbcType=DECIMAL},
+		#{fproductsmaxmoney,jdbcType=DECIMAL},
+		#{fproductsmaxwithdraw,jdbcType=DECIMAL},
+		#{fproductsmaxdate,jdbcType=INTEGER},
+		#{fproductstimes,jdbcType=TIMESTAMP},
+		#{fproductsstate,jdbcType=INTEGER},
+		#{fproductsadminmoney,jdbcType=DECIMAL},
+		#{fproductssort,jdbcType=INTEGER},
+		#{fproductsisdelete,jdbcType=INTEGER},
+		#{fproductsdowntime,jdbcType=TIMESTAMP},
+		#{fproductsgranttime,jdbcType=TIMESTAMP},
+		#{fproductsusersmoney,jdbcType=DECIMAL},
+		#{memberrates,jdbcType=DECIMAL},
+		#{rolloutwarings,jdbcType=VARCHAR}, #{protocal,jdbcType=VARCHAR},
+		#{debtor,jdbcType=VARCHAR}, #{usagefor,jdbcType=VARCHAR},
+		#{changestate,jdbcType=INTEGER},
+		#{allseestate,jdbcType=INTEGER},
+		#{companyseal,jdbcType=VARCHAR},
+		#{fproductsimgs,jdbcType=LONGVARCHAR},
+		#{fproductsbzdes,jdbcType=LONGVARCHAR},
+		#{fproductshkdes,jdbcType=LONGVARCHAR},
+		#{fproductsdes,jdbcType=LONGVARCHAR},
+		#{fproductsEk1,jdbcType=LONGVARCHAR},
+		#{fproductsEk2,jdbcType=LONGVARCHAR},
+		#{fproductsEk3,jdbcType=LONGVARCHAR},
+		#{fproductsEk4,jdbcType=LONGVARCHAR},
+		#{fproductsEk5,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.FinanceproductsAdmin">
+		insert into financeproducts_admin
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fpid != null">
+				FPid,
+			</if>
+			<if test="fproductsname != null">
+				FProductsName,
+			</if>
+			<if test="fproductsrates != null">
+				FProductsRates,
+			</if>
+			<if test="fproductsmaxmoney != null">
+				FProductsMaxMoney,
+			</if>
+			<if test="fproductsmaxwithdraw != null">
+				FProductsMaxWithdraw,
+			</if>
+			<if test="fproductsmaxdate != null">
+				FProductsMaxDate,
+			</if>
+			<if test="fproductstimes != null">
+				FProductsTimes,
+			</if>
+			<if test="fproductsstate != null">
+				FProductsState,
+			</if>
+			<if test="fproductsadminmoney != null">
+				FProductsAdminMoney,
+			</if>
+			<if test="fproductssort != null">
+				FProductsSort,
+			</if>
+			<if test="fproductsisdelete != null">
+				FProductsIsDelete,
+			</if>
+			<if test="fproductsdowntime != null">
+				FProductsDownTime,
+			</if>
+			<if test="fproductsgranttime != null">
+				FProductsGrantTime,
+			</if>
+			<if test="fproductsusersmoney != null">
+				FProductsUsersMoney,
+			</if>
+			<if test="memberrates != null">
+				MemberRates,
+			</if>
+			<if test="rolloutwarings != null">
+				rollOutWarings,
+			</if>
+			<if test="protocal != null">
+				protocal,
+			</if>
+			<if test="debtor != null">
+				debtor,
+			</if>
+			<if test="usagefor != null">
+				usageFor,
+			</if>
+			<if test="changestate != null">
+				changeState,
+			</if>
+			<if test="allseestate != null">
+				AllseeState,
+			</if>
+			<if test="companyseal != null">
+				companySeal,
+			</if>
+			<if test="fproductsimgs != null">
+				FProductsImgs,
+			</if>
+			<if test="fproductsbzdes != null">
+				FProductsBzDes,
+			</if>
+			<if test="fproductshkdes != null">
+				FProductsHkDes,
+			</if>
+			<if test="fproductsdes != null">
+				FProductsDes,
+			</if>
+			<if test="fproductsEk1 != null">
+				FProducts_Ek1,
+			</if>
+			<if test="fproductsEk2 != null">
+				FProducts_Ek2,
+			</if>
+			<if test="fproductsEk3 != null">
+				FProducts_Ek3,
+			</if>
+			<if test="fproductsEk4 != null">
+				FProducts_Ek4,
+			</if>
+			<if test="fproductsEk5 != null">
+				FProducts_Ek5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fpid != null">
+				#{fpid,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsname != null">
+				#{fproductsname,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsrates != null">
+				#{fproductsrates,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsmaxmoney != null">
+				#{fproductsmaxmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsmaxwithdraw != null">
+				#{fproductsmaxwithdraw,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsmaxdate != null">
+				#{fproductsmaxdate,jdbcType=INTEGER},
+			</if>
+			<if test="fproductstimes != null">
+				#{fproductstimes,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsstate != null">
+				#{fproductsstate,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsadminmoney != null">
+				#{fproductsadminmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductssort != null">
+				#{fproductssort,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsisdelete != null">
+				#{fproductsisdelete,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsdowntime != null">
+				#{fproductsdowntime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsgranttime != null">
+				#{fproductsgranttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsusersmoney != null">
+				#{fproductsusersmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberrates != null">
+				#{memberrates,jdbcType=DECIMAL},
+			</if>
+			<if test="rolloutwarings != null">
+				#{rolloutwarings,jdbcType=VARCHAR},
+			</if>
+			<if test="protocal != null">
+				#{protocal,jdbcType=VARCHAR},
+			</if>
+			<if test="debtor != null">
+				#{debtor,jdbcType=VARCHAR},
+			</if>
+			<if test="usagefor != null">
+				#{usagefor,jdbcType=VARCHAR},
+			</if>
+			<if test="changestate != null">
+				#{changestate,jdbcType=INTEGER},
+			</if>
+			<if test="allseestate != null">
+				#{allseestate,jdbcType=INTEGER},
+			</if>
+			<if test="companyseal != null">
+				#{companyseal,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsimgs != null">
+				#{fproductsimgs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsbzdes != null">
+				#{fproductsbzdes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductshkdes != null">
+				#{fproductshkdes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsdes != null">
+				#{fproductsdes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk1 != null">
+				#{fproductsEk1,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk2 != null">
+				#{fproductsEk2,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk3 != null">
+				#{fproductsEk3,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk4 != null">
+				#{fproductsEk4,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk5 != null">
+				#{fproductsEk5,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.FinanceproductsAdmin">
+		update financeproducts_admin
+		<set>
+			<if test="fproductsname != null">
+				FProductsName = #{fproductsname,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsrates != null">
+				FProductsRates = #{fproductsrates,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsmaxmoney != null">
+				FProductsMaxMoney =
+				#{fproductsmaxmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsmaxwithdraw != null">
+				FProductsMaxWithdraw =
+				#{fproductsmaxwithdraw,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsmaxdate != null">
+				FProductsMaxDate = #{fproductsmaxdate,jdbcType=INTEGER},
+			</if>
+			<if test="fproductstimes != null">
+				FProductsTimes = #{fproductstimes,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsstate != null">
+				FProductsState = #{fproductsstate,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsadminmoney != null">
+				FProductsAdminMoney =
+				#{fproductsadminmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductssort != null">
+				FProductsSort = #{fproductssort,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsisdelete != null">
+				FProductsIsDelete =
+				#{fproductsisdelete,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsdowntime != null">
+				FProductsDownTime =
+				#{fproductsdowntime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsgranttime != null">
+				FProductsGrantTime =
+				#{fproductsgranttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsusersmoney != null">
+				FProductsUsersMoney =
+				#{fproductsusersmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberrates != null">
+				MemberRates = #{memberrates,jdbcType=DECIMAL},
+			</if>
+			<if test="rolloutwarings != null">
+				rollOutWarings = #{rolloutwarings,jdbcType=VARCHAR},
+			</if>
+			<if test="protocal != null">
+				protocal = #{protocal,jdbcType=VARCHAR},
+			</if>
+			<if test="debtor != null">
+				debtor = #{debtor,jdbcType=VARCHAR},
+			</if>
+			<if test="usagefor != null">
+				usageFor = #{usagefor,jdbcType=VARCHAR},
+			</if>
+			<if test="changestate != null">
+				changeState = #{changestate,jdbcType=INTEGER},
+			</if>
+			<if test="allseestate != null">
+				AllseeState = #{allseestate,jdbcType=INTEGER},
+			</if>
+			<if test="companyseal != null">
+				companySeal = #{companyseal,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsimgs != null">
+				FProductsImgs = #{fproductsimgs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsbzdes != null">
+				FProductsBzDes = #{fproductsbzdes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductshkdes != null">
+				FProductsHkDes = #{fproductshkdes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsdes != null">
+				FProductsDes = #{fproductsdes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk1 != null">
+				FProducts_Ek1 = #{fproductsEk1,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk2 != null">
+				FProducts_Ek2 = #{fproductsEk2,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk3 != null">
+				FProducts_Ek3 = #{fproductsEk3,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk4 != null">
+				FProducts_Ek4 = #{fproductsEk4,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fproductsEk5 != null">
+				FProducts_Ek5 = #{fproductsEk5,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where FPid = #{fpid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.FinanceproductsAdmin">
+		update
+		financeproducts_admin
+		set FProductsName =
+		#{fproductsname,jdbcType=VARCHAR},
+		FProductsRates =
+		#{fproductsrates,jdbcType=DECIMAL},
+		FProductsMaxMoney =
+		#{fproductsmaxmoney,jdbcType=DECIMAL},
+		FProductsMaxWithdraw =
+		#{fproductsmaxwithdraw,jdbcType=DECIMAL},
+		FProductsMaxDate =
+		#{fproductsmaxdate,jdbcType=INTEGER},
+		FProductsTimes =
+		#{fproductstimes,jdbcType=TIMESTAMP},
+		FProductsState =
+		#{fproductsstate,jdbcType=INTEGER},
+		FProductsAdminMoney =
+		#{fproductsadminmoney,jdbcType=DECIMAL},
+		FProductsSort =
+		#{fproductssort,jdbcType=INTEGER},
+		FProductsIsDelete =
+		#{fproductsisdelete,jdbcType=INTEGER},
+		FProductsDownTime =
+		#{fproductsdowntime,jdbcType=TIMESTAMP},
+		FProductsGrantTime =
+		#{fproductsgranttime,jdbcType=TIMESTAMP},
+		FProductsUsersMoney =
+		#{fproductsusersmoney,jdbcType=DECIMAL},
+		MemberRates =
+		#{memberrates,jdbcType=DECIMAL},
+		rollOutWarings =
+		#{rolloutwarings,jdbcType=VARCHAR},
+		protocal =
+		#{protocal,jdbcType=VARCHAR},
+		debtor = #{debtor,jdbcType=VARCHAR},
+		usageFor = #{usagefor,jdbcType=VARCHAR},
+		changeState =
+		#{changestate,jdbcType=INTEGER},
+		AllseeState =
+		#{allseestate,jdbcType=INTEGER},
+		companySeal =
+		#{companyseal,jdbcType=VARCHAR},
+		FProductsImgs =
+		#{fproductsimgs,jdbcType=LONGVARCHAR},
+		FProductsBzDes =
+		#{fproductsbzdes,jdbcType=LONGVARCHAR},
+		FProductsHkDes =
+		#{fproductshkdes,jdbcType=LONGVARCHAR},
+		FProductsDes =
+		#{fproductsdes,jdbcType=LONGVARCHAR},
+		FProducts_Ek1 =
+		#{fproductsEk1,jdbcType=LONGVARCHAR},
+		FProducts_Ek2 =
+		#{fproductsEk2,jdbcType=LONGVARCHAR},
+		FProducts_Ek3 =
+		#{fproductsEk3,jdbcType=LONGVARCHAR},
+		FProducts_Ek4 =
+		#{fproductsEk4,jdbcType=LONGVARCHAR},
+		FProducts_Ek5 =
+		#{fproductsEk5,jdbcType=LONGVARCHAR}
+		where FPid =
+		#{fpid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.FinanceproductsAdmin">
+		update
+		financeproducts_admin
+		set FProductsName =
+		#{fproductsname,jdbcType=VARCHAR},
+		FProductsRates =
+		#{fproductsrates,jdbcType=DECIMAL},
+		FProductsMaxMoney =
+		#{fproductsmaxmoney,jdbcType=DECIMAL},
+		FProductsMaxWithdraw =
+		#{fproductsmaxwithdraw,jdbcType=DECIMAL},
+		FProductsMaxDate =
+		#{fproductsmaxdate,jdbcType=INTEGER},
+		FProductsTimes =
+		#{fproductstimes,jdbcType=TIMESTAMP},
+		FProductsState =
+		#{fproductsstate,jdbcType=INTEGER},
+		FProductsAdminMoney =
+		#{fproductsadminmoney,jdbcType=DECIMAL},
+		FProductsSort =
+		#{fproductssort,jdbcType=INTEGER},
+		FProductsIsDelete =
+		#{fproductsisdelete,jdbcType=INTEGER},
+		FProductsDownTime =
+		#{fproductsdowntime,jdbcType=TIMESTAMP},
+		FProductsGrantTime =
+		#{fproductsgranttime,jdbcType=TIMESTAMP},
+		FProductsUsersMoney =
+		#{fproductsusersmoney,jdbcType=DECIMAL},
+		MemberRates =
+		#{memberrates,jdbcType=DECIMAL},
+		rollOutWarings =
+		#{rolloutwarings,jdbcType=VARCHAR},
+		protocal =
+		#{protocal,jdbcType=VARCHAR},
+		debtor = #{debtor,jdbcType=VARCHAR},
+		usageFor = #{usagefor,jdbcType=VARCHAR},
+		changeState =
+		#{changestate,jdbcType=INTEGER},
+		AllseeState =
+		#{allseestate,jdbcType=INTEGER},
+		companySeal =
+		#{companyseal,jdbcType=VARCHAR}
+		where FPid = #{fpid,jdbcType=INTEGER}
+	</update>
+</mapper>

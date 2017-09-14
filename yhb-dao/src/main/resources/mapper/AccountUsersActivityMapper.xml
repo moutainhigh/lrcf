@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AccountUsersActivityDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AccountUsersActivity" >
+    <id column="redId" property="redid" jdbcType="INTEGER" />
+    <result column="fPid" property="fpid" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="ActivityNo" property="activityno" jdbcType="VARCHAR" />
+    <result column="ActivityId" property="activityid" jdbcType="VARCHAR" />
+    <result column="ActivityName" property="activityname" jdbcType="VARCHAR" />
+    <result column="ActivityMoney" property="activitymoney" jdbcType="DECIMAL" />
+    <result column="ActivityCount" property="activitycount" jdbcType="VARCHAR" />
+    <result column="GainTime" property="gaintime" jdbcType="TIMESTAMP" />
+    <result column="OverduTime" property="overdutime" jdbcType="TIMESTAMP" />
+    <result column="ActivityState" property="activitystate" jdbcType="INTEGER" />
+    <result column="UseTime" property="usetime" jdbcType="VARCHAR" />
+    <result column="redRule" property="redrule" jdbcType="INTEGER" />
+    <result column="changeCode" property="changecode" jdbcType="VARCHAR" />
+    <result column="day" property="day" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    redId, fPid, UserId, ActivityNo, ActivityId, ActivityName, ActivityMoney, ActivityCount, 
+    GainTime, OverduTime, ActivityState, UseTime, redRule, changeCode
+  </sql>
+  <select id="selectUserRedList" resultMap="BaseResultMap" parameterType="Map">
+    SELECT
+    ActivityState,
+    ActivityMoney,
+    ActivityName,
+    ActivityCount,
+    GainTime,
+    OverduTime,
+    DATEDIFF(GainTime,OverduTime) as day
+    FROM
+    account_users_activity
+    WHERE
+    userId = #{userId}
+    and ActivityState = #{state}
+    ORDER BY
+    ${rank} DESC
+    LIMIT ${current},${size}
+  </select>
+
+  <select id="selectRedByUserIdAndStateAndFpid" resultMap="BaseResultMap" parameterType="Map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    account_users_activity
+    WHERE
+    userId = #{userId}
+    and ActivityState = #{state}
+    and fPid = #{id}
+    ORDER BY
+    GainTime desc
+  </select>
+
+  <select id="countAccountUsersActivity" resultType="int" parameterType="Map" >
+    select
+    <include refid="Base_Column_List" />
+    from account_users_activity
+    WHERE
+    userId = #{userId}
+    and ActivityState = #{state}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from account_users_activity
+    where redId = #{redid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from account_users_activity
+    where redId = #{redid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.AccountUsersActivity" >
+    insert into account_users_activity (redId, fPid, UserId, 
+      ActivityNo, ActivityId, ActivityName, 
+      ActivityMoney, ActivityCount, GainTime, 
+      OverduTime, ActivityState, UseTime, 
+      redRule, changeCode)
+    values (#{redid,jdbcType=INTEGER}, #{fpid,jdbcType=VARCHAR}, #{userid,jdbcType=CHAR}, 
+      #{activityno,jdbcType=VARCHAR}, #{activityid,jdbcType=VARCHAR}, #{activityname,jdbcType=VARCHAR}, 
+      #{activitymoney,jdbcType=DECIMAL}, #{activitycount,jdbcType=VARCHAR}, #{gaintime,jdbcType=TIMESTAMP}, 
+      #{overdutime,jdbcType=TIMESTAMP}, #{activitystate,jdbcType=INTEGER}, #{usetime,jdbcType=VARCHAR}, 
+      #{redrule,jdbcType=INTEGER}, #{changecode,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AccountUsersActivity" >
+    insert into account_users_activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="redid != null" >
+        redId,
+      </if>
+      <if test="fpid != null" >
+        fPid,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="activityno != null" >
+        ActivityNo,
+      </if>
+      <if test="activityid != null" >
+        ActivityId,
+      </if>
+      <if test="activityname != null" >
+        ActivityName,
+      </if>
+      <if test="activitymoney != null" >
+        ActivityMoney,
+      </if>
+      <if test="activitycount != null" >
+        ActivityCount,
+      </if>
+      <if test="gaintime != null" >
+        GainTime,
+      </if>
+      <if test="overdutime != null" >
+        OverduTime,
+      </if>
+      <if test="activitystate != null" >
+        ActivityState,
+      </if>
+      <if test="usetime != null" >
+        UseTime,
+      </if>
+      <if test="redrule != null" >
+        redRule,
+      </if>
+      <if test="changecode != null" >
+        changeCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="redid != null" >
+        #{redid,jdbcType=INTEGER},
+      </if>
+      <if test="fpid != null" >
+        #{fpid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="activityno != null" >
+        #{activityno,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null" >
+        #{activityid,jdbcType=VARCHAR},
+      </if>
+      <if test="activityname != null" >
+        #{activityname,jdbcType=VARCHAR},
+      </if>
+      <if test="activitymoney != null" >
+        #{activitymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="activitycount != null" >
+        #{activitycount,jdbcType=VARCHAR},
+      </if>
+      <if test="gaintime != null" >
+        #{gaintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdutime != null" >
+        #{overdutime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activitystate != null" >
+        #{activitystate,jdbcType=INTEGER},
+      </if>
+      <if test="usetime != null" >
+        #{usetime,jdbcType=VARCHAR},
+      </if>
+      <if test="redrule != null" >
+        #{redrule,jdbcType=INTEGER},
+      </if>
+      <if test="changecode != null" >
+        #{changecode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AccountUsersActivity" >
+    update account_users_activity
+    <set >
+      <if test="fpid != null" >
+        fPid = #{fpid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="activityno != null" >
+        ActivityNo = #{activityno,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null" >
+        ActivityId = #{activityid,jdbcType=VARCHAR},
+      </if>
+      <if test="activityname != null" >
+        ActivityName = #{activityname,jdbcType=VARCHAR},
+      </if>
+      <if test="activitymoney != null" >
+        ActivityMoney = #{activitymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="activitycount != null" >
+        ActivityCount = #{activitycount,jdbcType=VARCHAR},
+      </if>
+      <if test="gaintime != null" >
+        GainTime = #{gaintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdutime != null" >
+        OverduTime = #{overdutime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activitystate != null" >
+        ActivityState = #{activitystate,jdbcType=INTEGER},
+      </if>
+      <if test="usetime != null" >
+        UseTime = #{usetime,jdbcType=VARCHAR},
+      </if>
+      <if test="redrule != null" >
+        redRule = #{redrule,jdbcType=INTEGER},
+      </if>
+      <if test="changecode != null" >
+        changeCode = #{changecode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where redId = #{redid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AccountUsersActivity" >
+    update account_users_activity
+    set fPid = #{fpid,jdbcType=VARCHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      ActivityNo = #{activityno,jdbcType=VARCHAR},
+      ActivityId = #{activityid,jdbcType=VARCHAR},
+      ActivityName = #{activityname,jdbcType=VARCHAR},
+      ActivityMoney = #{activitymoney,jdbcType=DECIMAL},
+      ActivityCount = #{activitycount,jdbcType=VARCHAR},
+      GainTime = #{gaintime,jdbcType=TIMESTAMP},
+      OverduTime = #{overdutime,jdbcType=TIMESTAMP},
+      ActivityState = #{activitystate,jdbcType=INTEGER},
+      UseTime = #{usetime,jdbcType=VARCHAR},
+      redRule = #{redrule,jdbcType=INTEGER},
+      changeCode = #{changecode,jdbcType=VARCHAR}
+    where redId = #{redid,jdbcType=INTEGER}
+  </update>
+</mapper>

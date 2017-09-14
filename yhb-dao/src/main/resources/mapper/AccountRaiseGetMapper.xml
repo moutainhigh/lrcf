@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AccountRaiseGetDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AccountRaiseGet" >
+    <id column="raiseId" property="raiseid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="productId" property="productid" jdbcType="VARCHAR" />
+    <result column="raiseNo" property="raiseno" jdbcType="VARCHAR" />
+    <result column="raiseSize" property="raisesize" jdbcType="DOUBLE" />
+    <result column="raiseName" property="raisename" jdbcType="VARCHAR" />
+    <result column="raiseGetTime" property="raisegettime" jdbcType="TIMESTAMP" />
+    <result column="raiseOverTime" property="raiseovertime" jdbcType="TIMESTAMP" />
+    <result column="raiseUseTime" property="raiseusetime" jdbcType="VARCHAR" />
+    <result column="raiseMark" property="raisemark" jdbcType="VARCHAR" />
+    <result column="raiseState" property="raisestate" jdbcType="INTEGER" />
+    <result column="raiseOldMoney" property="raiseoldmoney" jdbcType="DECIMAL" />
+    <result column="raiseDateNum" property="raisedatenum" jdbcType="INTEGER" />
+    <result column="raiseDatePast" property="raisedatepast" jdbcType="INTEGER" />
+    <result column="changeCode" property="changecode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    raiseId, userId, productId, raiseNo, raiseSize, raiseName, raiseGetTime, raiseOverTime, 
+    raiseUseTime, raiseMark, raiseState, raiseOldMoney, raiseDateNum, raiseDatePast, 
+    changeCode
+  </sql>
+
+  <select id="selectRaiseList" resultMap="BaseResultMap" parameterType="Map" >
+  SELECT
+	raiseState,
+    format(raiseSize*100,2) as raiseSize,
+    raiseName,
+    raiseGetTime,
+    raiseOverTime,
+    raiseMark,
+    raiseDateNum-raiseDatePast as raiseDateNum
+  FROM
+      account_raise_get
+  WHERE
+      userId = #{userId}
+  AND raiseState = #{state}
+  ORDER BY
+      ${rank} DESC
+      LIMIT ${current},${size}
+  </select>
+
+  <!--根据UserId,type,productId获取加息劵-->
+  <select id="selectRaiseByUserIdAndStateAndProId" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    account_raise_get
+    WHERE
+    userId = #{userId}
+    AND raiseState = #{state}
+    AND productId = #{id}
+    ORDER BY
+    raiseGetTime DESC
+  </select>
+
+  <!--根据param获取加息劵记录总数-->
+  <select id="countAccountRaiseGet" resultType="int" parameterType="Map" >
+    select
+    count(1)
+    from account_raise_get
+    WHERE
+    userId = #{userId}
+    AND raiseState = #{state}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from account_raise_get
+    where raiseId = #{raiseid,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.AccountRaiseGet" >
+    insert into account_raise_get (raiseId, userId, productId, 
+      raiseNo, raiseSize, raiseName, 
+      raiseGetTime, raiseOverTime, raiseUseTime, 
+      raiseMark, raiseState, raiseOldMoney, 
+      raiseDateNum, raiseDatePast, changeCode
+      )
+    values (#{raiseid,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{productid,jdbcType=VARCHAR}, 
+      #{raiseno,jdbcType=VARCHAR}, #{raisesize,jdbcType=DOUBLE}, #{raisename,jdbcType=VARCHAR}, 
+      #{raisegettime,jdbcType=TIMESTAMP}, #{raiseovertime,jdbcType=TIMESTAMP}, #{raiseusetime,jdbcType=VARCHAR}, 
+      #{raisemark,jdbcType=VARCHAR}, #{raisestate,jdbcType=INTEGER}, #{raiseoldmoney,jdbcType=DECIMAL}, 
+      #{raisedatenum,jdbcType=INTEGER}, #{raisedatepast,jdbcType=INTEGER}, #{changecode,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AccountRaiseGet" >
+    insert into account_raise_get
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="raiseid != null" >
+        raiseId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="raiseno != null" >
+        raiseNo,
+      </if>
+      <if test="raisesize != null" >
+        raiseSize,
+      </if>
+      <if test="raisename != null" >
+        raiseName,
+      </if>
+      <if test="raisegettime != null" >
+        raiseGetTime,
+      </if>
+      <if test="raiseovertime != null" >
+        raiseOverTime,
+      </if>
+      <if test="raiseusetime != null" >
+        raiseUseTime,
+      </if>
+      <if test="raisemark != null" >
+        raiseMark,
+      </if>
+      <if test="raisestate != null" >
+        raiseState,
+      </if>
+      <if test="raiseoldmoney != null" >
+        raiseOldMoney,
+      </if>
+      <if test="raisedatenum != null" >
+        raiseDateNum,
+      </if>
+      <if test="raisedatepast != null" >
+        raiseDatePast,
+      </if>
+      <if test="changecode != null" >
+        changeCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="raiseid != null" >
+        #{raiseid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="raiseno != null" >
+        #{raiseno,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesize != null" >
+        #{raisesize,jdbcType=DOUBLE},
+      </if>
+      <if test="raisename != null" >
+        #{raisename,jdbcType=VARCHAR},
+      </if>
+      <if test="raisegettime != null" >
+        #{raisegettime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseovertime != null" >
+        #{raiseovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseusetime != null" >
+        #{raiseusetime,jdbcType=VARCHAR},
+      </if>
+      <if test="raisemark != null" >
+        #{raisemark,jdbcType=VARCHAR},
+      </if>
+      <if test="raisestate != null" >
+        #{raisestate,jdbcType=INTEGER},
+      </if>
+      <if test="raiseoldmoney != null" >
+        #{raiseoldmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="raisedatenum != null" >
+        #{raisedatenum,jdbcType=INTEGER},
+      </if>
+      <if test="raisedatepast != null" >
+        #{raisedatepast,jdbcType=INTEGER},
+      </if>
+      <if test="changecode != null" >
+        #{changecode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AccountRaiseGet" >
+    update account_raise_get
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="raiseno != null" >
+        raiseNo = #{raiseno,jdbcType=VARCHAR},
+      </if>
+      <if test="raisesize != null" >
+        raiseSize = #{raisesize,jdbcType=DOUBLE},
+      </if>
+      <if test="raisename != null" >
+        raiseName = #{raisename,jdbcType=VARCHAR},
+      </if>
+      <if test="raisegettime != null" >
+        raiseGetTime = #{raisegettime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseovertime != null" >
+        raiseOverTime = #{raiseovertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="raiseusetime != null" >
+        raiseUseTime = #{raiseusetime,jdbcType=VARCHAR},
+      </if>
+      <if test="raisemark != null" >
+        raiseMark = #{raisemark,jdbcType=VARCHAR},
+      </if>
+      <if test="raisestate != null" >
+        raiseState = #{raisestate,jdbcType=INTEGER},
+      </if>
+      <if test="raiseoldmoney != null" >
+        raiseOldMoney = #{raiseoldmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="raisedatenum != null" >
+        raiseDateNum = #{raisedatenum,jdbcType=INTEGER},
+      </if>
+      <if test="raisedatepast != null" >
+        raiseDatePast = #{raisedatepast,jdbcType=INTEGER},
+      </if>
+      <if test="changecode != null" >
+        changeCode = #{changecode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where raiseId = #{raiseid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AccountRaiseGet" >
+    update account_raise_get
+    set userId = #{userid,jdbcType=VARCHAR},
+      productId = #{productid,jdbcType=VARCHAR},
+      raiseNo = #{raiseno,jdbcType=VARCHAR},
+      raiseSize = #{raisesize,jdbcType=DOUBLE},
+      raiseName = #{raisename,jdbcType=VARCHAR},
+      raiseGetTime = #{raisegettime,jdbcType=TIMESTAMP},
+      raiseOverTime = #{raiseovertime,jdbcType=TIMESTAMP},
+      raiseUseTime = #{raiseusetime,jdbcType=VARCHAR},
+      raiseMark = #{raisemark,jdbcType=VARCHAR},
+      raiseState = #{raisestate,jdbcType=INTEGER},
+      raiseOldMoney = #{raiseoldmoney,jdbcType=DECIMAL},
+      raiseDateNum = #{raisedatenum,jdbcType=INTEGER},
+      raiseDatePast = #{raisedatepast,jdbcType=INTEGER},
+      changeCode = #{changecode,jdbcType=VARCHAR}
+    where raiseId = #{raiseid,jdbcType=INTEGER}
+  </update>
+</mapper>

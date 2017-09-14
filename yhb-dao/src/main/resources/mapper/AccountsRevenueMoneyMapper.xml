@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AccountsRevenueMoneyDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AccountsRevenueMoney" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="CHAR" />
+    <result column="PlatID" property="platid" jdbcType="CHAR" />
+    <result column="AccountMoney" property="accountmoney" jdbcType="DECIMAL" />
+    <result column="RevenueMoney" property="revenuemoney" jdbcType="DECIMAL" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="Des" property="des" jdbcType="VARCHAR" />
+    <result column="Em_k1" property="emK1" jdbcType="VARCHAR" />
+    <result column="Em_k2" property="emK2" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, UserID, PlatID, AccountMoney, RevenueMoney, CreateTime, Des, Em_k1, Em_k2
+  </sql>
+
+  <select id="revenueMoneyCount" resultType="int" parameterType="Map">
+    select count(id) from accounts_revenue_money
+    where
+    <if test="userId !=null and userId != ''">
+      userId = #{userId}
+    </if>
+    <if test="startTime !=null and startTime !=''">
+      and DATE_FORMAT(CreateTime,'%Y-%m-%d')<![CDATA[>=]]>#{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and DATE_FORMAT(CreateTime,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+    </if>
+  </select>
+
+  <select id="revenueMoneyList" resultMap="BaseResultMap"  parameterType="Map">
+    select RevenueMoney as money , CreateTime as time  from accounts_revenue_money
+    where
+    <if test="userId !=null and userId != ''">
+      userId = #{userId}
+    </if>
+    <if test="startTime !=null and startTime !=''">
+      and DATE_FORMAT(CreateTime,'%Y-%m-%d')<![CDATA[>=]]>#{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and DATE_FORMAT(CreateTime,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+    </if>
+    order by CreateTime desc limit ${current},${total}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from accounts_revenue_money
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from accounts_revenue_money
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.AccountsRevenueMoney" >
+    insert into accounts_revenue_money (Id, UserID, PlatID, 
+      AccountMoney, RevenueMoney, CreateTime, 
+      Des, Em_k1, Em_k2)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=CHAR}, #{platid,jdbcType=CHAR}, 
+      #{accountmoney,jdbcType=DECIMAL}, #{revenuemoney,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{des,jdbcType=VARCHAR}, #{emK1,jdbcType=VARCHAR}, #{emK2,jdbcType=DECIMAL})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AccountsRevenueMoney" >
+    insert into accounts_revenue_money
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="platid != null" >
+        PlatID,
+      </if>
+      <if test="accountmoney != null" >
+        AccountMoney,
+      </if>
+      <if test="revenuemoney != null" >
+        RevenueMoney,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="des != null" >
+        Des,
+      </if>
+      <if test="emK1 != null" >
+        Em_k1,
+      </if>
+      <if test="emK2 != null" >
+        Em_k2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="platid != null" >
+        #{platid,jdbcType=CHAR},
+      </if>
+      <if test="accountmoney != null" >
+        #{accountmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="revenuemoney != null" >
+        #{revenuemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="emK1 != null" >
+        #{emK1,jdbcType=VARCHAR},
+      </if>
+      <if test="emK2 != null" >
+        #{emK2,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AccountsRevenueMoney" >
+    update accounts_revenue_money
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="platid != null" >
+        PlatID = #{platid,jdbcType=CHAR},
+      </if>
+      <if test="accountmoney != null" >
+        AccountMoney = #{accountmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="revenuemoney != null" >
+        RevenueMoney = #{revenuemoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="des != null" >
+        Des = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="emK1 != null" >
+        Em_k1 = #{emK1,jdbcType=VARCHAR},
+      </if>
+      <if test="emK2 != null" >
+        Em_k2 = #{emK2,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AccountsRevenueMoney" >
+    update accounts_revenue_money
+    set UserID = #{userid,jdbcType=CHAR},
+      PlatID = #{platid,jdbcType=CHAR},
+      AccountMoney = #{accountmoney,jdbcType=DECIMAL},
+      RevenueMoney = #{revenuemoney,jdbcType=DECIMAL},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      Des = #{des,jdbcType=VARCHAR},
+      Em_k1 = #{emK1,jdbcType=VARCHAR},
+      Em_k2 = #{emK2,jdbcType=DECIMAL}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

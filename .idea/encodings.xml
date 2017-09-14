@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-admin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-company-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-company-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-gift-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-gift-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-media-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-media-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-message-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-message-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-product-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-product-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-statistics" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-task" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-user-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-user-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yhb-web-api" charset="UTF-8" />
+  </component>
+</project>

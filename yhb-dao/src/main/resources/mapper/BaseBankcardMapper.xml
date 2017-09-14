@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.BaseBankcardDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.BaseBankcard" >
+    <id column="BankCardID" property="bankcardid" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="CHAR" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="BankName" property="bankname" jdbcType="VARCHAR" />
+    <result column="BankAddress" property="bankaddress" jdbcType="VARCHAR" />
+    <result column="BankCardNumber" property="bankcardnumber" jdbcType="VARCHAR" />
+    <result column="Province" property="province" jdbcType="VARCHAR" />
+    <result column="City" property="city" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="IsPass" property="ispass" jdbcType="INTEGER" />
+    <result column="IsUsed" property="isused" jdbcType="BIT" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="belong" property="belong" jdbcType="INTEGER" />
+    <result column="BankAddress2" property="bankaddress2" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.BaseBankcard" extends="BaseResultMap" >
+    <result column="CardFront" property="cardfront" jdbcType="VARCHAR" />
+    <result column="CardBack" property="cardback" jdbcType="VARCHAR" />
+    <result column="UserCardFront" property="usercardfront" jdbcType="VARCHAR" />
+    <result column="UserCardBack" property="usercardback" jdbcType="VARCHAR" />
+    <result column="UserBankCard" property="userbankcard" jdbcType="VARCHAR" />
+    <result column="UserBankAccount" property="userbankaccount" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BankCardID, UserID, UserName, BankName, BankAddress, BankCardNumber, Province, City, 
+    CreateTime, IsPass, IsUsed, Remark, belong, BankAddress2
+  </sql>
+  <sql id="Blob_Column_List" >
+    CardFront, CardBack, UserCardFront, UserCardBack, UserBankCard, UserBankAccount
+  </sql>
+
+  <select id="selectBankByParam" resultMap="ResultMapWithBLOBs" parameterType="Map" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from base_bankcard
+    where
+    <if test="userId != null and userId !=''" >
+      userID = #{userId}
+    </if>
+    <if test="bankcardnumber ! =null and bankcardnumber !=''">
+      bankcardnumber = #{bankcardnumber}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from base_bankcard
+    where BankCardID = #{bankcardid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from base_bankcard
+    where BankCardID = #{bankcardid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.BaseBankcard" >
+    insert into base_bankcard (BankCardID, UserID, UserName, 
+      BankName, BankAddress, BankCardNumber, 
+      Province, City, CreateTime, 
+      IsPass, IsUsed, Remark, 
+      belong, BankAddress2, CardFront, 
+      CardBack, UserCardFront, UserCardBack, 
+      UserBankCard, UserBankAccount
+      )
+    values (#{bankcardid,jdbcType=INTEGER}, #{userid,jdbcType=CHAR}, #{username,jdbcType=VARCHAR}, 
+      #{bankname,jdbcType=VARCHAR}, #{bankaddress,jdbcType=VARCHAR}, #{bankcardnumber,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{ispass,jdbcType=INTEGER}, #{isused,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{belong,jdbcType=INTEGER}, #{bankaddress2,jdbcType=VARCHAR}, #{cardfront,jdbcType=VARCHAR}, 
+      #{cardback,jdbcType=VARCHAR}, #{usercardfront,jdbcType=VARCHAR}, #{usercardback,jdbcType=VARCHAR}, 
+      #{userbankcard,jdbcType=VARCHAR}, #{userbankaccount,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.BaseBankcard" >
+    insert into base_bankcard
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bankcardid != null" >
+        BankCardID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="bankname != null" >
+        BankName,
+      </if>
+      <if test="bankaddress != null" >
+        BankAddress,
+      </if>
+      <if test="bankcardnumber != null" >
+        BankCardNumber,
+      </if>
+      <if test="province != null" >
+        Province,
+      </if>
+      <if test="city != null" >
+        City,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="ispass != null" >
+        IsPass,
+      </if>
+      <if test="isused != null" >
+        IsUsed,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="belong != null" >
+        belong,
+      </if>
+      <if test="bankaddress2 != null" >
+        BankAddress2,
+      </if>
+      <if test="cardfront != null" >
+        CardFront,
+      </if>
+      <if test="cardback != null" >
+        CardBack,
+      </if>
+      <if test="usercardfront != null" >
+        UserCardFront,
+      </if>
+      <if test="usercardback != null" >
+        UserCardBack,
+      </if>
+      <if test="userbankcard != null" >
+        UserBankCard,
+      </if>
+      <if test="userbankaccount != null" >
+        UserBankAccount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bankcardid != null" >
+        #{bankcardid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="bankaddress != null" >
+        #{bankaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardnumber != null" >
+        #{bankcardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ispass != null" >
+        #{ispass,jdbcType=INTEGER},
+      </if>
+      <if test="isused != null" >
+        #{isused,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null" >
+        #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="bankaddress2 != null" >
+        #{bankaddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="cardfront != null" >
+        #{cardfront,jdbcType=VARCHAR},
+      </if>
+      <if test="cardback != null" >
+        #{cardback,jdbcType=VARCHAR},
+      </if>
+      <if test="usercardfront != null" >
+        #{usercardfront,jdbcType=VARCHAR},
+      </if>
+      <if test="usercardback != null" >
+        #{usercardback,jdbcType=VARCHAR},
+      </if>
+      <if test="userbankcard != null" >
+        #{userbankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="userbankaccount != null" >
+        #{userbankaccount,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.BaseBankcard" >
+    update base_bankcard
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="bankname != null" >
+        BankName = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="bankaddress != null" >
+        BankAddress = #{bankaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardnumber != null" >
+        BankCardNumber = #{bankcardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        Province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        City = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ispass != null" >
+        IsPass = #{ispass,jdbcType=INTEGER},
+      </if>
+      <if test="isused != null" >
+        IsUsed = #{isused,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null" >
+        belong = #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="bankaddress2 != null" >
+        BankAddress2 = #{bankaddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="cardfront != null" >
+        CardFront = #{cardfront,jdbcType=VARCHAR},
+      </if>
+      <if test="cardback != null" >
+        CardBack = #{cardback,jdbcType=VARCHAR},
+      </if>
+      <if test="usercardfront != null" >
+        UserCardFront = #{usercardfront,jdbcType=VARCHAR},
+      </if>
+      <if test="usercardback != null" >
+        UserCardBack = #{usercardback,jdbcType=VARCHAR},
+      </if>
+      <if test="userbankcard != null" >
+        UserBankCard = #{userbankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="userbankaccount != null" >
+        UserBankAccount = #{userbankaccount,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BankCardID = #{bankcardid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.BaseBankcard" >
+    update base_bankcard
+    set UserID = #{userid,jdbcType=CHAR},
+      UserName = #{username,jdbcType=VARCHAR},
+      BankName = #{bankname,jdbcType=VARCHAR},
+      BankAddress = #{bankaddress,jdbcType=VARCHAR},
+      BankCardNumber = #{bankcardnumber,jdbcType=VARCHAR},
+      Province = #{province,jdbcType=VARCHAR},
+      City = #{city,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      IsPass = #{ispass,jdbcType=INTEGER},
+      IsUsed = #{isused,jdbcType=BIT},
+      Remark = #{remark,jdbcType=VARCHAR},
+      belong = #{belong,jdbcType=INTEGER},
+      BankAddress2 = #{bankaddress2,jdbcType=VARCHAR},
+      CardFront = #{cardfront,jdbcType=VARCHAR},
+      CardBack = #{cardback,jdbcType=VARCHAR},
+      UserCardFront = #{usercardfront,jdbcType=VARCHAR},
+      UserCardBack = #{usercardback,jdbcType=VARCHAR},
+      UserBankCard = #{userbankcard,jdbcType=VARCHAR},
+      UserBankAccount = #{userbankaccount,jdbcType=VARCHAR}
+    where BankCardID = #{bankcardid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.BaseBankcard" >
+    update base_bankcard
+    set UserID = #{userid,jdbcType=CHAR},
+      UserName = #{username,jdbcType=VARCHAR},
+      BankName = #{bankname,jdbcType=VARCHAR},
+      BankAddress = #{bankaddress,jdbcType=VARCHAR},
+      BankCardNumber = #{bankcardnumber,jdbcType=VARCHAR},
+      Province = #{province,jdbcType=VARCHAR},
+      City = #{city,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      IsPass = #{ispass,jdbcType=INTEGER},
+      IsUsed = #{isused,jdbcType=BIT},
+      Remark = #{remark,jdbcType=VARCHAR},
+      belong = #{belong,jdbcType=INTEGER},
+      BankAddress2 = #{bankaddress2,jdbcType=VARCHAR}
+    where BankCardID = #{bankcardid,jdbcType=INTEGER}
+  </update>
+</mapper>

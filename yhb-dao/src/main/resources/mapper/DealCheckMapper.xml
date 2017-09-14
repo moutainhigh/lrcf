@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.DealCheckDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.DealCheck" >
+    <id column="CheckID" property="checkid" jdbcType="CHAR" />
+    <result column="CheckNumber" property="checknumber" jdbcType="VARCHAR" />
+    <result column="CheckType" property="checktype" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="CHAR" />
+    <result column="AdminID" property="adminid" jdbcType="CHAR" />
+    <result column="PayName" property="payname" jdbcType="VARCHAR" />
+    <result column="PayBank" property="paybank" jdbcType="VARCHAR" />
+    <result column="PayBankNumber" property="paybanknumber" jdbcType="VARCHAR" />
+    <result column="PayFeeInitial" property="payfeeinitial" jdbcType="DECIMAL" />
+    <result column="PayMoney" property="paymoney" jdbcType="DECIMAL" />
+    <result column="PayFee" property="payfee" jdbcType="DECIMAL" />
+    <result column="OtherMoney" property="othermoney" jdbcType="DECIMAL" />
+    <result column="InterfaceName" property="interfacename" jdbcType="VARCHAR" />
+    <result column="ChannelName" property="channelname" jdbcType="VARCHAR" />
+    <result column="CheckState" property="checkstate" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CheckTime" property="checktime" jdbcType="TIMESTAMP" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CheckID, CheckNumber, CheckType, UserID, AdminID, PayName, PayBank, PayBankNumber, 
+    PayFeeInitial, PayMoney, PayFee, OtherMoney, InterfaceName, ChannelName, CheckState, 
+    CreateTime, CheckTime, Remark
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from deal_check
+    where CheckID = #{checkid,jdbcType=CHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from deal_check
+    where CheckID = #{checkid,jdbcType=CHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.DealCheck" >
+    insert into deal_check (CheckID, CheckNumber, CheckType, 
+      UserID, AdminID, PayName, 
+      PayBank, PayBankNumber, PayFeeInitial, 
+      PayMoney, PayFee, OtherMoney, 
+      InterfaceName, ChannelName, CheckState, 
+      CreateTime, CheckTime, Remark
+      )
+    values (#{checkid,jdbcType=CHAR}, #{checknumber,jdbcType=VARCHAR}, #{checktype,jdbcType=INTEGER}, 
+      #{userid,jdbcType=CHAR}, #{adminid,jdbcType=CHAR}, #{payname,jdbcType=VARCHAR}, 
+      #{paybank,jdbcType=VARCHAR}, #{paybanknumber,jdbcType=VARCHAR}, #{payfeeinitial,jdbcType=DECIMAL}, 
+      #{paymoney,jdbcType=DECIMAL}, #{payfee,jdbcType=DECIMAL}, #{othermoney,jdbcType=DECIMAL}, 
+      #{interfacename,jdbcType=VARCHAR}, #{channelname,jdbcType=VARCHAR}, #{checkstate,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{checktime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.DealCheck" >
+    insert into deal_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="checkid != null" >
+        CheckID,
+      </if>
+      <if test="checknumber != null" >
+        CheckNumber,
+      </if>
+      <if test="checktype != null" >
+        CheckType,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="adminid != null" >
+        AdminID,
+      </if>
+      <if test="payname != null" >
+        PayName,
+      </if>
+      <if test="paybank != null" >
+        PayBank,
+      </if>
+      <if test="paybanknumber != null" >
+        PayBankNumber,
+      </if>
+      <if test="payfeeinitial != null" >
+        PayFeeInitial,
+      </if>
+      <if test="paymoney != null" >
+        PayMoney,
+      </if>
+      <if test="payfee != null" >
+        PayFee,
+      </if>
+      <if test="othermoney != null" >
+        OtherMoney,
+      </if>
+      <if test="interfacename != null" >
+        InterfaceName,
+      </if>
+      <if test="channelname != null" >
+        ChannelName,
+      </if>
+      <if test="checkstate != null" >
+        CheckState,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="checktime != null" >
+        CheckTime,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="checkid != null" >
+        #{checkid,jdbcType=CHAR},
+      </if>
+      <if test="checknumber != null" >
+        #{checknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="checktype != null" >
+        #{checktype,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="adminid != null" >
+        #{adminid,jdbcType=CHAR},
+      </if>
+      <if test="payname != null" >
+        #{payname,jdbcType=VARCHAR},
+      </if>
+      <if test="paybank != null" >
+        #{paybank,jdbcType=VARCHAR},
+      </if>
+      <if test="paybanknumber != null" >
+        #{paybanknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="payfeeinitial != null" >
+        #{payfeeinitial,jdbcType=DECIMAL},
+      </if>
+      <if test="paymoney != null" >
+        #{paymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payfee != null" >
+        #{payfee,jdbcType=DECIMAL},
+      </if>
+      <if test="othermoney != null" >
+        #{othermoney,jdbcType=DECIMAL},
+      </if>
+      <if test="interfacename != null" >
+        #{interfacename,jdbcType=VARCHAR},
+      </if>
+      <if test="channelname != null" >
+        #{channelname,jdbcType=VARCHAR},
+      </if>
+      <if test="checkstate != null" >
+        #{checkstate,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.DealCheck" >
+    update deal_check
+    <set >
+      <if test="checknumber != null" >
+        CheckNumber = #{checknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="checktype != null" >
+        CheckType = #{checktype,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="adminid != null" >
+        AdminID = #{adminid,jdbcType=CHAR},
+      </if>
+      <if test="payname != null" >
+        PayName = #{payname,jdbcType=VARCHAR},
+      </if>
+      <if test="paybank != null" >
+        PayBank = #{paybank,jdbcType=VARCHAR},
+      </if>
+      <if test="paybanknumber != null" >
+        PayBankNumber = #{paybanknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="payfeeinitial != null" >
+        PayFeeInitial = #{payfeeinitial,jdbcType=DECIMAL},
+      </if>
+      <if test="paymoney != null" >
+        PayMoney = #{paymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payfee != null" >
+        PayFee = #{payfee,jdbcType=DECIMAL},
+      </if>
+      <if test="othermoney != null" >
+        OtherMoney = #{othermoney,jdbcType=DECIMAL},
+      </if>
+      <if test="interfacename != null" >
+        InterfaceName = #{interfacename,jdbcType=VARCHAR},
+      </if>
+      <if test="channelname != null" >
+        ChannelName = #{channelname,jdbcType=VARCHAR},
+      </if>
+      <if test="checkstate != null" >
+        CheckState = #{checkstate,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checktime != null" >
+        CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CheckID = #{checkid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.DealCheck" >
+    update deal_check
+    set CheckNumber = #{checknumber,jdbcType=VARCHAR},
+      CheckType = #{checktype,jdbcType=INTEGER},
+      UserID = #{userid,jdbcType=CHAR},
+      AdminID = #{adminid,jdbcType=CHAR},
+      PayName = #{payname,jdbcType=VARCHAR},
+      PayBank = #{paybank,jdbcType=VARCHAR},
+      PayBankNumber = #{paybanknumber,jdbcType=VARCHAR},
+      PayFeeInitial = #{payfeeinitial,jdbcType=DECIMAL},
+      PayMoney = #{paymoney,jdbcType=DECIMAL},
+      PayFee = #{payfee,jdbcType=DECIMAL},
+      OtherMoney = #{othermoney,jdbcType=DECIMAL},
+      InterfaceName = #{interfacename,jdbcType=VARCHAR},
+      ChannelName = #{channelname,jdbcType=VARCHAR},
+      CheckState = #{checkstate,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where CheckID = #{checkid,jdbcType=CHAR}
+  </update>
+</mapper>

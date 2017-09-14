@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.BaseNewsDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.BaseNews" >
+    <id column="NewsID" property="newsid" jdbcType="INTEGER" />
+    <result column="NewsType" property="newstype" jdbcType="INTEGER" />
+    <result column="NewsTitle" property="newstitle" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="HitsTimes" property="hitstimes" jdbcType="INTEGER" />
+    <result column="AdminID" property="adminid" jdbcType="CHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="PlatID" property="platid" jdbcType="CHAR" />
+    <result column="Visible" property="visible" jdbcType="BIT" />
+    <result column="IsPass" property="ispass" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.BaseNews" extends="BaseResultMap" >
+    <result column="NewsContent" property="newscontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    NewsID, NewsType, NewsTitle, CreateTime, HitsTimes, AdminID, state, PlatID, Visible, 
+    IsPass
+  </sql>
+  <sql id="Blob_Column_List" >
+    NewsContent
+  </sql>
+
+  <select id="getIndexNotice" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from base_news
+    where NewsType = 8
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from base_news
+    where NewsID = #{newsid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from base_news
+    where NewsID = #{newsid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.BaseNews" >
+    insert into base_news (NewsID, NewsType, NewsTitle, 
+      CreateTime, HitsTimes, AdminID, 
+      state, PlatID, Visible, IsPass, 
+      NewsContent)
+    values (#{newsid,jdbcType=INTEGER}, #{newstype,jdbcType=INTEGER}, #{newstitle,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{hitstimes,jdbcType=INTEGER}, #{adminid,jdbcType=CHAR}, 
+      #{state,jdbcType=INTEGER}, #{platid,jdbcType=CHAR}, #{visible,jdbcType=BIT}, #{ispass,jdbcType=BIT}, 
+      #{newscontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.BaseNews" >
+    insert into base_news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="newsid != null" >
+        NewsID,
+      </if>
+      <if test="newstype != null" >
+        NewsType,
+      </if>
+      <if test="newstitle != null" >
+        NewsTitle,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="hitstimes != null" >
+        HitsTimes,
+      </if>
+      <if test="adminid != null" >
+        AdminID,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="platid != null" >
+        PlatID,
+      </if>
+      <if test="visible != null" >
+        Visible,
+      </if>
+      <if test="ispass != null" >
+        IsPass,
+      </if>
+      <if test="newscontent != null" >
+        NewsContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="newsid != null" >
+        #{newsid,jdbcType=INTEGER},
+      </if>
+      <if test="newstype != null" >
+        #{newstype,jdbcType=INTEGER},
+      </if>
+      <if test="newstitle != null" >
+        #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hitstimes != null" >
+        #{hitstimes,jdbcType=INTEGER},
+      </if>
+      <if test="adminid != null" >
+        #{adminid,jdbcType=CHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="platid != null" >
+        #{platid,jdbcType=CHAR},
+      </if>
+      <if test="visible != null" >
+        #{visible,jdbcType=BIT},
+      </if>
+      <if test="ispass != null" >
+        #{ispass,jdbcType=BIT},
+      </if>
+      <if test="newscontent != null" >
+        #{newscontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.BaseNews" >
+    update base_news
+    <set >
+      <if test="newstype != null" >
+        NewsType = #{newstype,jdbcType=INTEGER},
+      </if>
+      <if test="newstitle != null" >
+        NewsTitle = #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hitstimes != null" >
+        HitsTimes = #{hitstimes,jdbcType=INTEGER},
+      </if>
+      <if test="adminid != null" >
+        AdminID = #{adminid,jdbcType=CHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="platid != null" >
+        PlatID = #{platid,jdbcType=CHAR},
+      </if>
+      <if test="visible != null" >
+        Visible = #{visible,jdbcType=BIT},
+      </if>
+      <if test="ispass != null" >
+        IsPass = #{ispass,jdbcType=BIT},
+      </if>
+      <if test="newscontent != null" >
+        NewsContent = #{newscontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where NewsID = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.BaseNews" >
+    update base_news
+    set NewsType = #{newstype,jdbcType=INTEGER},
+      NewsTitle = #{newstitle,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      HitsTimes = #{hitstimes,jdbcType=INTEGER},
+      AdminID = #{adminid,jdbcType=CHAR},
+      state = #{state,jdbcType=INTEGER},
+      PlatID = #{platid,jdbcType=CHAR},
+      Visible = #{visible,jdbcType=BIT},
+      IsPass = #{ispass,jdbcType=BIT},
+      NewsContent = #{newscontent,jdbcType=LONGVARCHAR}
+    where NewsID = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.BaseNews" >
+    update base_news
+    set NewsType = #{newstype,jdbcType=INTEGER},
+      NewsTitle = #{newstitle,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      HitsTimes = #{hitstimes,jdbcType=INTEGER},
+      AdminID = #{adminid,jdbcType=CHAR},
+      state = #{state,jdbcType=INTEGER},
+      PlatID = #{platid,jdbcType=CHAR},
+      Visible = #{visible,jdbcType=BIT},
+      IsPass = #{ispass,jdbcType=BIT}
+    where NewsID = #{newsid,jdbcType=INTEGER}
+  </update>
+</mapper>

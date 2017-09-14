@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AdminCountInfoDao">
+        <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AdminCountInfo">
+        <result column="Province" property="province" jdbcType="VARCHAR" />
+        <result column="City" property="city" jdbcType="VARCHAR" />
+        <result column="totalInMoney" property="inMoney" jdbcType="DECIMAL" />
+        <result column="day1" property="day1" jdbcType="DATE" />
+        <result column="fproductsMaxdate" property="fProductsMaxday" jdbcType="VARCHAR" />
+        <result column="fBuyNum" property="fBuyNum" jdbcType="VARCHAR" />
+        <result column="UUID" property="UUID" jdbcType="VARCHAR" />
+
+
+        <association property="expireUsers" javaType="com.lrcf.yhb.pojo.ExpireUsers"  >
+            <result column="FProductsName" property="FProductsName" jdbcType="VARCHAR" />
+            <result column="userName" property="userName" jdbcType="VARCHAR" />
+            <result column="TrueName" property="TrueName" jdbcType="VARCHAR" />
+            <result column="time" property="time" jdbcType="TIMESTAMP" />
+            <result column="PayMoney" property="PayMoney" jdbcType="DECIMAL" />
+            <result column="PayFee" property="PayFee" jdbcType="DECIMAL" />
+            <result column="CheckState" property="CheckState" jdbcType="INTEGER" />
+            <result column="CheckType" property="CheckType" jdbcType="INTEGER" />
+            <result column="PayBank" property="PayBank" jdbcType="VARCHAR" />
+            <result column="ChannelName" property="ChannelName" jdbcType="VARCHAR" />
+            <result column="UUID" property="UUID" jdbcType="VARCHAR" />
+            <result column="duringTime" property="duringTime" jdbcType="INTEGER" />
+        </association>
+
+        <association property="usersDistributionVO" javaType="com.lrcf.yhb.pojo.UsersDistributionVO">
+            <result column="Province" property="province" jdbcType="VARCHAR" />
+            <result column="count" property="count" jdbcType="INTEGER" />
+        </association>
+
+    </resultMap>
+
+    <!--总入金  -->
+    <select id="getSunInMoney" resultType="DECIMAL">
+        SELECT SUM(orderMoney)  FROM deal_order
+        WHERE orderState=2
+        <if test="startTime!=null and startTime!=''">
+            and DATE_FORMAT(checkTime,'%Y-%m-%d') <![CDATA[>=]]>
+            #{startTime}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and DATE_FORMAT(checkTime,'%Y-%m-%d') <![CDATA[<=]]>
+            #{endTime}
+        </if>
+    </select>
+
+    <!--总出金  -->
+    <select id="getSunOutMoney" resultType="DECIMAL">
+        SELECT SUM(PayMoney)  FROM deal_check
+        WHERE CheckState > 0
+        <if test="startTime!=null and startTime!=''">
+            and DATE_FORMAT(checkTime,'%Y-%m-%d') <![CDATA[>=]]>
+            #{startTime}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and DATE_FORMAT(checkTime,'%Y-%m-%d') <![CDATA[<=]]>
+            #{endTime}
+        </if>
+    </select>
+
+    <!-- 总的冻结金额 -->
+    <select id="getSunDongJieMoney" resultType="DECIMAL">
+        SELECT SUM(FProductsBuyMoney - FProductsRateMoney) AS outMoney   FROM financeproducts_users
+        WHERE  FProductsEm_k2=1
+        <if test="startTime!=null and startTime!=''">
+            and DATE_FORMAT(FProductsBuyTime,'%Y-%m-%d') <![CDATA[>=]]>#{startTime}
+        </if>
+        <if test="endTime !=null and endTime!=''">
+            and DATE_FORMAT(FProductsBuyTime,'%Y-%m-%d') <![CDATA[<=]]>#{endTime}
+        </if>
+    </select>
+
+    <!-- 注册人数 -->
+    <select id="getCountRegister" resultType="Integer">
+        SELECT COUNT(*) from accounts_users
+        where 1=1
+        <if test="startTime != null and startTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') <![CDATA[<=]]> #{endTime}
+        </if>
+    </select>
+
+    <!--绑卡人数  -->
+    <select id="getCountCard" resultType="Integer">
+        SELECT COUNT(*) from base_bankcard
+        where 1=1
+        <if test="startTime != null and startTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') <![CDATA[<=]]> #{endTime}
+        </if>
+    </select>
+
+    <!--新购产品列表  -->
+    <select id="allBuyProducts" resultMap="BaseResultMap">
+        (SELECT a. FProductsBuyTime time ,a.FproductsName,a.FProductsCountNum duringTime,b.userName,b.TrueName,UUID_SHORT() as UUID ,a.FProductsBuyMoney PayMoney FROM
+        (
+        SELECT FProductsBuyTime  ,FPUID,FProductsName,UserID,FProductsBuyMoney,FProductsCountNum
+        FROM financeproducts_users
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            AND DATE_FORMAT(FProductsBuyTime,'%Y-%m-%d') >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND DATE_FORMAT(FProductsBuyTime,'%Y-%m-%d') <![CDATA[<]]> #{endTime}
+        </if>
+        )  a
+        JOIN accounts_users b ON a.UserID=b.UserID)
+        <if test="pageSize !=null and pageSize !=''">
+            limit ${target},${pageSize}
+        </if>
+        limit 2000
+    </select>
+
+    <!-- 产品到期列表 -->
+    <select id="allExpireProducts"  resultMap="BaseResultMap">
+
+        (SELECT b.time time ,b.FproductsName FproductsName,b.FProductsCountNum duringTime,c.userName userName ,c.TrueName  TrueName,UUID_SHORT() as UUID,b.PayMoney PayMoney FROM
+        (SELECT time,FPUID,FProductsName ,UserID,PayMoney,FProductsCountNum
+        FROM(
+        SELECT DATE_ADD(FProductsBuyTime,INTERVAL FProductsCountNum DAY) time ,FPUID,FProductsName,UserID,FProductsCountNum,(FProductsBuyMoney-FProductsRateMoney) PayMoney
+        FROM financeproducts_users  WHERE (FProductsBuyMoney-FProductsRateMoney)>0
+        )  a
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            AND DATE_FORMAT(time,'%Y-%m-%d') >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND DATE_FORMAT(time,'%Y-%m-%d') <![CDATA[<]]> #{endTime}
+        </if>
+        )b  LEFT JOIN accounts_users c ON b.UserID=c.UserID)
+        <if test="pageSize !=null and pageSize !=''">
+            limit ${target},${pageSize}
+        </if>
+    </select>
+    <!-- 充值列表 -->
+    <select id ="allInMoney"  resultMap="BaseResultMap" >
+
+        (SELECT A.OrderMoney  PayMoney ,A.ChannelName ChannelName,A.CheckTime time ,B.userName userName ,b.TrueName  TrueName,UUID_SHORT() as UUID  FROM
+        (SELECT OrderMoney,UserID ,ChannelName ,CheckTime from deal_order where OrderState=2
+        <if test="startTime != null and startTime != ''">
+            AND DATE_FORMAT(CheckTime,'%Y-%m-%d') >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND DATE_FORMAT(CheckTime,'%Y-%m-%d') <![CDATA[<]]> #{endTime}
+        </if>
+        )a  JOIN accounts_users b on a.userId= b.UserID )
+        <if test="pageSize !=null and pageSize !=''">
+            limit ${target},${pageSize}
+        </if>
+    </select>
+
+    <!-- 提现列表 -->
+    <select  id="allWithdraw" resultMap="BaseResultMap">
+        (select a.PayName  TrueName ,a.PayMoney  PayMoney ,a.PayFee PayFee ,a.CheckState CheckState ,a.CheckType CheckType ,a.PayBank PayBank ,a.CreateTime time , b.userName userName ,UUID_SHORT() as UUID FROM
+        (select  PayName ,PayMoney ,PayFee,CheckState,PayBank,CheckType ,UserID,CreateTime
+        FROM deal_check
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') <![CDATA[<]]> #{endTime}
+        </if>
+        )a  JOIN accounts_users b ON a.UserID=b.userId)
+        <if test="pageSize !=null and pageSize !=''">
+            limit ${target},${pageSize}
+        </if>
+    </select>
+    <!-- 注册量列表 -->
+    <select id="allRegister" resultMap="BaseResultMap">
+        SELECT  userName ,TrueName , CreateTime as time, User_ek1 as ChannelName ,UUID_SHORT() as UUID FROM accounts_users
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND DATE_FORMAT(CreateTime,'%Y-%m-%d') <![CDATA[<]]> #{endTime}
+        </if>
+        <if test="pageSize !=null and pageSize !=''">
+            limit ${target},${pageSize}
+        </if>
+    </select>
+
+</mapper>

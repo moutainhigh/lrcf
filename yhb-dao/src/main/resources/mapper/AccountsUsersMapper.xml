@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.AccountsUsersDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.AccountsUsers">
+		<id column="UserID" property="userid" jdbcType="CHAR" />
+		<result column="UserName" property="username" jdbcType="VARCHAR" />
+		<result column="UserPassword" property="userpassword" jdbcType="VARCHAR" />
+		<result column="CheckPassword" property="checkpassword"
+			jdbcType="VARCHAR" />
+		<result column="TrueName" property="truename" jdbcType="VARCHAR" />
+		<result column="CardID" property="cardid" jdbcType="VARCHAR" />
+		<result column="CompanyName" property="companyname" jdbcType="VARCHAR" />
+		<result column="CompanyAddress" property="companyaddress"
+			jdbcType="VARCHAR" />
+		<result column="Activity" property="activity" jdbcType="BIT" />
+		<result column="ParentID" property="parentid" jdbcType="CHAR" />
+		<result column="IsAgent" property="isagent" jdbcType="BIT" />
+		<result column="LineCount" property="linecount" jdbcType="INTEGER" />
+		<result column="IsAuditUser" property="isaudituser" jdbcType="BIT" />
+		<result column="Style" property="style" jdbcType="INTEGER" />
+		<result column="UserLevel" property="userlevel" jdbcType="INTEGER" />
+		<result column="PayName" property="payname" jdbcType="VARCHAR" />
+		<result column="PayBank" property="paybank" jdbcType="VARCHAR" />
+		<result column="PayBankAddress" property="paybankaddress"
+			jdbcType="VARCHAR" />
+		<result column="PayBankCardNumber" property="paybankcardnumber"
+			jdbcType="VARCHAR" />
+		<result column="UserQuestion" property="userquestion" jdbcType="VARCHAR" />
+		<result column="UserAnswer" property="useranswer" jdbcType="VARCHAR" />
+		<result column="QQ" property="qq" jdbcType="VARCHAR" />
+		<result column="Telphone" property="telphone" jdbcType="VARCHAR" />
+		<result column="Email" property="email" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="PlatID" property="platid" jdbcType="CHAR" />
+		<result column="OpenMoney" property="openmoney" jdbcType="DECIMAL" />
+		<result column="PayFeeUserIn" property="payfeeuserin" jdbcType="DECIMAL" />
+		<result column="MaxMoney" property="maxmoney" jdbcType="DECIMAL" />
+		<result column="RptEmail" property="rptemail" jdbcType="VARCHAR" />
+		<result column="IdntfCode" property="idntfcode" jdbcType="INTEGER" />
+		<result column="IdntfCodeCrTime" property="idntfcodecrtime"
+			jdbcType="TIMESTAMP" />
+		<result column="YBalance" property="ybalance" jdbcType="DECIMAL" />
+		<result column="IsMember" property="ismember" jdbcType="BIT" />
+		<result column="Ips_Id" property="ipsId" jdbcType="VARCHAR" />
+		<result column="Ips_usrCustId" property="ipsUsrcustid"
+			jdbcType="VARCHAR" />
+		<result column="DeviceToken" property="devicetoken" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.AccountsUsers"
+		extends="BaseResultMap">
+		<result column="Logo" property="logo" jdbcType="VARCHAR" />
+		<result column="HeadImg" property="headimg" jdbcType="VARCHAR" />
+		<result column="User_ek1" property="userEk1" jdbcType="VARCHAR" />
+		<result column="User_ek2" property="userEk2" jdbcType="VARCHAR" />
+		<result column="User_ek3" property="userEk3" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		UserID, UserName, UserPassword, CheckPassword, TrueName,
+		CardID, CompanyName,
+		CompanyAddress,
+		Activity, ParentID, IsAgent,
+		LineCount, IsAuditUser, Style, UserLevel, PayName,
+		PayBank,
+		PayBankAddress, PayBankCardNumber, UserQuestion, UserAnswer, QQ,
+		Telphone, Email,
+		CreateTime, PlatID, OpenMoney, PayFeeUserIn, MaxMoney,
+		RptEmail,
+		IdntfCode, IdntfCodeCrTime,
+		YBalance, IsMember, Ips_Id,
+		Ips_usrCustId, DeviceToken
+	</sql>
+	<sql id="Blob_Column_List">
+		Logo, HeadImg, User_ek1, User_ek2, User_ek3
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from accounts_users
+		where UserID = #{userid,jdbcType=CHAR}
+	</select>
+
+
+	<!-- 根据CardId查询用户 -->
+	<select id="selectUserByCardId" resultMap="ResultMapWithBLOBs"
+			parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from accounts_users
+		where CardID = #{cardId,jdbcType=VARCHAR}
+	</select>
+
+	<!--根据Ips商户账号查询用户信息-->
+	<select id="selectIpsAcctNo" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from accounts_users
+		where Ips_usrCustId = #{ipsusrCustId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据UserName查询用户 -->
+	<select id="selectUserByUserName" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from accounts_users
+		where UserName = #{userName,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		accounts_users
+		where UserID = #{userid,jdbcType=CHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.AccountsUsers">
+		insert into accounts_users
+		(UserID, UserName, UserPassword,
+		CheckPassword, TrueName, CardID,
+		CompanyName, CompanyAddress, Activity,
+		ParentID, IsAgent, LineCount,
+		IsAuditUser, Style, UserLevel,
+		PayName, PayBank, PayBankAddress,
+		PayBankCardNumber, UserQuestion, UserAnswer,
+		QQ, Telphone, Email,
+		CreateTime, PlatID, OpenMoney,
+		PayFeeUserIn, MaxMoney, RptEmail,
+		IdntfCode, IdntfCodeCrTime, YBalance,
+		IsMember, Ips_Id, Ips_usrCustId,
+		DeviceToken, Logo,
+		HeadImg, User_ek1, User_ek2,
+		User_ek3)
+		values (#{userid,jdbcType=CHAR},
+		#{username,jdbcType=VARCHAR},
+		#{userpassword,jdbcType=VARCHAR},
+		#{checkpassword,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR},
+		#{cardid,jdbcType=VARCHAR},
+		#{companyname,jdbcType=VARCHAR},
+		#{companyaddress,jdbcType=VARCHAR},
+		#{activity,jdbcType=BIT},
+		#{parentid,jdbcType=CHAR}, #{isagent,jdbcType=BIT},
+		#{linecount,jdbcType=INTEGER},
+		#{isaudituser,jdbcType=BIT},
+		#{style,jdbcType=INTEGER},
+		#{userlevel,jdbcType=INTEGER},
+		#{payname,jdbcType=VARCHAR}, #{paybank,jdbcType=VARCHAR},
+		#{paybankaddress,jdbcType=VARCHAR},
+		#{paybankcardnumber,jdbcType=VARCHAR},
+		#{userquestion,jdbcType=VARCHAR}, #{useranswer,jdbcType=VARCHAR},
+		#{qq,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{platid,jdbcType=CHAR}, #{openmoney,jdbcType=DECIMAL},
+		#{payfeeuserin,jdbcType=DECIMAL}, #{maxmoney,jdbcType=DECIMAL},
+		#{rptemail,jdbcType=VARCHAR},
+		#{idntfcode,jdbcType=INTEGER},
+		#{idntfcodecrtime,jdbcType=TIMESTAMP}, #{ybalance,jdbcType=DECIMAL},
+		#{ismember,jdbcType=BIT}, #{ipsId,jdbcType=VARCHAR},
+		#{ipsUsrcustid,jdbcType=VARCHAR},
+		#{devicetoken,jdbcType=VARCHAR},
+		#{logo,jdbcType=VARCHAR},
+		#{headimg,jdbcType=VARCHAR}, #{userEk1,jdbcType=VARCHAR},
+		#{userEk2,jdbcType=VARCHAR},
+		#{userEk3,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.AccountsUsers">
+		insert into accounts_users
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="username != null">
+				UserName,
+			</if>
+			<if test="userpassword != null">
+				UserPassword,
+			</if>
+			<if test="checkpassword != null">
+				CheckPassword,
+			</if>
+			<if test="truename != null">
+				TrueName,
+			</if>
+			<if test="cardid != null">
+				CardID,
+			</if>
+			<if test="companyname != null">
+				CompanyName,
+			</if>
+			<if test="companyaddress != null">
+				CompanyAddress,
+			</if>
+			<if test="activity != null">
+				Activity,
+			</if>
+			<if test="parentid != null">
+				ParentID,
+			</if>
+			<if test="isagent != null">
+				IsAgent,
+			</if>
+			<if test="linecount != null">
+				LineCount,
+			</if>
+			<if test="isaudituser != null">
+				IsAuditUser,
+			</if>
+			<if test="style != null">
+				Style,
+			</if>
+			<if test="userlevel != null">
+				UserLevel,
+			</if>
+			<if test="payname != null">
+				PayName,
+			</if>
+			<if test="paybank != null">
+				PayBank,
+			</if>
+			<if test="paybankaddress != null">
+				PayBankAddress,
+			</if>
+			<if test="paybankcardnumber != null">
+				PayBankCardNumber,
+			</if>
+			<if test="userquestion != null">
+				UserQuestion,
+			</if>
+			<if test="useranswer != null">
+				UserAnswer,
+			</if>
+			<if test="qq != null">
+				QQ,
+			</if>
+			<if test="telphone != null">
+				Telphone,
+			</if>
+			<if test="email != null">
+				Email,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="platid != null">
+				PlatID,
+			</if>
+			<if test="openmoney != null">
+				OpenMoney,
+			</if>
+			<if test="payfeeuserin != null">
+				PayFeeUserIn,
+			</if>
+			<if test="maxmoney != null">
+				MaxMoney,
+			</if>
+			<if test="rptemail != null">
+				RptEmail,
+			</if>
+			<if test="idntfcode != null">
+				IdntfCode,
+			</if>
+			<if test="idntfcodecrtime != null">
+				IdntfCodeCrTime,
+			</if>
+			<if test="ybalance != null">
+				YBalance,
+			</if>
+			<if test="ismember != null">
+				IsMember,
+			</if>
+			<if test="ipsId != null">
+				Ips_Id,
+			</if>
+			<if test="ipsUsrcustid != null">
+				Ips_usrCustId,
+			</if>
+			<if test="devicetoken != null">
+				DeviceToken,
+			</if>
+			<if test="logo != null">
+				Logo,
+			</if>
+			<if test="headimg != null">
+				HeadImg,
+			</if>
+			<if test="userEk1 != null">
+				User_ek1,
+			</if>
+			<if test="userEk2 != null">
+				User_ek2,
+			</if>
+			<if test="userEk3 != null">
+				User_ek3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				#{userid,jdbcType=CHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="userpassword != null">
+				#{userpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="checkpassword != null">
+				#{checkpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="truename != null">
+				#{truename,jdbcType=VARCHAR},
+			</if>
+			<if test="cardid != null">
+				#{cardid,jdbcType=VARCHAR},
+			</if>
+			<if test="companyname != null">
+				#{companyname,jdbcType=VARCHAR},
+			</if>
+			<if test="companyaddress != null">
+				#{companyaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="activity != null">
+				#{activity,jdbcType=BIT},
+			</if>
+			<if test="parentid != null">
+				#{parentid,jdbcType=CHAR},
+			</if>
+			<if test="isagent != null">
+				#{isagent,jdbcType=BIT},
+			</if>
+			<if test="linecount != null">
+				#{linecount,jdbcType=INTEGER},
+			</if>
+			<if test="isaudituser != null">
+				#{isaudituser,jdbcType=BIT},
+			</if>
+			<if test="style != null">
+				#{style,jdbcType=INTEGER},
+			</if>
+			<if test="userlevel != null">
+				#{userlevel,jdbcType=INTEGER},
+			</if>
+			<if test="payname != null">
+				#{payname,jdbcType=VARCHAR},
+			</if>
+			<if test="paybank != null">
+				#{paybank,jdbcType=VARCHAR},
+			</if>
+			<if test="paybankaddress != null">
+				#{paybankaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="paybankcardnumber != null">
+				#{paybankcardnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="userquestion != null">
+				#{userquestion,jdbcType=VARCHAR},
+			</if>
+			<if test="useranswer != null">
+				#{useranswer,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				#{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="telphone != null">
+				#{telphone,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="platid != null">
+				#{platid,jdbcType=CHAR},
+			</if>
+			<if test="openmoney != null">
+				#{openmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="payfeeuserin != null">
+				#{payfeeuserin,jdbcType=DECIMAL},
+			</if>
+			<if test="maxmoney != null">
+				#{maxmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="rptemail != null">
+				#{rptemail,jdbcType=VARCHAR},
+			</if>
+			<if test="idntfcode != null">
+				#{idntfcode,jdbcType=INTEGER},
+			</if>
+			<if test="idntfcodecrtime != null">
+				#{idntfcodecrtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ybalance != null">
+				#{ybalance,jdbcType=DECIMAL},
+			</if>
+			<if test="ismember != null">
+				#{ismember,jdbcType=BIT},
+			</if>
+			<if test="ipsId != null">
+				#{ipsId,jdbcType=VARCHAR},
+			</if>
+			<if test="ipsUsrcustid != null">
+				#{ipsUsrcustid,jdbcType=VARCHAR},
+			</if>
+			<if test="devicetoken != null">
+				#{devicetoken,jdbcType=VARCHAR},
+			</if>
+			<if test="logo != null">
+				#{logo,jdbcType=VARCHAR},
+			</if>
+			<if test="headimg != null">
+				#{headimg,jdbcType=VARCHAR},
+			</if>
+			<if test="userEk1 != null">
+				#{userEk1,jdbcType=VARCHAR},
+			</if>
+			<if test="userEk2 != null">
+				#{userEk2,jdbcType=VARCHAR},
+			</if>
+			<if test="userEk3 != null">
+				#{userEk3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.AccountsUsers">
+		update accounts_users
+		<set>
+			<if test="username != null">
+				UserName = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="userpassword != null">
+				UserPassword = #{userpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="checkpassword != null">
+				CheckPassword = #{checkpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="truename != null">
+				TrueName = #{truename,jdbcType=VARCHAR},
+			</if>
+			<if test="cardid != null">
+				CardID = #{cardid,jdbcType=VARCHAR},
+			</if>
+			<if test="companyname != null">
+				CompanyName = #{companyname,jdbcType=VARCHAR},
+			</if>
+			<if test="companyaddress != null">
+				CompanyAddress = #{companyaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="activity != null">
+				Activity = #{activity,jdbcType=BIT},
+			</if>
+			<if test="parentid != null">
+				ParentID = #{parentid,jdbcType=CHAR},
+			</if>
+			<if test="isagent != null">
+				IsAgent = #{isagent,jdbcType=BIT},
+			</if>
+			<if test="linecount != null">
+				LineCount = #{linecount,jdbcType=INTEGER},
+			</if>
+			<if test="isaudituser != null">
+				IsAuditUser = #{isaudituser,jdbcType=BIT},
+			</if>
+			<if test="style != null">
+				Style = #{style,jdbcType=INTEGER},
+			</if>
+			<if test="userlevel != null">
+				UserLevel = #{userlevel,jdbcType=INTEGER},
+			</if>
+			<if test="payname != null">
+				PayName = #{payname,jdbcType=VARCHAR},
+			</if>
+			<if test="paybank != null">
+				PayBank = #{paybank,jdbcType=VARCHAR},
+			</if>
+			<if test="paybankaddress != null">
+				PayBankAddress = #{paybankaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="paybankcardnumber != null">
+				PayBankCardNumber =
+				#{paybankcardnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="userquestion != null">
+				UserQuestion = #{userquestion,jdbcType=VARCHAR},
+			</if>
+			<if test="useranswer != null">
+				UserAnswer = #{useranswer,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				QQ = #{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="telphone != null">
+				Telphone = #{telphone,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				Email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="platid != null">
+				PlatID = #{platid,jdbcType=CHAR},
+			</if>
+			<if test="openmoney != null">
+				OpenMoney = #{openmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="payfeeuserin != null">
+				PayFeeUserIn = #{payfeeuserin,jdbcType=DECIMAL},
+			</if>
+			<if test="maxmoney != null">
+				MaxMoney = #{maxmoney,jdbcType=DECIMAL},
+			</if>
+			<if test="rptemail != null">
+				RptEmail = #{rptemail,jdbcType=VARCHAR},
+			</if>
+			<if test="idntfcode != null">
+				IdntfCode = #{idntfcode,jdbcType=INTEGER},
+			</if>
+			<if test="idntfcodecrtime != null">
+				IdntfCodeCrTime = #{idntfcodecrtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ybalance != null">
+				YBalance = #{ybalance,jdbcType=DECIMAL},
+			</if>
+			<if test="ismember != null">
+				IsMember = #{ismember,jdbcType=BIT},
+			</if>
+			<if test="ipsId != null">
+				Ips_Id = #{ipsId,jdbcType=VARCHAR},
+			</if>
+			<if test="ipsUsrcustid != null">
+				Ips_usrCustId = #{ipsUsrcustid,jdbcType=VARCHAR},
+			</if>
+			<if test="devicetoken != null">
+				DeviceToken = #{devicetoken,jdbcType=VARCHAR},
+			</if>
+			<if test="logo != null">
+				Logo = #{logo,jdbcType=VARCHAR},
+			</if>
+			<if test="headimg != null">
+				HeadImg = #{headimg,jdbcType=VARCHAR},
+			</if>
+			<if test="userEk1 != null">
+				User_ek1 = #{userEk1,jdbcType=VARCHAR},
+			</if>
+			<if test="userEk2 != null">
+				User_ek2 = #{userEk2,jdbcType=VARCHAR},
+			</if>
+			<if test="userEk3 != null">
+				User_ek3 = #{userEk3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where UserID = #{userid,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.AccountsUsers">
+		update
+		accounts_users
+		set UserName = #{username,jdbcType=VARCHAR},
+		UserPassword = #{userpassword,jdbcType=VARCHAR},
+		CheckPassword =
+		#{checkpassword,jdbcType=VARCHAR},
+		TrueName =
+		#{truename,jdbcType=VARCHAR},
+		CardID = #{cardid,jdbcType=VARCHAR},
+		CompanyName = #{companyname,jdbcType=VARCHAR},
+		CompanyAddress =
+		#{companyaddress,jdbcType=VARCHAR},
+		Activity =
+		#{activity,jdbcType=BIT},
+		ParentID = #{parentid,jdbcType=CHAR},
+		IsAgent
+		= #{isagent,jdbcType=BIT},
+		LineCount = #{linecount,jdbcType=INTEGER},
+		IsAuditUser = #{isaudituser,jdbcType=BIT},
+		Style =
+		#{style,jdbcType=INTEGER},
+		UserLevel = #{userlevel,jdbcType=INTEGER},
+		PayName = #{payname,jdbcType=VARCHAR},
+		PayBank =
+		#{paybank,jdbcType=VARCHAR},
+		PayBankAddress =
+		#{paybankaddress,jdbcType=VARCHAR},
+		PayBankCardNumber =
+		#{paybankcardnumber,jdbcType=VARCHAR},
+		UserQuestion =
+		#{userquestion,jdbcType=VARCHAR},
+		UserAnswer =
+		#{useranswer,jdbcType=VARCHAR},
+		QQ = #{qq,jdbcType=VARCHAR},
+		Telphone =
+		#{telphone,jdbcType=VARCHAR},
+		Email = #{email,jdbcType=VARCHAR},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		PlatID =
+		#{platid,jdbcType=CHAR},
+		OpenMoney = #{openmoney,jdbcType=DECIMAL},
+		PayFeeUserIn = #{payfeeuserin,jdbcType=DECIMAL},
+		MaxMoney =
+		#{maxmoney,jdbcType=DECIMAL},
+		RptEmail = #{rptemail,jdbcType=VARCHAR},
+		IdntfCode = #{idntfcode,jdbcType=INTEGER},
+		IdntfCodeCrTime =
+		#{idntfcodecrtime,jdbcType=TIMESTAMP},
+		YBalance =
+		#{ybalance,jdbcType=DECIMAL},
+		IsMember = #{ismember,jdbcType=BIT},
+		Ips_Id = #{ipsId,jdbcType=VARCHAR},
+		Ips_usrCustId =
+		#{ipsUsrcustid,jdbcType=VARCHAR},
+		DeviceToken =
+		#{devicetoken,jdbcType=VARCHAR},
+		Logo =
+		#{logo,jdbcType=VARCHAR},
+		HeadImg =
+		#{headimg,jdbcType=VARCHAR},
+		User_ek1 =
+		#{userEk1,jdbcType=VARCHAR},
+		User_ek2 =
+		#{userEk2,jdbcType=VARCHAR},
+		User_ek3 =
+		#{userEk3,jdbcType=VARCHAR}
+		where UserID = #{userid,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.AccountsUsers">
+		update
+		accounts_users
+		set UserName = #{username,jdbcType=VARCHAR},
+		UserPassword = #{userpassword,jdbcType=VARCHAR},
+		CheckPassword =
+		#{checkpassword,jdbcType=VARCHAR},
+		TrueName =
+		#{truename,jdbcType=VARCHAR},
+		CardID = #{cardid,jdbcType=VARCHAR},
+		CompanyName = #{companyname,jdbcType=VARCHAR},
+		CompanyAddress =
+		#{companyaddress,jdbcType=VARCHAR},
+		Activity =
+		#{activity,jdbcType=BIT},
+		ParentID = #{parentid,jdbcType=CHAR},
+		IsAgent
+		= #{isagent,jdbcType=BIT},
+		LineCount = #{linecount,jdbcType=INTEGER},
+		IsAuditUser = #{isaudituser,jdbcType=BIT},
+		Style =
+		#{style,jdbcType=INTEGER},
+		UserLevel = #{userlevel,jdbcType=INTEGER},
+		PayName = #{payname,jdbcType=VARCHAR},
+		PayBank =
+		#{paybank,jdbcType=VARCHAR},
+		PayBankAddress =
+		#{paybankaddress,jdbcType=VARCHAR},
+		PayBankCardNumber =
+		#{paybankcardnumber,jdbcType=VARCHAR},
+		UserQuestion =
+		#{userquestion,jdbcType=VARCHAR},
+		UserAnswer =
+		#{useranswer,jdbcType=VARCHAR},
+		QQ = #{qq,jdbcType=VARCHAR},
+		Telphone =
+		#{telphone,jdbcType=VARCHAR},
+		Email = #{email,jdbcType=VARCHAR},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		PlatID =
+		#{platid,jdbcType=CHAR},
+		OpenMoney = #{openmoney,jdbcType=DECIMAL},
+		PayFeeUserIn = #{payfeeuserin,jdbcType=DECIMAL},
+		MaxMoney =
+		#{maxmoney,jdbcType=DECIMAL},
+		RptEmail = #{rptemail,jdbcType=VARCHAR},
+		IdntfCode = #{idntfcode,jdbcType=INTEGER},
+		IdntfCodeCrTime =
+		#{idntfcodecrtime,jdbcType=TIMESTAMP},
+		YBalance =
+		#{ybalance,jdbcType=DECIMAL},
+		IsMember = #{ismember,jdbcType=BIT},
+		Ips_Id = #{ipsId,jdbcType=VARCHAR},
+		Ips_usrCustId =
+		#{ipsUsrcustid,jdbcType=VARCHAR},
+		DeviceToken =
+		#{devicetoken,jdbcType=VARCHAR}
+		where UserID =
+		#{userid,jdbcType=CHAR}
+	</update>
+</mapper>

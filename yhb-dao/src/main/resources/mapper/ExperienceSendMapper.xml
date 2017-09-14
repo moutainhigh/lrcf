@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.ExperienceSendDao" >
+  <resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.ExperienceSend" >
+    <id column="ExperienceSendId" property="experiencesendid" jdbcType="INTEGER" />
+    <result column="fPid" property="fpid" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="CHAR" />
+    <result column="ExperienceId" property="experienceid" jdbcType="INTEGER" />
+    <result column="ExperienceSendTime" property="experiencesendtime" jdbcType="TIMESTAMP" />
+    <result column="ExperienceSendIsUse" property="experiencesendisuse" jdbcType="INTEGER" />
+    <result column="ExperienceSendUseTime" property="experiencesendusetime" jdbcType="TIMESTAMP" />
+    <result column="ExperienceRate" property="experiencerate" jdbcType="DECIMAL" />
+    <result column="ExperienceSendMoney" property="experiencesendmoney" jdbcType="DECIMAL" />
+    <result column="changeCode" property="changecode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.ExperienceSend" extends="BaseResultMap" >
+    <result column="ExperienceSendEm_k1" property="experiencesendemK1" jdbcType="LONGVARCHAR" />
+    <result column="ExperienceSendEm_k2" property="experiencesendemK2" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ExperienceSendId, fPid, UserId, ExperienceId, ExperienceSendTime, ExperienceSendIsUse, 
+    ExperienceSendUseTime, ExperienceRate, ExperienceSendMoney, changeCode
+  </sql>
+  <sql id="Blob_Column_List" >
+    ExperienceSendEm_k1, ExperienceSendEm_k2
+  </sql>
+
+  <select id="selectExperienceSendList" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT
+      ExperienceSendMoney,
+      ExperienceSendIsUse,
+      ExperienceSendTime,
+      ExperienceSendEm_k2,
+      ExperienceSendEm_k1
+    FROM
+      experiencesend
+    WHERE
+      userId = #{userId}
+    AND ExperienceSendIsUse = #{state}
+    ORDER BY
+      ${rank} DESC
+      LIMIT ${current },${size}
+  </select>
+
+  <select id="getExperience" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from experiencesend
+    userId = #{userId}
+    AND ExperienceSendIsUse = #{state}
+    and fPid = #{id}
+    ORDER BY
+    ExperienceSendTime DESC
+  </select>
+
+  <select id="countExperienceSend" resultType="int" parameterType="Map" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from experiencesend
+    where
+    userId = #{userId}
+    AND ExperienceSendIsUse = #{state}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from experiencesend
+    where ExperienceSendId = #{experiencesendid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from experiencesend
+    where ExperienceSendId = #{experiencesendid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.lrcf.yhb.pojo.ExperienceSend" >
+    insert into experiencesend (ExperienceSendId, fPid, UserId, 
+      ExperienceId, ExperienceSendTime, ExperienceSendIsUse, 
+      ExperienceSendUseTime, ExperienceRate, 
+      ExperienceSendMoney, changeCode, ExperienceSendEm_k1, 
+      ExperienceSendEm_k2)
+    values (#{experiencesendid,jdbcType=INTEGER}, #{fpid,jdbcType=VARCHAR}, #{userid,jdbcType=CHAR}, 
+      #{experienceid,jdbcType=INTEGER}, #{experiencesendtime,jdbcType=TIMESTAMP}, #{experiencesendisuse,jdbcType=INTEGER}, 
+      #{experiencesendusetime,jdbcType=TIMESTAMP}, #{experiencerate,jdbcType=DECIMAL}, 
+      #{experiencesendmoney,jdbcType=DECIMAL}, #{changecode,jdbcType=VARCHAR}, #{experiencesendemK1,jdbcType=LONGVARCHAR}, 
+      #{experiencesendemK2,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.lrcf.yhb.pojo.ExperienceSend" >
+    insert into experiencesend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="experiencesendid != null" >
+        ExperienceSendId,
+      </if>
+      <if test="fpid != null" >
+        fPid,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="experienceid != null" >
+        ExperienceId,
+      </if>
+      <if test="experiencesendtime != null" >
+        ExperienceSendTime,
+      </if>
+      <if test="experiencesendisuse != null" >
+        ExperienceSendIsUse,
+      </if>
+      <if test="experiencesendusetime != null" >
+        ExperienceSendUseTime,
+      </if>
+      <if test="experiencerate != null" >
+        ExperienceRate,
+      </if>
+      <if test="experiencesendmoney != null" >
+        ExperienceSendMoney,
+      </if>
+      <if test="changecode != null" >
+        changeCode,
+      </if>
+      <if test="experiencesendemK1 != null" >
+        ExperienceSendEm_k1,
+      </if>
+      <if test="experiencesendemK2 != null" >
+        ExperienceSendEm_k2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="experiencesendid != null" >
+        #{experiencesendid,jdbcType=INTEGER},
+      </if>
+      <if test="fpid != null" >
+        #{fpid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="experienceid != null" >
+        #{experienceid,jdbcType=INTEGER},
+      </if>
+      <if test="experiencesendtime != null" >
+        #{experiencesendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencesendisuse != null" >
+        #{experiencesendisuse,jdbcType=INTEGER},
+      </if>
+      <if test="experiencesendusetime != null" >
+        #{experiencesendusetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencerate != null" >
+        #{experiencerate,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencesendmoney != null" >
+        #{experiencesendmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="changecode != null" >
+        #{changecode,jdbcType=VARCHAR},
+      </if>
+      <if test="experiencesendemK1 != null" >
+        #{experiencesendemK1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencesendemK2 != null" >
+        #{experiencesendemK2,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.ExperienceSend" >
+    update experiencesend
+    <set >
+      <if test="fpid != null" >
+        fPid = #{fpid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=CHAR},
+      </if>
+      <if test="experienceid != null" >
+        ExperienceId = #{experienceid,jdbcType=INTEGER},
+      </if>
+      <if test="experiencesendtime != null" >
+        ExperienceSendTime = #{experiencesendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencesendisuse != null" >
+        ExperienceSendIsUse = #{experiencesendisuse,jdbcType=INTEGER},
+      </if>
+      <if test="experiencesendusetime != null" >
+        ExperienceSendUseTime = #{experiencesendusetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experiencerate != null" >
+        ExperienceRate = #{experiencerate,jdbcType=DECIMAL},
+      </if>
+      <if test="experiencesendmoney != null" >
+        ExperienceSendMoney = #{experiencesendmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="changecode != null" >
+        changeCode = #{changecode,jdbcType=VARCHAR},
+      </if>
+      <if test="experiencesendemK1 != null" >
+        ExperienceSendEm_k1 = #{experiencesendemK1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="experiencesendemK2 != null" >
+        ExperienceSendEm_k2 = #{experiencesendemK2,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ExperienceSendId = #{experiencesendid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.ExperienceSend" >
+    update experiencesend
+    set fPid = #{fpid,jdbcType=VARCHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      ExperienceId = #{experienceid,jdbcType=INTEGER},
+      ExperienceSendTime = #{experiencesendtime,jdbcType=TIMESTAMP},
+      ExperienceSendIsUse = #{experiencesendisuse,jdbcType=INTEGER},
+      ExperienceSendUseTime = #{experiencesendusetime,jdbcType=TIMESTAMP},
+      ExperienceRate = #{experiencerate,jdbcType=DECIMAL},
+      ExperienceSendMoney = #{experiencesendmoney,jdbcType=DECIMAL},
+      changeCode = #{changecode,jdbcType=VARCHAR},
+      ExperienceSendEm_k1 = #{experiencesendemK1,jdbcType=LONGVARCHAR},
+      ExperienceSendEm_k2 = #{experiencesendemK2,jdbcType=LONGVARCHAR}
+    where ExperienceSendId = #{experiencesendid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.ExperienceSend" >
+    update experiencesend
+    set fPid = #{fpid,jdbcType=VARCHAR},
+      UserId = #{userid,jdbcType=CHAR},
+      ExperienceId = #{experienceid,jdbcType=INTEGER},
+      ExperienceSendTime = #{experiencesendtime,jdbcType=TIMESTAMP},
+      ExperienceSendIsUse = #{experiencesendisuse,jdbcType=INTEGER},
+      ExperienceSendUseTime = #{experiencesendusetime,jdbcType=TIMESTAMP},
+      ExperienceRate = #{experiencerate,jdbcType=DECIMAL},
+      ExperienceSendMoney = #{experiencesendmoney,jdbcType=DECIMAL},
+      changeCode = #{changecode,jdbcType=VARCHAR}
+    where ExperienceSendId = #{experiencesendid,jdbcType=INTEGER}
+  </update>
+</mapper>

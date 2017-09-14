@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lrcf.yhb.dao.mapper.FinanceproductsUsersDao">
+	<resultMap id="BaseResultMap" type="com.lrcf.yhb.pojo.FinanceproductsUsers">
+		<id column="FPUID" property="fpuid" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="CHAR" />
+		<result column="FPid" property="fpid" jdbcType="INTEGER" />
+		<result column="FProductsName" property="fproductsname"
+			jdbcType="VARCHAR" />
+		<result column="FProductsRates" property="fproductsrates"
+			jdbcType="REAL" />
+		<result column="FProductsBuyMoney" property="fproductsbuymoney"
+			jdbcType="DECIMAL" />
+		<result column="FProductsBuyTime" property="fproductsbuytime"
+			jdbcType="TIMESTAMP" />
+		<result column="FProductsRateInNum" property="fproductsrateinnum"
+			jdbcType="INTEGER" />
+		<result column="FProductsExtractNum" property="fproductsextractnum"
+			jdbcType="INTEGER" />
+		<result column="FProductsOutMoney" property="fproductsoutmoney"
+			jdbcType="REAL" />
+		<result column="FProductsCountNum" property="fproductscountnum"
+			jdbcType="INTEGER" />
+		<result column="FProductsRateMoney" property="fproductsratemoney"
+			jdbcType="DECIMAL" />
+		<result column="FProductsCountRateMoney" property="fproductscountratemoney"
+			jdbcType="DECIMAL" />
+		<result column="MemberRates" property="memberrates" jdbcType="REAL" />
+
+		<result column="TrueName" property="trueName"	jdbcType="VARCHAR" />
+		<result column="UserName" property="userName"	jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.lrcf.yhb.pojo.FinanceproductsUsers"
+		extends="BaseResultMap">
+		<result column="FProductsEm_k1" property="fproductsemK1"
+			jdbcType="VARCHAR" />
+		<result column="FProductsEm_k2" property="fproductsemK2"
+			jdbcType="VARCHAR" />
+		<result column="FProductsEm_k3" property="fproductsemK3"
+			jdbcType="VARCHAR" />
+		<result column="FProductsEm_k4" property="fproductsemK4"
+			jdbcType="VARCHAR" />
+		<result column="FProductsEm_k5" property="fproductsemK5"
+			jdbcType="VARCHAR" />
+		<result column="FProductsImgs" property="fproductsimgs"
+			jdbcType="LONGVARBINARY" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		FPUID, UserID, FPid, FProductsName, FProductsRates, FProductsBuyMoney,
+		FProductsBuyTime,
+		FProductsRateInNum, FProductsExtractNum, FProductsOutMoney, FProductsCountNum,
+		FProductsRateMoney,
+		FProductsCountRateMoney, MemberRates
+	</sql>
+	<sql id="Blob_Column_List">
+		FProductsEm_k1, FProductsEm_k2, FProductsEm_k3, FProductsEm_k4, FProductsEm_k5,
+		FProductsImgs
+	</sql>
+
+	<!--<resultMap id="buyList" type="com.lrcf.yhb.common.vo.UserBuyProductList">-->
+		<!--<result column="name" property="name" />-->
+		<!--<result column="tapType" property="tapType"/>-->
+		<!--<result column="profit" property="profit"/>-->
+		<!--<result column="rate" property="rate"/>-->
+		<!--<result column="freeze" property="freeze" />-->
+		<!--<result column="bTime" property="bTime"/>-->
+		<!--<result column="eTime" property="eTime"/>-->
+		<!--<result column="day" property="day"/>-->
+		<!--<result column="money" property="money"/>-->
+		<!--<result column="fpid" property="fpid"/>-->
+		<!--<result column="fpuId" property="fpuId"/>-->
+	<!--</resultMap>-->
+
+    <!--获取用户投资记录-->
+	<select id="getUserBuyProductList" resultMap="BaseResultMap" parameterType="Map" >
+		SELECT
+			fpuId,
+			fpid,
+			FProductsName as name,
+			format(FProductsRates*365*100,1) as rate,
+			FProductsCountRateMoney as profit,
+			FProductsCountNum as day,
+			FProductsBuyMoney-FProductsRateMoney as freeze,
+			FProductsBuyTime as bTime,
+		    FProductsBuyMoney as money,
+		    case when  b.value is null then '0' else '1' end 'tapType',
+		    DATE_ADD(FProductsBuyTime,INTERVAL FProductsCountNum day) as eTime
+		FROM
+			financeproducts_users a
+		    left join base_config b
+		    on a.FPid=b.value
+		WHERE
+			userId = #{userId}
+			<if test="type !=null and type !=''">
+				 <if test="type == 0 ">
+					 AND FProductsEm_k2 = 1
+				 </if>
+				 <if test="type == 1">
+					 AND FProductsEm_k2 = 0
+				 </if>
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and DATE_FORMAT(FProductsTimes,'%Y-%m-%d') <![CDATA[>=]]>
+				#{startTime}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and DATE_FORMAT(FProductsTimes,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+			</if>
+			order by FProductsTimes desc limit #{current} ,#{size}
+	</select>
+	<!--获取用户持有中或已结束数据总数-->
+	<select id="getProductCountByParam" resultType="int" parameterType="Map">
+       select count(fpuid) from financeproducts_users
+       where
+		userId =#{userId}
+		<if test="type !=null and type !=''">
+			<if test="type == 0 ">
+				AND FProductsEm_k2 = 1
+			</if>
+			<if test="type == 1">
+				AND FProductsEm_k2 = 0
+			</if>
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and DATE_FORMAT(FProductsTimes,'%Y-%m-%d') <![CDATA[>=]]>
+			#{startTime}
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			and DATE_FORMAT(FProductsTimes,'%Y-%m-%d')<![CDATA[<=]]>#{endTime}
+		</if>
+	</select>
+
+	<!-- 用户投资记录 -->
+	<select id="getUserInvestmentRecords" resultMap="BaseResultMap">
+		select
+		a.TrueName ,a.UserName,b.FProductsBuyMoney,b.FProductsBuyTime from
+		accounts_users a, financeproducts_users b where a.UserID = b.UserID
+		and b.fPid=#{fPid} order by b.FProductsBuyTime DESC
+	</select>
+	
+	<select id="getCountUserByFPid" resultType="java.lang.Integer">
+	   select count(userId) from financeproducts_users where FPid = #{FPid}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from financeproducts_users
+		where FPUID = #{fpuid,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from financeproducts_users
+		where FPUID = #{fpuid,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lrcf.yhb.pojo.FinanceproductsUsers"   useGeneratedKeys="true"  keyProperty="FPUID" >
+	insert into financeproducts_users (FPUID, UserID, FPid,
+		FProductsName, FProductsRates, FProductsBuyMoney,
+		FProductsBuyTime, FProductsRateInNum,
+		FProductsExtractNum, FProductsOutMoney, FProductsCountNum,
+		FProductsRateMoney, FProductsCountRateMoney,
+		MemberRates, FProductsEm_k1, FProductsEm_k2,
+		FProductsEm_k3, FProductsEm_k4, FProductsEm_k5,
+		FProductsImgs)
+		values (#{fpuid,jdbcType=INTEGER}, #{userid,jdbcType=CHAR},
+		#{fpid,jdbcType=INTEGER},
+		#{fproductsname,jdbcType=VARCHAR}, #{fproductsrates,jdbcType=REAL},
+		#{fproductsbuymoney,jdbcType=DECIMAL},
+		#{fproductsbuytime,jdbcType=TIMESTAMP},
+		#{fproductsrateinnum,jdbcType=INTEGER},
+		#{fproductsextractnum,jdbcType=INTEGER},
+		#{fproductsoutmoney,jdbcType=REAL},
+		#{fproductscountnum,jdbcType=INTEGER},
+		#{fproductsratemoney,jdbcType=DECIMAL},
+		#{fproductscountratemoney,jdbcType=DECIMAL},
+		#{memberrates,jdbcType=REAL}, #{fproductsemK1,jdbcType=VARCHAR},
+		#{fproductsemK2,jdbcType=VARCHAR},
+		#{fproductsemK3,jdbcType=VARCHAR}, #{fproductsemK4,jdbcType=VARCHAR}, #{fproductsemK5,jdbcType=VARCHAR},
+		#{fproductsimgs,jdbcType=LONGVARBINARY})
+	</insert>
+
+	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="FPUID" parameterType="com.lrcf.yhb.pojo.FinanceproductsUsers">
+		insert into financeproducts_users
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fpuid != null">
+				FPUID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="fpid != null">
+				FPid,
+			</if>
+			<if test="fproductsname != null">
+				FProductsName,
+			</if>
+			<if test="fproductsrates != null">
+				FProductsRates,
+			</if>
+			<if test="fproductsbuymoney != null">
+				FProductsBuyMoney,
+			</if>
+			<if test="fproductsbuytime != null">
+				FProductsBuyTime,
+			</if>
+			<if test="fproductsrateinnum != null">
+				FProductsRateInNum,
+			</if>
+			<if test="fproductsextractnum != null">
+				FProductsExtractNum,
+			</if>
+			<if test="fproductsoutmoney != null">
+				FProductsOutMoney,
+			</if>
+			<if test="fproductscountnum != null">
+				FProductsCountNum,
+			</if>
+			<if test="fproductsratemoney != null">
+				FProductsRateMoney,
+			</if>
+			<if test="fproductscountratemoney != null">
+				FProductsCountRateMoney,
+			</if>
+			<if test="memberrates != null">
+				MemberRates,
+			</if>
+			<if test="fproductsemK1 != null">
+				FProductsEm_k1,
+			</if>
+			<if test="fproductsemK2 != null">
+				FProductsEm_k2,
+			</if>
+			<if test="fproductsemK3 != null">
+				FProductsEm_k3,
+			</if>
+			<if test="fproductsemK4 != null">
+				FProductsEm_k4,
+			</if>
+			<if test="fproductsemK5 != null">
+				FProductsEm_k5,
+			</if>
+			<if test="fproductsimgs != null">
+				FProductsImgs,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fpuid != null">
+				#{fpuid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=CHAR},
+			</if>
+			<if test="fpid != null">
+				#{fpid,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsname != null">
+				#{fproductsname,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsrates != null">
+				#{fproductsrates,jdbcType=REAL},
+			</if>
+			<if test="fproductsbuymoney != null">
+				#{fproductsbuymoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsbuytime != null">
+				#{fproductsbuytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsrateinnum != null">
+				#{fproductsrateinnum,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsextractnum != null">
+				#{fproductsextractnum,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsoutmoney != null">
+				#{fproductsoutmoney,jdbcType=REAL},
+			</if>
+			<if test="fproductscountnum != null">
+				#{fproductscountnum,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsratemoney != null">
+				#{fproductsratemoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductscountratemoney != null">
+				#{fproductscountratemoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberrates != null">
+				#{memberrates,jdbcType=REAL},
+			</if>
+			<if test="fproductsemK1 != null">
+				#{fproductsemK1,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK2 != null">
+				#{fproductsemK2,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK3 != null">
+				#{fproductsemK3,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK4 != null">
+				#{fproductsemK4,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK5 != null">
+				#{fproductsemK5,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsimgs != null">
+				#{fproductsimgs,jdbcType=LONGVARBINARY},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lrcf.yhb.pojo.FinanceproductsUsers">
+		update financeproducts_users
+		<set>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=CHAR},
+			</if>
+			<if test="fpid != null">
+				FPid = #{fpid,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsname != null">
+				FProductsName = #{fproductsname,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsrates != null">
+				FProductsRates = #{fproductsrates,jdbcType=REAL},
+			</if>
+			<if test="fproductsbuymoney != null">
+				FProductsBuyMoney = #{fproductsbuymoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductsbuytime != null">
+				FProductsBuyTime = #{fproductsbuytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fproductsrateinnum != null">
+				FProductsRateInNum = #{fproductsrateinnum,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsextractnum != null">
+				FProductsExtractNum = #{fproductsextractnum,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsoutmoney != null">
+				FProductsOutMoney = #{fproductsoutmoney,jdbcType=REAL},
+			</if>
+			<if test="fproductscountnum != null">
+				FProductsCountNum = #{fproductscountnum,jdbcType=INTEGER},
+			</if>
+			<if test="fproductsratemoney != null">
+				FProductsRateMoney = #{fproductsratemoney,jdbcType=DECIMAL},
+			</if>
+			<if test="fproductscountratemoney != null">
+				FProductsCountRateMoney =
+				#{fproductscountratemoney,jdbcType=DECIMAL},
+			</if>
+			<if test="memberrates != null">
+				MemberRates = #{memberrates,jdbcType=REAL},
+			</if>
+			<if test="fproductsemK1 != null">
+				FProductsEm_k1 = #{fproductsemK1,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK2 != null">
+				FProductsEm_k2 = #{fproductsemK2,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK3 != null">
+				FProductsEm_k3 = #{fproductsemK3,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK4 != null">
+				FProductsEm_k4 = #{fproductsemK4,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsemK5 != null">
+				FProductsEm_k5 = #{fproductsemK5,jdbcType=VARCHAR},
+			</if>
+			<if test="fproductsimgs != null">
+				FProductsImgs = #{fproductsimgs,jdbcType=LONGVARBINARY},
+			</if>
+		</set>
+		where FPUID = #{fpuid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lrcf.yhb.pojo.FinanceproductsUsers">
+		update financeproducts_users
+		set UserID = #{userid,jdbcType=CHAR},
+		FPid = #{fpid,jdbcType=INTEGER},
+		FProductsName = #{fproductsname,jdbcType=VARCHAR},
+		FProductsRates = #{fproductsrates,jdbcType=REAL},
+		FProductsBuyMoney = #{fproductsbuymoney,jdbcType=DECIMAL},
+		FProductsBuyTime = #{fproductsbuytime,jdbcType=TIMESTAMP},
+		FProductsRateInNum = #{fproductsrateinnum,jdbcType=INTEGER},
+		FProductsExtractNum = #{fproductsextractnum,jdbcType=INTEGER},
+		FProductsOutMoney = #{fproductsoutmoney,jdbcType=REAL},
+		FProductsCountNum = #{fproductscountnum,jdbcType=INTEGER},
+		FProductsRateMoney = #{fproductsratemoney,jdbcType=DECIMAL},
+		FProductsCountRateMoney = #{fproductscountratemoney,jdbcType=DECIMAL},
+		MemberRates = #{memberrates,jdbcType=REAL},
+		FProductsEm_k1 = #{fproductsemK1,jdbcType=VARCHAR},
+		FProductsEm_k2 = #{fproductsemK2,jdbcType=VARCHAR},
+		FProductsEm_k3 = #{fproductsemK3,jdbcType=VARCHAR},
+		FProductsEm_k4 = #{fproductsemK4,jdbcType=VARCHAR},
+		FProductsEm_k5 = #{fproductsemK5,jdbcType=VARCHAR},
+		FProductsImgs = #{fproductsimgs,jdbcType=LONGVARBINARY}
+		where FPUID = #{fpuid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lrcf.yhb.pojo.FinanceproductsUsers">
+		update financeproducts_users
+		set UserID = #{userid,jdbcType=CHAR},
+		FPid = #{fpid,jdbcType=INTEGER},
+		FProductsName = #{fproductsname,jdbcType=VARCHAR},
+		FProductsRates = #{fproductsrates,jdbcType=REAL},
+		FProductsBuyMoney = #{fproductsbuymoney,jdbcType=DECIMAL},
+		FProductsBuyTime = #{fproductsbuytime,jdbcType=TIMESTAMP},
+		FProductsRateInNum = #{fproductsrateinnum,jdbcType=INTEGER},
+		FProductsExtractNum = #{fproductsextractnum,jdbcType=INTEGER},
+		FProductsOutMoney = #{fproductsoutmoney,jdbcType=REAL},
+		FProductsCountNum = #{fproductscountnum,jdbcType=INTEGER},
+		FProductsRateMoney = #{fproductsratemoney,jdbcType=DECIMAL},
+		FProductsCountRateMoney = #{fproductscountratemoney,jdbcType=DECIMAL},
+		MemberRates = #{memberrates,jdbcType=REAL}
+		where FPUID = #{fpuid,jdbcType=INTEGER}
+	</update>
+</mapper>
